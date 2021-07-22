@@ -20,19 +20,19 @@
           :class="{ active: index == currentIndex }"
           v-for="(county, index) in counties"
           :key="index"
-          @click="setActivecounty(county, index)"
+          @click="setActiveCounty(county, index)"
         >
           {{ county.name }}
         </li>
       </ul>
 
-      <button class="m-3 btn btn-sm btn-danger" @click="removeAllCounties">
+      <!-- <button class="m-3 btn btn-sm btn-danger" @click="removeAllCounties">
         Remove All
-      </button>
+      </button> -->
     </div>
     <div class="col-md-6">
       <div v-if="currentCounty">
-        <h4>county</h4>
+        <h4>County</h4>
         <div>
           <label><strong>Id:</strong></label> {{ currentCounty.id }}
         </div>
@@ -40,9 +40,7 @@
           <label><strong>Name:</strong></label> {{ currentCounty.name }}
         </div>
 
-        <a class="badge badge-warning"
-          :href="'/counties/' + currentCounty.id"
-        >
+        <a :href="'/counties/' + currentCounty.id">
           Edit
         </a>
       </div>
@@ -90,16 +88,16 @@ export default {
       this.currentIndex = index;
     },
 
-    removeAllCounties() {
-      CountyDataService.deleteAll()
-        .then(response => {
-          console.log(response.data);
-          this.refreshList();
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },
+    // removeAllCounties() {
+    //   CountyDataService.deleteAll()
+    //     .then(response => {
+    //       console.log(response.data);
+    //       this.refreshList();
+    //     })
+    //     .catch(e => {
+    //       console.log(e);
+    //     });
+    // },
     
     searchName() {
       CountyDataService.findByName(this.name)

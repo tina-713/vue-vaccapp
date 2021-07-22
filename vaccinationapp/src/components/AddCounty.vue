@@ -18,7 +18,7 @@
 
     <div v-else>
       <h4>You submitted successfully!</h4>
-      <button class="btn btn-success" @click="newcounty">Add</button>
+      <button class="btn btn-success" @click="newCounty">Add</button>
     </div>
   </div>
 </template>
@@ -32,8 +32,7 @@ export default {
     return {
       county: {
         id: null,
-        name: "",
-        published: false
+        name: ""
       },
       submitted: false
     };
@@ -41,7 +40,7 @@ export default {
   methods: {
     saveCounty() {
       var data = {
-        name: this.county.name,
+        name: this.county.name
       };
 
       CountyDataService.create(data)
@@ -55,7 +54,7 @@ export default {
         });
     },
     
-    newcounty() {
+    newCounty() {
       this.submitted = false;
       this.county = {};
     }

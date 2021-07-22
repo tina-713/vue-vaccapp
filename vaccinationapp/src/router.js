@@ -7,17 +7,17 @@ export default new Router({
   mode: "history",
   routes: [
     {
-      alias: "/counties",
+      path: "/counties/",
       name: "counties",
       component: () => import("./components/CountiesList")
     },
     {
-      path: "/counties/:id",
+      path: "/counties/:id/",
       name: "county-details",
       component: () => import("./components/County")
     },
     {
-      path: "/add",
+      path: "/add/",
       name: "add",
       component: () => import("./components/AddCounty")
     }
