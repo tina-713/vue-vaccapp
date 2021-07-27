@@ -87,28 +87,17 @@ export default {
       this.currentCounty = county;
       this.currentIndex = index;
     },
-
-    // removeAllCounties() {
-    //   CountyDataService.deleteAll()
+    
+    // searchName() {
+    //   CountyDataService.findByName(this.name)
     //     .then(response => {
+    //       this.counties = response.data;
     //       console.log(response.data);
-    //       this.refreshList();
     //     })
     //     .catch(e => {
     //       console.log(e);
     //     });
-    // },
-    
-    searchName() {
-      CountyDataService.findByName(this.name)
-        .then(response => {
-          this.counties = response.data;
-          console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    }
+    // }
   },
   mounted() {
     this.retrieveCounties();

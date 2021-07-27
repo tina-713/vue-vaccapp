@@ -21,10 +21,6 @@ class CountyDataService {
     return http.delete(`/counties/${id}/`);
   }
 
-  // deleteAll() {
-  //   return http.delete(`/counties/`);
-  // }
-
   findByName(name) {
     return http.get(`/counties?name=${name}/`);
   }
