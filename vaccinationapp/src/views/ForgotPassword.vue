@@ -10,9 +10,6 @@
                 <h1 class="mb-2">Forgot Password</h1>
                 <p>We will send a password reset link to the email address of the connected accounted.</p>
               </div>
-              <a href="#">
-                <!-- <v-img src="@/assets/logo.png" alt="vuetify components logo" contain height="200" /> -->
-              </a>
               <v-form>
                 <v-text-field
                   label="Enter your email address"
@@ -23,11 +20,10 @@
                   outlined
                   ></v-text-field>
                   <v-btn class="rounded-0" color="black" x-large block dark>Reset Password</v-btn>
-                  <v-spacer></v-spacer>
                   <v-card-actions class="text--secondary">
                     <v-spacer></v-spacer>
-                    <a href="#" class="pl-2" style="color: #000000"></a>
-                    <router-link :to="{ name: 'Login' }">Back to Login Page</router-link>
+                    Back to <a href="#" class="pl-2" style="color: #000000"></a>
+                    <router-link to="/login">Login Page</router-link>
                   </v-card-actions>
               </v-form>
             </v-card>
@@ -40,6 +36,7 @@
 
 <script>
 export default {
+  name: 'ForgotPassword'
 }
 </script>
 

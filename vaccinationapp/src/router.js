@@ -7,19 +7,25 @@ export default new Router({
   mode: "history",
   routes: [
     {
-      path: "/counties/",
-      name: "counties",
-      component: () => import("./components/CountiesList")
+      path: "/",
+      alias: "/home",
+      name: "home",
+      component: () => import("./views/Home")
     },
     {
-      path: "/counties/:id/",
-      name: "county-details",
-      component: () => import("./components/County")
+      path: "/login",
+      name: "login",
+      component: () => import("./views/Login")
     },
     {
-      path: "/add/",
-      name: "add",
-      component: () => import("./components/AddCounty")
+      path: "/register",
+      name: "register",
+      component: () => import("./views/Register")
+    },
+    {
+      path: "/forgot-password",
+      name: "forgot-password",
+      component: () => import("./views/ForgotPassword")
     }
   ]
 });
