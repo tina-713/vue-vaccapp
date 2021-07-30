@@ -39,6 +39,3 @@ export default {
   name: 'ForgotPassword'
 }
 </script>
-
-<style lang="css" scoped>
-</style>

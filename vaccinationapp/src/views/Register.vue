@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import DataService from '../services/DataService';
+import AuthenticationService from '../services/AuthenticationService';
 export default {
   name: 'Register',
   data(){
@@ -40,7 +40,7 @@ export default {
 },
 methods:{
 register(){
-    DataService.postRegister(this.email,this.password)
+    AuthenticationService.postRegister(this.email,this.password)
     .then(response =>{
        
        console.log(response);
@@ -50,7 +50,3 @@ register(){
    })
   }
  }}
-
-</script>
-<style lang="css" scoped>
-</style>

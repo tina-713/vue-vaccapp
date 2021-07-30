@@ -3,7 +3,7 @@ import endpoint from  "../http-common";
 
 
 let user = JSON.parse(localStorage.getItem('user'));
-class DataService {
+class AuthenticationService {
   
   
   postLogin(email,password) {
@@ -25,4 +25,4 @@ class DataService {
   }
 }
 
-export default new DataService();
+export default new AuthenticationService();

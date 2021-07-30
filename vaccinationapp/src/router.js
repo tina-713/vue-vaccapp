@@ -10,7 +10,8 @@ export default new Router({
       path: "/",
       alias: "/home",
       name: "home",
-      component: () => import("./views/Home")
+      component: () => import("./views/Home"),
+      meta: { requiresAuth: true }
     },
     {
       path: "/login",
@@ -26,6 +27,11 @@ export default new Router({
       path: "/forgot-password",
       name: "forgot-password",
       component: () => import("./views/ForgotPassword")
+    },
+    {
+      path: "/recipient",
+      name: "recipient",
+      component: () => import("./views/Recipients")
     }
   ]
 });
