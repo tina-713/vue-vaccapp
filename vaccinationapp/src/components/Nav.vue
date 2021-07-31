@@ -1,25 +1,29 @@
 <template>
-  <div id="app">
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <div class="container-fluid">
-      <router-link to="/" class="navbar-brand">Home</router-link>
-      <div>
-        <ul class="navbar-nav me-auto mb-2 mb-md-0">
-          <li class="nav-item">
-            <router-link to="/login" class="nav-link">Login</router-link>
-          </li>
-          <!-- <li class="nav-item">
-            <router-link to="/register" class="nav-link">Register</router-link>
-          </li> -->
-        </ul>
+  <v-app>
+    <v-app-bar app dark>
+      <div class="d-flex align-center mr-2">
+        VaccinationApp
       </div>
-    </div>
-    </nav>
 
-    <div class="container mt-3">
+      <v-btn to="/recipient" text>
+        Beneficiari
+      </v-btn>
+
+      <v-btn to="" text>
+        Programări
+      </v-btn>
+
+      <v-spacer></v-spacer>
+
+      <v-btn to="/login" text>
+        Login
+      </v-btn>
+    </v-app-bar>
+
+    <v-main>
       <router-view />
-    </div>
-  </div>
+    </v-main>
+  </v-app>
 </template>
 
 <script>

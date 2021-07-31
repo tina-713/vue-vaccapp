@@ -13,6 +13,8 @@ export default new Router({
       component: () => import("./views/Home"),
       meta: { requiresAuth: true }
     },
+
+    
     {
       path: "/login",
       name: "login",
@@ -28,10 +30,18 @@ export default new Router({
       name: "forgot-password",
       component: () => import("./views/ForgotPassword")
     },
+
+
     {
       path: "/recipient",
       name: "recipient",
-      component: () => import("./views/Recipients")
+      component: () => import("./views/Recipient")
+    },
+    {
+    path: "/add-recipient",
+    name: "add-recipient",
+    component: () => import("./views/AddRecipient")
     }
   ]
+
 });
