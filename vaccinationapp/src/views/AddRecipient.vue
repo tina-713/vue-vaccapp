@@ -1,58 +1,63 @@
 <template>
 <div class="submit-form mt-3 mx-auto">
-    <p class="headline">Adauga Beneficiar</p>
-
+    <p class ="benef" align="center">Adauga Beneficiar</p>
     <div v-if="!submitted">
       <v-form ref="form" lazy-validation>
-
-        <v-text-field
-          v-model="user"
-          :rules="[(v) => !!v || 'Current user is required']"
-          label="Current user"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="name"
-          :rules="[(v) => !!v || 'Name is required']"
-          label="Name"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="last_name"
-          :rules="[(v) => !!v || 'Last name is required']"
-          label="Last Name"
-          required
-        ></v-text-field>
-
+        <div class="row">
+          <div class="col">
+            <v-text-field
+              v-model="name"
+              :rules="[(v) => !!v || 'Name is required']"
+              label="Nume"
+              required
+            ></v-text-field>
+          </div>
+        <div class="col">
+          <v-text-field
+            v-model="last_name"
+            :rules="[(v) => !!v || 'Last name is required']"
+            label="Prenume"
+            required
+          ></v-text-field>
+          </div>
+        </div>
+         <div class="row">
+          <div class="col">
         <v-text-field
           v-model="cnp"
           :rules="[(v) => !!v || 'CNP name is required']"
           label="CNP"
           required
         ></v-text-field>
-
+          </div>
+        <div class="col col-lg-2">
         <v-text-field
           v-model="gender"
           :rules="[(v) => !!v || 'Gender is required']"
-          label="Gender"
+          label="Sex"
           required
         ></v-text-field>
-
+          </div>
+        </div>
+        
+        <div class="row">
+           <div class="col col-lg-3">
         <v-text-field
-          v-model="age"
+          v-model="Age"
           :rules="[(v) => !!v || 'Age is required']"
-          label="Age"
+          label="Varsta"
           required
         ></v-text-field>
-
+          </div>
+          <div class="col">
         <v-text-field
           v-model="phone"
           :rules="[(v) => !!v || 'Phone is required']"
-          label="Phone"
+          label="Telefon"
           required
         ></v-text-field>
+          </div>
+        </div>
 
         <v-text-field
           v-model="email"
@@ -60,18 +65,33 @@
           label="Email"
           required
         ></v-text-field>
-
-        <v-text-field
-          v-model="city"
-          :rules="[(v) => !!v || 'City is required']"
-          label="City"
-          required
-        ></v-text-field>
-
+          <div class="row">
+           <div class="col">
+          <v-select
+          :items="counties"
+          v-model='selectedCounty'
+          v-on:change='getCitiesByCounty()'
+          label="Judet"
+          item-value= "id"
+          item-text="name">
+       
+          </v-select>
+             </div>
+          <div class="col">
+        <v-select
+          :items="city"
+          v-model="selectedCity"
+          name="city"
+          item-text="name"
+          item-value= "id"
+          label="Localitate"
+        ></v-select>
+        </div>
+        </div>
         <v-text-field
           v-model="category"
           :rules="[(v) => !!v || 'Category is required']"
-          label="Category"
+          label="Categorie de risc"
           required
         ></v-text-field>
 
@@ -100,6 +120,8 @@
 
 <script>
 import RecipientService from "../services/RecipientService";
+import AuthenticationService from "../services/AuthenticationService";
+import CountyDataService from "../services/CountyDataService";
 
 export default {
   name: "AddRecipient",
@@ -115,29 +137,53 @@ export default {
         age: null,
         phone: "",
         email: "",
-        city: null,
+        city: {},
         category: null,
+        counties:{},
+        selectedCounty:null,
+        selectedCity:null,
       // },
       submitted: false,
     };
   },
+
+  mounted(){
+  AuthenticationService.getCurrentlyLoggedUser().then((response)=>{  
+      this.user = response.data.id;
+      }).catch((e)=>{
+        console.log(e);
+      });
+  CountyDataService.getAllCounties().then((response)=>{  
+      this.counties = response.data;
+  
+      }).catch((e)=>{
+        console.log(e);
+      });
+  },
+
   methods: {
+    getCitiesByCounty(){
+      CountyDataService.getCitiesByCounty(this.selectedCounty).then((response)=>{  
+      this.city = response.data;
+      }).catch((e)=>{
+        console.log(e);
+      });
+  },
     savePerson() {
+     
       var person = {
-        user: parseInt(this.user),
         name: this.name,
-        // last_name: this.person.last_name,
-        // cnp: this.person.cnp,
-        // gender: this.person.gender,
-        // age: this.person.age,
-        // phone: this.person.phone,
-        // email: this.person.email,
-        // city: this.person.city,
-        // category: this.person.category,
+        last_name: this.last_name,
+        cnp: this.cnp,
+        gender: this.gender,
+        age: parseInt(this.age),
+        phone: this.phone,
+        email: this.email,
+        city: parseInt(this.selectedCity),
+        category: parseInt(this.category),
+        user : this.user,
       };
-
-      console.log(person);
-
+     
       RecipientService.postRecipient(person)
         .then((response) => {
           this.person.id = response.data.id;
@@ -154,11 +200,19 @@ export default {
       this.person = {};
     },
   },
+
 };
+
 </script>
 
 <style>
 .submit-form {
-  max-width: 300px;
+  max-width: 800px;
+}
+.benef{
+  margin-top:30px;
+  font-weight:800;
+  font-size: x-large;
+  padding-bottom: 10px;
 }
 </style>

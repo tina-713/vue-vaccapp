@@ -1,11 +1,11 @@
 <template>
-  <div class="container">
+  <div >
     <div class="title"> Beneficiari </div>
-    <aside>
+    <div>
       <ul>
           <a href="/add-recipient" class="button"> Beneficiar Nou </a>
       </ul>
-    </aside>
+    </div>
   </div>
 </template>
 
