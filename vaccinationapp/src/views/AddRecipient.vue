@@ -3,115 +3,139 @@
     <p class ="benef" align="center">Adauga Beneficiar</p>
     <div v-if="!submitted">
       <v-form ref="form" lazy-validation>
+        
         <div class="row">
+          <div class="col">
+          <v-text-field
+            v-model="last_name"
+            :rules="[(v) => !!v || 'Câmp obligatoriu']"
+            label="Nume"
+            required>
+            </v-text-field>
+          </div>
+
           <div class="col">
             <v-text-field
               v-model="name"
-              :rules="[(v) => !!v || 'Name is required']"
-              label="Nume"
-              required
-            ></v-text-field>
-          </div>
-        <div class="col">
-          <v-text-field
-            v-model="last_name"
-            :rules="[(v) => !!v || 'Last name is required']"
-            label="Prenume"
-            required
-          ></v-text-field>
+              :rules="[(v) => !!v || 'Câmp obligatoriu']"
+              label="Prenume"
+              required>
+              </v-text-field>
           </div>
         </div>
+
          <div class="row">
-          <div class="col">
-        <v-text-field
-          v-model="cnp"
-          :rules="[(v) => !!v || 'CNP name is required']"
-          label="CNP"
-          required
-        ></v-text-field>
-          </div>
-        <div class="col col-lg-2">
+           <div class="col">
         <v-text-field
           v-model="gender"
-          :rules="[(v) => !!v || 'Gender is required']"
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="Sex"
-          required
-        ></v-text-field>
+          required>
+          </v-text-field>
+          </div>
+
+          <div class="col">
+        <v-text-field
+          v-model="age"
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          label="Varsta"
+          required>
+          </v-text-field>
           </div>
         </div>
         
         <div class="row">
-           <div class="col col-lg-3">
+           <div class="col">
         <v-text-field
-          v-model="Age"
-          :rules="[(v) => !!v || 'Age is required']"
-          label="Varsta"
-          required
-        ></v-text-field>
-          </div>
-          <div class="col">
-        <v-text-field
-          v-model="phone"
-          :rules="[(v) => !!v || 'Phone is required']"
-          label="Telefon"
-          required
-        ></v-text-field>
+          v-model="cnp"
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          label="CNP"
+          required>
+          </v-text-field>
           </div>
         </div>
 
+        <div class="row">
+         <div class="col">
+        <v-text-field
+          v-model="phone"
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          label="Telefon"
+          required>
+          </v-text-field>
+          </div>
+          
+          <div class="col"> 
         <v-text-field
           v-model="email"
-          :rules="[(v) => !!v || 'Email is required']"
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="Email"
-          required
-        ></v-text-field>
+          required>
+          </v-text-field>
+          </div>
+        </div>
+
           <div class="row">
            <div class="col">
           <v-select
           :items="counties"
           v-model='selectedCounty'
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
           v-on:change='getCitiesByCounty()'
           label="Judet"
           item-value= "id"
-          item-text="name">
-       
+          item-text="name"
+          required>
           </v-select>
              </div>
+
           <div class="col">
         <v-select
           :items="city"
           v-model="selectedCity"
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
           name="city"
           item-text="name"
           item-value= "id"
           label="Localitate"
-        ></v-select>
+          required>
+          </v-select>
         </div>
         </div>
-        <v-text-field
-          v-model="category"
-          :rules="[(v) => !!v || 'Category is required']"
+
+        <div class="row">
+          <div class="col">
+        <v-select
+          :items="categories"
+          v-model="selectedCategory"
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="Categorie de risc"
-          required
-        ></v-text-field>
+          :item-text="item => item.name + ' - '+ item.description"
+          item-value= "id"
+          required>
+        </v-select>
+          </div>
+        </div>
 
       </v-form>
 
-      <v-btn color="primary" class="mt-3" @click="savePerson">Submit</v-btn>
+       <v-layout align-center justify-center>
+        <v-btn width="120" elevation="5" @click="savePerson">Salvează</v-btn>
+       </v-layout>
     </div>
 
     <div v-else>
       <v-card class="mx-auto">
         <v-card-title>
-          Submitted successfully!
+          Adăugat cu succes!
         </v-card-title>
 
         <v-card-subtitle>
-          Click the button to add new Recipient.
+          Apasați pe buton pentru a adăuga un nou beneficiar.
         </v-card-subtitle>
 
         <v-card-actions>
-          <v-btn color="success" @click="newPerson">Add</v-btn>
+          <v-btn @click="newPerson">Adaugă</v-btn>
         </v-card-actions>
       </v-card>
     </div>
@@ -121,7 +145,7 @@
 <script>
 import RecipientService from "../services/RecipientService";
 import AuthenticationService from "../services/AuthenticationService";
-import CountyDataService from "../services/CountyDataService";
+import DataService from "../services/DataService";
 
 export default {
   name: "AddRecipient",
@@ -139,31 +163,41 @@ export default {
         email: "",
         city: {},
         category: null,
-        counties:{},
-        selectedCounty:null,
-        selectedCity:null,
+        counties: {},
+        selectedCounty: null,
+        selectedCity: null,
+        categories: {},
+        selectedCategory: null,
       // },
       submitted: false,
     };
   },
 
-  mounted(){
+  mounted()
+  {  
   AuthenticationService.getCurrentlyLoggedUser().then((response)=>{  
       this.user = response.data.id;
       }).catch((e)=>{
         console.log(e);
       });
-  CountyDataService.getAllCounties().then((response)=>{  
+  DataService.getAllCounties().then((response)=>{  
       this.counties = response.data;
   
       }).catch((e)=>{
         console.log(e);
       });
+  DataService.getAllCategories().then((response)=>{
+    this.categories = response.data;
+    
+      }).catch((e)=>{
+        console.log(e);
+      });
   },
 
-  methods: {
+  methods: 
+  {
     getCitiesByCounty(){
-      CountyDataService.getCitiesByCounty(this.selectedCounty).then((response)=>{  
+      DataService.getCitiesByCounty(this.selectedCounty).then((response)=>{  
       this.city = response.data;
       }).catch((e)=>{
         console.log(e);
@@ -180,7 +214,7 @@ export default {
         phone: this.phone,
         email: this.email,
         city: parseInt(this.selectedCity),
-        category: parseInt(this.category),
+        category: parseInt(this.selectedCategory),
         user : this.user,
       };
      
@@ -196,7 +230,7 @@ export default {
     },
 
     newPerson() {
-      this.submitted = false;
+      this.submitted = true;
       this.person = {};
     },
   },
@@ -210,7 +244,7 @@ export default {
   max-width: 800px;
 }
 .benef{
-  margin-top:30px;
+  margin-top:10px;
   font-weight:800;
   font-size: x-large;
   padding-bottom: 10px;

@@ -1,7 +1,7 @@
 import axios from "axios";
 import endpoint from  "../http-common";
 let user = JSON.parse(localStorage.getItem('user'));
-class CountyDataService {
+class DataService {
   getAllCounties() {
     return axios.get(endpoint.baseURL+'counties/',{
     },{
@@ -18,26 +18,14 @@ class CountyDataService {
     }}
     )
   }
-
-  // get(id) {
-  //   return http.get(`/counties/${id}/`);
-  // }
-
-  // create(data) {
-  //   return http.post("/counties/", data);
-  // }
-
-  // update(id, data) {
-  //   return http.put(`/counties/${id}/`, data);
-  // }
-
-  // delete(id) {
-  //   return http.delete(`/counties/${id}/`);
-  // }
-
-  // findByName(name) {
-  //   return http.get(`/counties?name=${name}/`);
-  // }
+  getAllCategories() {
+    return axios.get(endpoint.baseURL+`categories/`,{
+    },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    )
+  }
 }
 
-export default new CountyDataService();
+export default new DataService();

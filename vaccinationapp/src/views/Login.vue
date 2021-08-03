@@ -13,9 +13,7 @@
                   <v-text-field label="Enter your email" name="email" prepend-inner-icon="mdi-email" type="email" class="rounded-0" outlined v-model="email" value="email"></v-text-field>
                   <v-text-field label="Enter your password" name="password" prepend-inner-icon="mdi-lock" type="password" class="rounded-0" outlined
                   v-model="password" value="password"></v-text-field>
-                   <v-card-actions class="text--secondary">
-                    <router-link to="/forgot-password">Forgot your password?</router-link>
-                  </v-card-actions>
+                  <router-link to="/forgot-password">Forgot your password?</router-link>
                   <v-btn class="rounded-0" color="#000000" x-large block dark v-on:click="login">Login</v-btn>
                   <v-card-actions class="text--secondary">
                     <v-spacer></v-spacer>
