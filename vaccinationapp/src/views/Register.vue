@@ -31,7 +31,7 @@
 <script>
 import AuthenticationService from '../services/AuthenticationService';
 export default {
-  name: 'Register',
+  name: 'register',
   data(){
   return{
     email : "",
@@ -42,7 +42,7 @@ methods:{
 register(){
     AuthenticationService.postRegister(this.email,this.password)
     .then(response =>{
-       
+       this.$router.push('/login');
        console.log(response);
     })
    .catch(e => {

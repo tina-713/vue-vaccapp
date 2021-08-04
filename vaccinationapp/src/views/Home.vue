@@ -21,7 +21,7 @@ export default{
      return user;
      }
   },
-  name: 'Home'
+  name: 'home'
 
 }
 

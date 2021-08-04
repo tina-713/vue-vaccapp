@@ -33,7 +33,7 @@
 <script>
 import AuthenticationService from '../services/AuthenticationService';
 export default {
-  name: 'Login',
+  name: 'login',
   data(){
   return{
     email : "",
@@ -45,6 +45,7 @@ login(){
     AuthenticationService.postLogin(this.email,this.password)
     .then(response =>{
        localStorage.setItem('user', JSON.stringify(response));
+       this.$router.push('/home');
        console.log(response.data.access);
     })
    .catch(e => {

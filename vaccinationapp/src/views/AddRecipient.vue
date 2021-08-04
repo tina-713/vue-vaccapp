@@ -1,6 +1,21 @@
 <template>
+<div>
+  <v-container fluid>
+      <v-btn 
+      class="mx-2"
+      fab
+      dark
+      small
+      color="deep-orange"
+      @click="$router.go(-1)">
+        <v-icon dark>
+        mdi-arrow-up-bold-box-outline mdi-rotate-270
+        </v-icon>
+      </v-btn>
+  </v-container>
+
 <div class="submit-form mt-3 mx-auto">
-    <p class ="benef" align="center">Adauga Beneficiar</p>
+    <p class ="benef" align="center">Adaugă Beneficiar</p>
     <div v-if="!submitted">
       <v-form ref="form" lazy-validation>
         
@@ -10,7 +25,8 @@
             v-model="last_name"
             :rules="[(v) => !!v || 'Câmp obligatoriu']"
             label="Nume"
-            required>
+            required
+            dense>
             </v-text-field>
           </div>
 
@@ -19,19 +35,22 @@
               v-model="name"
               :rules="[(v) => !!v || 'Câmp obligatoriu']"
               label="Prenume"
-              required>
+              required
+              dense>
               </v-text-field>
           </div>
         </div>
 
          <div class="row">
            <div class="col">
-        <v-text-field
+        <v-select
           v-model="gender"
+          :items="gen"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="Sex"
-          required>
-          </v-text-field>
+          required
+          dense>
+        </v-select>
           </div>
 
           <div class="col">
@@ -39,7 +58,8 @@
           v-model="age"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="Varsta"
-          required>
+          required
+          dense>
           </v-text-field>
           </div>
         </div>
@@ -50,7 +70,8 @@
           v-model="cnp"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="CNP"
-          required>
+          required
+          dense>
           </v-text-field>
           </div>
         </div>
@@ -61,7 +82,8 @@
           v-model="phone"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="Telefon"
-          required>
+          required
+          dense>
           </v-text-field>
           </div>
           
@@ -70,7 +92,8 @@
           v-model="email"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="Email"
-          required>
+          required
+          dense>
           </v-text-field>
           </div>
         </div>
@@ -85,7 +108,8 @@
           label="Judet"
           item-value= "id"
           item-text="name"
-          required>
+          required
+          dense>
           </v-select>
              </div>
 
@@ -98,7 +122,8 @@
           item-text="name"
           item-value= "id"
           label="Localitate"
-          required>
+          required
+          dense>
           </v-select>
         </div>
         </div>
@@ -112,7 +137,8 @@
           label="Categorie de risc"
           :item-text="item => item.name + ' - '+ item.description"
           item-value= "id"
-          required>
+          required
+          dense>
         </v-select>
           </div>
         </div>
@@ -120,26 +146,17 @@
       </v-form>
 
        <v-layout align-center justify-center>
-        <v-btn width="120" elevation="5" @click="savePerson">Salvează</v-btn>
+        <v-btn
+        class="white--text"
+        width="120" 
+        elevation="5" 
+        color="deep-orange"
+        v-on:click.stop.prevent="savePerson">Salvează</v-btn>
        </v-layout>
     </div>
 
-    <div v-else>
-      <v-card class="mx-auto">
-        <v-card-title>
-          Adăugat cu succes!
-        </v-card-title>
-
-        <v-card-subtitle>
-          Apasați pe buton pentru a adăuga un nou beneficiar.
-        </v-card-subtitle>
-
-        <v-card-actions>
-          <v-btn @click="newPerson">Adaugă</v-btn>
-        </v-card-actions>
-      </v-card>
-    </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -148,7 +165,7 @@ import AuthenticationService from "../services/AuthenticationService";
 import DataService from "../services/DataService";
 
 export default {
-  name: "AddRecipient",
+  name: "add-recipient",
   data() {
     return {
       // person: {
@@ -157,7 +174,8 @@ export default {
         name: "",
         last_name: "",
         cnp: "",
-        gender: "",
+        gender: [],
+        gen:['M','F'],
         age: null,
         phone: "",
         email: "",
@@ -227,11 +245,7 @@ export default {
         .catch((e) => {
           console.log(e);
         });
-    },
-
-    newPerson() {
-      this.submitted = true;
-      this.person = {};
+        this.$router.push("/recipient");
     },
   },
 
@@ -241,11 +255,10 @@ export default {
 
 <style>
 .submit-form {
-  max-width: 800px;
+  max-width: 1000px;
 }
 .benef{
-  margin-top:10px;
-  font-weight:800;
+  font-weight:1000;
   font-size: x-large;
   padding-bottom: 10px;
 }

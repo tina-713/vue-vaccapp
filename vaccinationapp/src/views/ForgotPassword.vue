@@ -36,6 +36,6 @@
 
 <script>
 export default {
-  name: 'ForgotPassword'
+  name: 'forgot-password'
 }
 </script>
