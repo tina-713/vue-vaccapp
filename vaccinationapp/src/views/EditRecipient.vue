@@ -43,7 +43,7 @@
          <div class="row">
            <div class="col">
         <v-select
-          v-model="gender"
+          v-model="currentRecipient.gender"
           :items="gen"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="Sex"
@@ -131,7 +131,7 @@
           <div class="col">
         <v-select
           :items="categories"
-          v-model="currentRecipient.selectedCategory"
+          v-model="currentRecipient.category"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="Categorie de risc"
           :item-text="item => item.name + ' - '+ item.description"
@@ -169,26 +169,31 @@ export default{
     return {
       counties:[],
       cities:[],
+      categories:[],
       currentRecipient: null,
       selectedCounty: null,
       selectedCity: null,
-      // selectedCategory: null,
-      // gen:['M','F'],
-      // submitted: false,
+      selectedCategory: null,
+      gen:['M','F'],
+      submitted: false,
     };
 },
 
-  async created()
+ async mounted()
   {
-   await this.getRecip(this.$route.params.id);
-
-   await DataService.getAllCounties().then((response)=>{  
+  await this.getRecip(this.$route.params.id);
+  DataService.getCitiesByCounty(this.currentRecipient.county).then((response)=>{  
+      this.cities = response.data;
+      }).catch((e)=>{
+        console.log(e);
+      });
+  DataService.getAllCounties().then((response)=>{  
       this.counties = response.data;
   
       }).catch((e)=>{
         console.log(e);
       });
- await DataService.getAllCategories().then((response)=>{
+ DataService.getAllCategories().then((response)=>{
     this.categories = response.data;
     
       }).catch((e)=>{
@@ -199,7 +204,7 @@ export default{
 methods: 
 {
   getRecip(id) {
-    RecipientService.getRecipient(id)
+    return RecipientService.getRecipient(id)
       .then((response) => {
         this.currentRecipient = response.data;
         console.log(response.data);
@@ -209,41 +214,42 @@ methods:
       });
   },
 
-  // updatePerson(id) {
-  //   var person = {
-  //     id: id,
-  //     name: this.currentRecipient.name,
-  //     last_name: this.currentRecipient.last_name,
-  //     cnp: this.currentRecipient.cnp,
-  //     gender: this.currentRecipient.gender,
-  //     age: parseInt(this.currentRecipient.age),
-  //     phone: this.currentRecipient.phone,
-  //     email: this.currentRecipient.email,
-  //     city: parseInt(this.currentRecipient.selectedCity),
-  //     category: parseInt(this.currentRecipient.selectedCategory),
-  //     user: this.currentRecipient.user,
-  //   };
+  updatePerson(id) {
+    var person = {
+      id: id,
+      name: this.currentRecipient.name,
+      last_name: this.currentRecipient.last_name,
+      cnp: this.currentRecipient.cnp,
+      gender: this.currentRecipient.gender,
+      age: parseInt(this.currentRecipient.age),
+      phone: this.currentRecipient.phone,
+      email: this.currentRecipient.email,
+      county : parseInt(this.currentRecipient.selectedCounty),
+      city: parseInt(this.currentRecipient.selectedCity),
+      category: parseInt(this.currentRecipient.selectedCategory),
+      user: this.currentRecipient.user,
+    };
+  
+    RecipientService.putRecipient(this.currentRecipient.id, person)
+        .then((response) => {
+          this.currentRecipient.id = id;
+          console.log(response.person);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
 
-  //   RecipientService.putRecipient(this.currentRecipient.id, person)
-  //       .then((response) => {
-  //         this.currentRecipient.id = id;
-  //         console.log(response.person);
-  //       })
-  //       .catch((e) => {
-  //         console.log(e);
-  //       });
-  //   },
-
-  //   updateRecipient() {
-  //     RecipientService.putRecipient(this.currentRecipient.id, this.currentRecipient)
-  //       .then((response) => {
-  //         console.log(response.data);
-  //       })
-  //       .catch((e) => {
-  //         console.log(e);
-  //       });
-  //       // this.$router.push("/recipient");
-  //   },
+    updateRecipient() {
+      RecipientService.putRecipient(this.currentRecipient.id, this.currentRecipient)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+        // this.$router.push("/recipient");
+    },
 
     getCitiesByCounty(){
       DataService.getCitiesByCounty(this.currentRecipient.county).then((response)=>{  

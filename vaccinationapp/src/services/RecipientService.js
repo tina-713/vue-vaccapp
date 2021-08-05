@@ -51,7 +51,9 @@ class RecipientService {
       phone: person.phone,
       email: person.email,
       city: person.city,
+      county:person.county,
       category: person.category
+
     },{
       headers:{
          Authorization:  `Bearer `+ user.data.access
