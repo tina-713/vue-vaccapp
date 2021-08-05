@@ -39,10 +39,13 @@
 
 <script>
 import RecipientService from "../services/RecipientService";
+import AuthenticationService from "../services/AuthenticationService";
+
 export default {
   name: "recipient",
   data() {
     return {
+      userId:"",
       person: [],
       last_name: "",
       headers: [
@@ -57,7 +60,9 @@ export default {
   },
   methods: {
     retrieveRecipients() {
-      RecipientService.getRecipients().then((response) => {
+      
+      RecipientService.getRecipients("","","","",this.userId).then((response) => {
+          console.log("asdsad");
           this.person = response.data.map(this.getDisplayRecipient);
           console.log(response.data);
         })
@@ -94,7 +99,12 @@ export default {
       };
     },
   },
-  mounted() {
+  async mounted() {
+    await AuthenticationService.getCurrentlyLoggedUser().then((response)=>{  
+      this.userId = response.data.id;
+      }).catch((e)=>{
+        console.log(e);
+      });
     this.retrieveRecipients();
   },
 };

@@ -1,6 +1,8 @@
 import axios from "axios";
 import endpoint from  "../http-common";
+
 let user = JSON.parse(localStorage.getItem('user'));
+
 class RecipientService {
   
   postRecipient(person) {
@@ -22,8 +24,9 @@ class RecipientService {
     );
   }
 
-  getRecipients(id,name,last_name,cnp) {
-    return axios.get(endpoint.baseURL+`person/`, {
+  getRecipients(id,name,last_name,cnp,userId) {
+
+    return axios.get(endpoint.baseURL+`person/user/${userId}`, {
       id: id,
       name: name,
       last_name: last_name,

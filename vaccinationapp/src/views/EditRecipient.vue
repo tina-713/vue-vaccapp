@@ -101,7 +101,7 @@
            <div class="col">
           <v-select
           :items="counties"
-          v-model='currentRecipient.selectedCounty'
+          v-model='currentRecipient.county'
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           v-on:change='getCitiesByCounty()'
           label="Judet"
@@ -114,8 +114,8 @@
 
           <div class="col">
         <v-select
-          :items="city"
-          v-model="currentRecipient.selectedCity"
+          :items="cities"
+          v-model="currentRecipient.city"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           name="city"
           item-text="name"
@@ -161,39 +161,41 @@
 
 <script>
 import RecipientService from "../services/RecipientService";
-// import DataService from "../services/DataService";
+import DataService from "../services/DataService";
 
 export default{
   name: "edit-recipient",
   data() {
     return {
+      counties:[],
+      cities:[],
       currentRecipient: null,
-      // selectedCounty: null,
-      // selectedCity: null,
+      selectedCounty: null,
+      selectedCity: null,
       // selectedCategory: null,
       // gen:['M','F'],
       // submitted: false,
     };
 },
 
-  mounted()
+  async created()
   {
-  //   DataService.getAllCounties().then((response)=>{  
-  //     this.counties = response.data;
-  
-  //     }).catch((e)=>{
-  //       console.log(e);
-  //     });
-  // DataService.getAllCategories().then((response)=>{
-  //   this.categories = response.data;
-    
-  //     }).catch((e)=>{
-  //       console.log(e);
-  //     });
-      
-  this.getRecip(this.$route.params.id);
-  },
+   await this.getRecip(this.$route.params.id);
 
+   await DataService.getAllCounties().then((response)=>{  
+      this.counties = response.data;
+  
+      }).catch((e)=>{
+        console.log(e);
+      });
+ await DataService.getAllCategories().then((response)=>{
+    this.categories = response.data;
+    
+      }).catch((e)=>{
+        console.log(e);
+      });  
+  
+  },
 methods: 
 {
   getRecip(id) {
@@ -243,14 +245,15 @@ methods:
   //       // this.$router.push("/recipient");
   //   },
 
-  //   getCitiesByCounty(){
-  //     DataService.getCitiesByCounty(this.selectedCounty).then((response)=>{  
-  //     this.currentRecipient.city = response.data;
-  //     }).catch((e)=>{
-  //       console.log(e);
-  //     });
-  //   },
+    getCitiesByCounty(){
+      DataService.getCitiesByCounty(this.currentRecipient.county).then((response)=>{  
+      this.cities = response.data;
+      }).catch((e)=>{
+        console.log(e);
+      });
+    },
   },
+ 
 };
 
 </script>
