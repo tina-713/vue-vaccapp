@@ -138,7 +138,8 @@
           :item-text="item => item.name + ' - '+ item.description"
           item-value= "id"
           required
-          dense>
+          dense
+          v-on:keyup.enter="savePerson">
         </v-select>
           </div>
         </div>
@@ -179,7 +180,7 @@ export default {
         age: null,
         phone: "",
         email: "",
-        city: {},
+        city: "",
         category: null,
         counties: {},
         selectedCounty: null,
@@ -245,7 +246,7 @@ export default {
         .catch((e) => {
           console.log(e);
         });
-        this.$router.push("/recipient");
+        // this.$router.push("/recipient");
     },
   },
 

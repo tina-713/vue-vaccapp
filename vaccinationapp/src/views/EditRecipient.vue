@@ -1,13 +1,17 @@
 <template>
 <div>
   <v-container fluid>
-      <span class="group pa-2">
-        <v-icon 
-        large 
-        color="deep-orange"
-        @click="$router.go(-1)">
-        mdi-arrow-up-bold-box-outline mdi-rotate-270</v-icon>
-      </span>
+      <v-btn 
+      class="mx-2"
+      fab
+      dark
+      small
+      color="deep-orange"
+      @click="$router.go(-1)">
+        <v-icon dark>
+        mdi-arrow-up-bold-box-outline mdi-rotate-270
+        </v-icon>
+      </v-btn>
   </v-container>
 
 <div class="submit-form mt-3 mx-auto">
@@ -21,7 +25,8 @@
             v-model="currentRecipient.last_name"
             :rules="[(v) => !!v || 'Câmp obligatoriu']"
             label="Nume"
-            required>
+            required
+            dense>
             </v-text-field>
           </div>
 
@@ -37,12 +42,14 @@
 
          <div class="row">
            <div class="col">
-        <v-text-field
-          v-model="currentRecipient.gender"
+        <v-select
+          v-model="gender"
+          :items="gen"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="Sex"
-          required>
-          </v-text-field>
+          required
+          dense>
+        </v-select>
           </div>
 
           <div class="col">
@@ -50,7 +57,8 @@
           v-model="currentRecipient.age"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="Varsta"
-          required>
+          required
+          dense>
           </v-text-field>
           </div>
         </div>
@@ -61,7 +69,8 @@
           v-model="currentRecipient.cnp"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="CNP"
-          required>
+          required
+          dense>
           </v-text-field>
           </div>
         </div>
@@ -72,7 +81,8 @@
           v-model="currentRecipient.phone"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="Telefon"
-          required>
+          required
+          dense>
           </v-text-field>
           </div>
           
@@ -81,7 +91,8 @@
           v-model="currentRecipient.email"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="Email"
-          required>
+          required
+          dense>
           </v-text-field>
           </div>
         </div>
@@ -96,7 +107,8 @@
           label="Judet"
           item-value= "id"
           item-text="name"
-          required>
+          required
+          dense>
           </v-select>
              </div>
 
@@ -109,7 +121,8 @@
           item-text="name"
           item-value= "id"
           label="Localitate"
-          required>
+          required
+          dense>
           </v-select>
         </div>
         </div>
@@ -123,7 +136,9 @@
           label="Categorie de risc"
           :item-text="item => item.name + ' - '+ item.description"
           item-value= "id"
-          required>
+          required
+          dense
+          v-on:keyup.enter="updateRecipient">
         </v-select>
           </div>
         </div>
@@ -131,7 +146,12 @@
       </v-form>
 
        <v-layout align-center justify-center>
-        <v-btn width="120" elevation="5" @click.stop.prevent="savePerson" to="/recipient">Salvează</v-btn>
+        <v-btn
+        class="white--text"
+        width="120" 
+        elevation="5" 
+        color="deep-orange"
+        v-on:click.stop.prevent="updateRecipient">Salvează</v-btn>
        </v-layout>
     </div>
 
@@ -140,14 +160,107 @@
 </template>
 
 <script>
+import RecipientService from "../services/RecipientService";
+// import DataService from "../services/DataService";
+
+export default{
+  name: "edit-recipient",
+  data() {
+    return {
+      currentRecipient: null,
+      // selectedCounty: null,
+      // selectedCity: null,
+      // selectedCategory: null,
+      // gen:['M','F'],
+      // submitted: false,
+    };
+},
+
+  mounted()
+  {
+  //   DataService.getAllCounties().then((response)=>{  
+  //     this.counties = response.data;
+  
+  //     }).catch((e)=>{
+  //       console.log(e);
+  //     });
+  // DataService.getAllCategories().then((response)=>{
+  //   this.categories = response.data;
+    
+  //     }).catch((e)=>{
+  //       console.log(e);
+  //     });
+      
+  this.getRecip(this.$route.params.id);
+  },
+
+methods: 
+{
+  getRecip(id) {
+    RecipientService.getRecipient(id)
+      .then((response) => {
+        this.currentRecipient = response.data;
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  },
+
+  // updatePerson(id) {
+  //   var person = {
+  //     id: id,
+  //     name: this.currentRecipient.name,
+  //     last_name: this.currentRecipient.last_name,
+  //     cnp: this.currentRecipient.cnp,
+  //     gender: this.currentRecipient.gender,
+  //     age: parseInt(this.currentRecipient.age),
+  //     phone: this.currentRecipient.phone,
+  //     email: this.currentRecipient.email,
+  //     city: parseInt(this.currentRecipient.selectedCity),
+  //     category: parseInt(this.currentRecipient.selectedCategory),
+  //     user: this.currentRecipient.user,
+  //   };
+
+  //   RecipientService.putRecipient(this.currentRecipient.id, person)
+  //       .then((response) => {
+  //         this.currentRecipient.id = id;
+  //         console.log(response.person);
+  //       })
+  //       .catch((e) => {
+  //         console.log(e);
+  //       });
+  //   },
+
+  //   updateRecipient() {
+  //     RecipientService.putRecipient(this.currentRecipient.id, this.currentRecipient)
+  //       .then((response) => {
+  //         console.log(response.data);
+  //       })
+  //       .catch((e) => {
+  //         console.log(e);
+  //       });
+  //       // this.$router.push("/recipient");
+  //   },
+
+  //   getCitiesByCounty(){
+  //     DataService.getCitiesByCounty(this.selectedCounty).then((response)=>{  
+  //     this.currentRecipient.city = response.data;
+  //     }).catch((e)=>{
+  //       console.log(e);
+  //     });
+  //   },
+  },
+};
+
 </script>
 
 <style>
 .submit-form {
-  max-width: 800px;
+  max-width: 1000px;
 }
 .benef{
-  font-weight:800;
+  font-weight:1000;
   font-size: x-large;
   padding-bottom: 10px;
 }

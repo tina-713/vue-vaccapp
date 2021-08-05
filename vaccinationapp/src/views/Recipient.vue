@@ -1,7 +1,7 @@
 <template>
   <v-row align="center" class="list mx-auto">
 
-    <v-col cols="12" md="8">
+    <v-col cols="12" md="5">
       <v-text-field v-model="last_name" label="Căutare după Nume"></v-text-field>
     </v-col>
 
@@ -102,6 +102,6 @@ export default {
 
 <style>
 .list {
-  max-width: 1000px;
+  max-width: 1200px;
 }
 </style>

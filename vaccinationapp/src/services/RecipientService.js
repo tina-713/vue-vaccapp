@@ -1,6 +1,6 @@
 import axios from "axios";
 import endpoint from  "../http-common";
-
+let user = JSON.parse(localStorage.getItem('user'));
 class RecipientService {
   
   postRecipient(person) {
@@ -15,7 +15,11 @@ class RecipientService {
       email: person.email,
       city: person.city,
       category: person.category
-    });
+    },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
   }
 
   getRecipients(id,name,last_name,cnp) {
@@ -24,11 +28,17 @@ class RecipientService {
       name: name,
       last_name: last_name,
       cnp: cnp,
-     });
+     },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
   }
 
+  //update
   putRecipient(id, person) {
-    return axios.put(endpoint.baseURL+`person/${id}`,{
+    return axios.put(endpoint.baseURL+`person/${id}/`,{
+      id: person.id,
       user: person.user,
       name: person.name,
       last_name: person.last_name,
@@ -39,19 +49,30 @@ class RecipientService {
       email: person.email,
       city: person.city,
       category: person.category
-    });
+    },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
   }
 
   deleteRecipient(id) {
-    return axios.delete(endpoint.baseURL+`person/${id}`, {
-     });
+    return axios.delete(endpoint.baseURL+`person/${id}/`, {
+     },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
   }
 
   getRecipient(id) {
-    return axios.get(endpoint.baseURL+`person/${id}`, {
-     });
+    return axios.get(endpoint.baseURL+`person/${id}/`, {
+     },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
   }
-
 }
 
 export default new RecipientService();
