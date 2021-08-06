@@ -15,6 +15,7 @@ class RecipientService {
       age: person.age,
       phone: person.phone,
       email: person.email,
+      county:person.county,
       city: person.city,
       category: person.category
     },{

@@ -180,12 +180,13 @@ export default {
         age: null,
         phone: "",
         email: "",
+        county: "",
         city: "",
         category: null,
         counties: {},
+        categories: {},
         selectedCounty: null,
         selectedCity: null,
-        categories: {},
         selectedCategory: null,
       // },
       submitted: false,
@@ -232,6 +233,7 @@ export default {
         age: parseInt(this.age),
         phone: this.phone,
         email: this.email,
+        county: parseInt(this.selectedCounty),
         city: parseInt(this.selectedCity),
         category: parseInt(this.selectedCategory),
         user : this.user,
@@ -240,13 +242,13 @@ export default {
       RecipientService.postRecipient(person)
         .then((response) => {
           this.person.id = response.data.id;
+          this.$router.push('/recipient');
           console.log(response.data);
           this.submitted = true;
         })
         .catch((e) => {
           console.log(e);
         });
-        // this.$router.push("/recipient");
     },
   },
 

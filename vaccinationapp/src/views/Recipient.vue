@@ -1,40 +1,42 @@
 <template>
-  <v-row align="center" class="list mx-auto">
+  <div class="all">
+    <v-row align="center" class="list mx-auto">
 
-    <v-col cols="12" md="5">
-      <v-text-field v-model="last_name" label="Căutare după Nume"></v-text-field>
-    </v-col>
+      <v-col cols="12" md="5">
+        <v-text-field
+          v-model="search"
+          label="Căutare"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-col>
 
-    <v-col cols="12" md="4">
-      <v-btn small @click="searchName">
-        Caută
-      </v-btn>
-    </v-col>
+      <v-col cols="12" md="12" class="text-right">
+        <v-btn class="white--text" to="/add-recipient" color="deep-orange">Adaugă Beneficiar</v-btn>
+      </v-col>
 
-    <v-col cols="12" md="4">
-      <v-btn class="white--text" to="/add-recipient" color="deep-orange">Adaugă Beneficiar</v-btn>
-    </v-col>
+      <v-col cols="12" sm="12">
+        <v-card class="mx-auto" tile>
+          <v-card-title>Beneficiari</v-card-title>
 
-    <v-col cols="12" sm="12">
-      <v-card class="mx-auto" tile>
-        <v-card-title>Beneficiari</v-card-title>
+          <v-data-table
+            :headers="headers"
+            :items="person"
+            :search="search"
+            disable-pagination
+            :hide-default-footer="true"
+            class="elevation-1">
 
-        <v-data-table
-          :headers="headers"
-          :items="person"
-          disable-pagination
-          :hide-default-footer="true"
-        >
+            <template v-slot:[`item.actions`]="{ item }">
+                <v-icon small class="mr-2" color="blue" @click="editRecipient(item.id)">mdi-pencil</v-icon>
+                <v-icon small  color="red" @click="deleteRec(item.id)">mdi-delete</v-icon>
+            </template>
 
-          <template v-slot:[`item.actions`]="{ item }">
-              <v-icon small class="mr-2" color="blue" @click="editRecipient(item.id)">mdi-pencil</v-icon>
-              <v-icon small  color="red" @click="deleteRec(item.id)">mdi-delete</v-icon>
-          </template>
-
-        </v-data-table>
-      </v-card>
-    </v-col>
-  </v-row>
+          </v-data-table>
+        </v-card>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -48,6 +50,7 @@ export default {
       userId:"",
       person: [],
       last_name: "",
+      search: '',
       headers: [
         { text: "Nume", value: "last_name", align: "center", sortable: false},
         { text: "Prenume", value: "name", align: "center", sortable: false },
@@ -62,9 +65,9 @@ export default {
     retrieveRecipients() {
       
       RecipientService.getRecipients("","","","",this.userId).then((response) => {
-          console.log("asdsad");
           this.person = response.data.map(this.getDisplayRecipient);
-          console.log(response.data);
+          // console.log(response.data);
+          console.log(this.userId)
         })
         .catch((e) => {
           console.log(e);
@@ -110,8 +113,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .list {
   max-width: 1200px;
+}
+.all {
+  margin-top: 70px;
 }
 </style>

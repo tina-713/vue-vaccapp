@@ -243,12 +243,12 @@ methods:
     updateRecipient() {
       RecipientService.putRecipient(this.currentRecipient.id, this.currentRecipient)
         .then((response) => {
+          this.$router.push('/recipient');
           console.log(response.data);
         })
         .catch((e) => {
           console.log(e);
         });
-        // this.$router.push("/recipient");
     },
 
     getCitiesByCounty(){
