@@ -5,10 +5,15 @@
       <v-col cols="12" md="5">
         <v-text-field
           v-model="search"
-          label="Căutare"
+          label="Căutare..."
           single-line
           hide-details
-        ></v-text-field>
+          clearable
+          filled
+          rounded
+          dense
+          append-icon="mdi-magnify">
+        </v-text-field>
       </v-col>
 
       <v-col cols="12" md="12" class="text-right">
@@ -17,7 +22,7 @@
 
       <v-col cols="12" sm="12">
         <v-card class="mx-auto" tile>
-          <v-card-title>Beneficiari</v-card-title>
+          <v-card-title style="background-color:#F2F3F4">Beneficiari</v-card-title>
 
           <v-data-table
             :headers="headers"
@@ -28,8 +33,9 @@
             class="elevation-1">
 
             <template v-slot:[`item.actions`]="{ item }">
-                <v-icon small class="mr-2" color="blue" @click="editRecipient(item.id)">mdi-pencil</v-icon>
-                <v-icon small  color="red" @click="deleteRec(item.id)">mdi-delete</v-icon>
+              <v-icon medium class="mr-2" color="blue" @click="editRecipient(item.id)">mdi-pencil</v-icon>
+              <v-icon medium  class="mr-2" color="green" @click="appointmentRec(item.id)">mdi-clock-outline</v-icon>
+              <v-icon medium  class="mr-2" color="red" @click="deleteRec(item.id)">mdi-delete</v-icon>
             </template>
 
           </v-data-table>
@@ -82,14 +88,20 @@ export default {
       this.$router.push({ name: "edit-recipient", params: { id: id } });
     },
 
+    appointmentRec(id) {
+      this.$router.push({ name: "planning", params: { id: id } });
+    },
+
     deleteRec(id) {
-      RecipientService.deleteRecipient(id)
-        .then(() => {
-          this.refreshList();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      if(confirm("Sunteți sigur că doriți să ștergeți acest beneficiar?")){
+        RecipientService.deleteRecipient(id)
+          .then(() => {
+            this.refreshList();
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+        }
     },
 
      getDisplayRecipient(person) {

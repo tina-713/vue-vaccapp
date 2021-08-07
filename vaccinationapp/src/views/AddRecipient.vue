@@ -9,7 +9,7 @@
       color="deep-orange"
       @click="$router.go(-1)">
         <v-icon dark>
-        mdi-arrow-up-bold-box-outline mdi-rotate-270
+        mdi-arrow-left-bold
         </v-icon>
       </v-btn>
   </v-container>

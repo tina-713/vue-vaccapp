@@ -1,15 +1,17 @@
 <template>
   <v-app>
     <v-app-bar app dark>
-      <div class="d-flex align-center mr-2">
-        VaccinationApp
+      <div>
+        <v-btn class="custom-btn" to="/home" text>
+          VaccinationApp
+        </v-btn>
       </div>
 
       <v-btn class="custom-btn" to="/recipient" text>
         Beneficiari
       </v-btn>
 
-      <v-btn class="custom-btn" to="" text>
+      <v-btn class="custom-btn" to="/planning" text>
         Programări
       </v-btn>
 

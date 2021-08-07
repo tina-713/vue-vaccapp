@@ -26,6 +26,14 @@ class DataService {
     }}
     )
   }
+  getAllOffices() {
+    return axios.get(endpoint.baseURL+`office/`,{
+    },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    )
+  }
 }
 
 export default new DataService();

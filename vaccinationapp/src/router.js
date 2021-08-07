@@ -43,10 +43,17 @@ export default new Router({
     component: () => import("./views/AddRecipient")
     },
     {
-    path: "/recipient/:id",
+    path: "/edit-recipient/:id",
     name: "edit-recipient",
     component: () => import("./views/EditRecipient")
-    }
+    },
+
+
+    {
+      path: "/planning",
+      name: "planning",
+      component: () => import("./views/Planning")
+    },
   ]
 
 });
