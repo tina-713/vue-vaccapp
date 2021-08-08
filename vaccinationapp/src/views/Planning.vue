@@ -64,7 +64,7 @@
             class="elevation-1">
 
             <template v-slot:[`item.actions`]="{ item }">
-              <v-btn small color="blue" @click="(item.id)">Selectează</v-btn>
+              <v-btn small color="blue" @click="makeAppointment(item.id)">Selectează</v-btn>
             </template>
 
           </v-data-table>
@@ -99,13 +99,15 @@ export default {
       county: "",
       city: "",
       headers: [
-        { text: "Nume", value: "name", align: "center", sortable: false},
-        { text: "Judet", value: "county", align: "center", sortable: false },
-        { text: "Localitate", value: "city", align: "center", sortable: false },
-        { text: "Adresa", value: "addres", align: "center", sortable: false },
-        { text: "Telefon", value: "phone", align: "center", sortable: false },
-        { text: "Locuri libere", value: "spots", align: "center", sortable: false },
-        { text: "Acțiuni", value: "actions", align: "center",sortable: false },
+        { text: "Nume", value: "name", align: "center", sortable: true},
+        { text: "Judet", value: "county", align: "center", sortable: true },
+        { text: "Localitate", value: "city", align: "center", sortable: true },
+        { text: "Adresa", value: "addres", align: "center", sortable: true },
+        { text: "Telefon", value: "phone", align: "center", sortable: true },
+        { text: "Locuri libere", value: "spots", align: "center", sortable: true },
+        { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: true },
+        { text: "Acțiuni", value: "actions", align: "center",sortable: true },
+
       ],
     };
   },
@@ -124,15 +126,20 @@ export default {
      refreshList() {
       this.retrieveOffices();
     },
+    makeAppointment(id) {
+      this.$router.push({ name: "appointment", params: { id: id } });
+    },
 
      getDisplayRecipient(office) {
       return {
+        id: office.id,
         name: office.name,
-        county: office.county,
-        city: office.city,
+        county: office.county.name,
+        city: office.city.name,
         addres: office.addres,
         phone: office.phone,
         spots: office.spots,
+        vaccine: office.vaccine.name
       };
     },
   },

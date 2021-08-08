@@ -54,6 +54,11 @@ export default new Router({
       name: "planning",
       component: () => import("./views/Planning")
     },
+    {
+      path: "/appointment/:id",
+      name: "appointment",
+      component: () => import("./views/Appointment")
+    },
   ]
 
 });
