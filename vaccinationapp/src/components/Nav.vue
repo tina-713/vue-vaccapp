@@ -17,11 +17,13 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn class="custom-btn" to="/login" text>
+      <v-btn class="custom-btn" v-if="!loggedIn" to="/login" text>
         Login
       </v-btn>
+  
     </v-app-bar>
-
+    
+   
     <v-main>
       <router-view />
     </v-main>
@@ -30,7 +32,12 @@
 
 <script>
 export default{
-  name: 'Nav'
+  name: 'Nav',
+  data(){
+  return {
+    loggedIn: JSON.parse(localStorage.getItem('user') ? true : false)
+    }
+  },
 }
 </script>
 

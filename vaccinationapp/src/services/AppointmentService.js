@@ -30,6 +30,14 @@ class AppointmentService {
     }}
     );
   }
+  getAppointmentHours(id,date) {
+    return axios.get(endpoint.baseURL+`office/${id}/${date}/time`, {
+     },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
+  }
 
 }
 
