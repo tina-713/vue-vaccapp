@@ -33,9 +33,24 @@
             class="elevation-1">
 
             <template v-slot:[`item.actions`]="{ item }">
-              <v-icon medium class="mr-2" color="blue" @click="editRecipient(item.id)">mdi-pencil</v-icon>
-              <v-icon medium  class="mr-2" color="green" @click="appointmentRec(item.id)">mdi-clock-outline</v-icon>
-              <v-icon medium  class="mr-2" color="red" @click="deleteRec(item.id)">mdi-delete</v-icon>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <v-icon v-on="on" medium class="mr-2" color="blue" @click="editRecipient(item.id)">mdi-pencil</v-icon>
+                  </template>
+                    <span>Editează</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-icon v-on="on" medium  class="mr-2" color="green" @click="appointmentRec(item.id)">mdi-clock-outline</v-icon>
+                </template>
+                  <span>Programează-te</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-icon v-on="on" medium  class="mr-2" color="red" @click="deleteRec(item.id)">mdi-delete</v-icon>
+                </template>
+                  <span>Șterge</span>
+              </v-tooltip>
             </template>
 
           </v-data-table>
@@ -58,8 +73,8 @@ export default {
       last_name: "",
       search: '',
       headers: [
-        { text: "Nume", value: "last_name", align: "center", sortable: false},
-        { text: "Prenume", value: "name", align: "center", sortable: false },
+        { text: "Nume", value: "last_name", align: "center", sortable: true},
+        { text: "Prenume", value: "name", align: "center", sortable: true },
         { text: "CNP", value: "cnp", align: "center", sortable: false },
         { text: "Cod identificare", value: "id", align: "center", sortable: false },
         { text: "Nr. ordine pe lista de așteptare", value: "", align: "center", sortable: false },
@@ -89,7 +104,7 @@ export default {
     },
 
     appointmentRec(id) {
-      this.$router.push({ name: "planning", params: { id: id } });
+      this.$router.push({ name: "office", params: { id: id } });
     },
 
     deleteRec(id) {

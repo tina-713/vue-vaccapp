@@ -11,7 +11,7 @@
         Beneficiari
       </v-btn>
 
-      <v-btn class="custom-btn" to="/planning" text>
+      <v-btn class="custom-btn" to="/my-appointments" text>
         Programări
       </v-btn>
 

@@ -69,12 +69,8 @@
 
 
 <script>
-
-
-
 import VueTimepicker from 'vue2-timepicker/src/vue-timepicker.vue'
 import AppointmentService from '../services/AppointmentService';
-
   export default {
       components:{
           VueTimepicker
@@ -90,7 +86,6 @@ import AppointmentService from '../services/AppointmentService';
       hour:"8",
     }
     },
-
     methods: {
       allowedStep: m => m % 30 === 0,
       getAllowedDates (val) {
@@ -103,9 +98,7 @@ import AppointmentService from '../services/AppointmentService';
       //allowedDates: this.dates,
       contextMenu (year, event) {
         this.$set(this.done, 2, true)
-
         event.preventDefault()
-
         alert(`You have activated context menu for year ${year}`)
       },
       dblClick (date) {
@@ -117,7 +110,6 @@ import AppointmentService from '../services/AppointmentService';
         .catch((e) => {
           console.log(e);
         });
-
         this.modal2 = true
       },
       disModal(){
@@ -136,7 +128,6 @@ import AppointmentService from '../services/AppointmentService';
       mouseLeave () {
         this.mouseMonth = null
       },
-
     },
    async mounted()
     { 
@@ -147,11 +138,9 @@ import AppointmentService from '../services/AppointmentService';
         .catch((e) => {
           console.log(e);
         });
-
       }
     
   }
 </script>
 <style>
-
 </style>

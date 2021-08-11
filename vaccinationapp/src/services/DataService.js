@@ -34,6 +34,14 @@ class DataService {
     }}
     )
   }
+  getOffice(id) {
+    return axios.get(endpoint.baseURL+`office/${id}/`,{
+    },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    )
+  }
 }
 
 export default new DataService();

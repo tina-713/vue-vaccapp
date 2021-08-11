@@ -1,25 +1,4 @@
-<template>
-  <!-- <v-container fixed ma-0 pa-0 fill-height>
-    <v-card width="240" height= "90vh">
-      <v-list dense>
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-        >
-          <v-list-item-icon>
-            <v-icon color="deep-orange">{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-
-        </v-list-item>
-      </v-list>
-    </v-card>
-  </v-container> -->
-  
+<template> 
   <div>
     <v-container fluid>
         <v-btn 
@@ -75,18 +54,6 @@
 </template>
 
 <script>
-//   export default {
-//     data () {
-//       return {
-//         items: [
-//           { title: 'Alege beneficiar', icon: 'mdi-account-outline' },
-//           { title: 'Centre', icon: 'mdi-office-building-marker-outline' },
-//           { title: 'Programare doza initiala', icon: 'mdi-calendar-month' },
-//           { title: 'Programare rapel', icon: 'mdi-calendar-month' },
-//         ],
-//       }
-//     },
-//   }
 
 import DataService from "../services/DataService";
 
@@ -97,17 +64,15 @@ export default {
       office: [],
       search: '',
       county: "",
-      city: "",
       headers: [
-        { text: "Nume", value: "name", align: "center", sortable: true},
-        { text: "Judet", value: "county", align: "center", sortable: true },
+        { text: "Nume", value: "name", align: "center", sortable: false},
+        { text: "Județ", value: "county", align: "center", sortable: true },
         { text: "Localitate", value: "city", align: "center", sortable: true },
-        { text: "Adresa", value: "addres", align: "center", sortable: true },
-        { text: "Telefon", value: "phone", align: "center", sortable: true },
+        { text: "Adresă", value: "address", align: "center", sortable: false },
+        { text: "Telefon", value: "phone", align: "center", sortable: false },
         { text: "Locuri libere", value: "spots", align: "center", sortable: true },
         { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: true },
-        { text: "Acțiuni", value: "actions", align: "center",sortable: true },
-
+        { text: "Acțiuni", value: "actions", align: "center",sortable: false },
       ],
     };
   },
@@ -115,7 +80,7 @@ export default {
   methods: {
     retrieveOffices() {
       DataService.getAllOffices().then((response) => {
-          this.office = response.data.map(this.getDisplayRecipient)
+          this.office = response.data.map(this.getDisplayOffice)
           console.log(response.data);
         })
         .catch((e) => {
@@ -127,16 +92,16 @@ export default {
       this.retrieveOffices();
     },
     makeAppointment(id) {
-      this.$router.push({ name: "appointment", params: { id: id } });
+      this.$router.push({ name: "office-id", params: { id: id } });
     },
 
-     getDisplayRecipient(office) {
+     getDisplayOffice(office) {
       return {
         id: office.id,
         name: office.name,
         county: office.county.name,
         city: office.city.name,
-        addres: office.addres,
+        address: office.address,
         phone: office.phone,
         spots: office.spots,
         vaccine: office.vaccine.name

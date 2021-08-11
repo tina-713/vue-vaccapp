@@ -50,13 +50,13 @@ export default new Router({
 
 
     {
-      path: "/planning",
-      name: "planning",
-      component: () => import("./views/Planning")
+      path: "/office",
+      name: "office",
+      component: () => import("./views/Office")
     },
     {
-      path: "/appointment/:id",
-      name: "appointment",
+      path: "/office/:id",
+      name: "office-id",
       component: () => import("./views/Appointment")
     },
   ]

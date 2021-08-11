@@ -57,7 +57,7 @@
         <v-text-field
           v-model="age"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
-          label="Varsta"
+          label="Vârstă"
           required
           dense>
           </v-text-field>
@@ -105,7 +105,7 @@
           v-model='selectedCounty'
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           v-on:change='getCitiesByCounty()'
-          label="Judet"
+          label="Județ"
           item-value= "id"
           item-text="name"
           required

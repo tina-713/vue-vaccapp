@@ -27,7 +27,7 @@ class RecipientService {
 
   getRecipients(id,name,last_name,cnp,userId) {
 
-    return axios.get(endpoint.baseURL+`person/user/${userId}`, {
+    return axios.get(endpoint.baseURL+`person/user/${userId}/`, {
       id: id,
       name: name,
       last_name: last_name,
