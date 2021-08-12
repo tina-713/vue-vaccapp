@@ -21,7 +21,20 @@ class AppointmentService {
     }}
     );
   }
-
+  postAppointment(appoinment){
+    return axios.post(endpoint.baseURL+`appointment/`,{
+      kind: appoinment.kind,
+      date: appoinment.date,
+      office: appoinment.office,
+      person: appoinment.person,
+      status: appoinment.status,
+      time: appoinment.time,
+    },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
+  }
 }
 
 export default new AppointmentService();

@@ -103,8 +103,8 @@ export default {
       this.$router.push({ name: "edit-recipient", params: { id: id } });
     },
 
-    appointmentRec(id) {
-      this.$router.push({ name: "office", params: { id: id } });
+    appointmentRec(personId,id) {
+      this.$router.push({ name: "office", params: { personId: personId ,id: id } });
     },
 
     deleteRec(id) {

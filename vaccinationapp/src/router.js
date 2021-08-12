@@ -50,12 +50,12 @@ export default new Router({
 
 
     {
-      path: "/office",
+      path: "/office/:personId",
       name: "office",
       component: () => import("./views/Office")
     },
     {
-      path: "/office/:id",
+      path: "/office/:personId/:id",
       name: "office-id",
       component: () => import("./views/Appointment")
     },

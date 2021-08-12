@@ -68,8 +68,8 @@ export default {
         { text: "Nume", value: "name", align: "center", sortable: false},
         { text: "Județ", value: "county", align: "center", sortable: true },
         { text: "Localitate", value: "city", align: "center", sortable: true },
-        { text: "Adresă", value: "address", align: "center", sortable: false },
-        { text: "Telefon", value: "phone", align: "center", sortable: false },
+        // { text: "Adresă", value: "address", align: "center", sortable: false },
+        // { text: "Telefon", value: "phone", align: "center", sortable: false },
         { text: "Locuri libere", value: "spots", align: "center", sortable: true },
         { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: true },
         { text: "Acțiuni", value: "actions", align: "center",sortable: false },
@@ -92,7 +92,7 @@ export default {
       this.retrieveOffices();
     },
     makeAppointment(id) {
-      this.$router.push({ name: "office-id", params: { id: id } });
+      this.$router.push({ name: "office-id", params: {id: id } });
     },
 
      getDisplayOffice(office) {
@@ -101,8 +101,8 @@ export default {
         name: office.name,
         county: office.county.name,
         city: office.city.name,
-        address: office.address,
-        phone: office.phone,
+        // address: office.address,
+        // phone: office.phone,
         spots: office.spots,
         vaccine: office.vaccine.name
       };
