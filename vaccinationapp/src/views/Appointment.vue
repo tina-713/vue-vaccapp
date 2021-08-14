@@ -19,24 +19,13 @@
         <v-card class="mx-auto" tile>
           <v-card-title style="background-color:#F2F3F4">Detalii
           </v-card-title>
-
-          <v-data-table
-            :headers="headers"
-            :items="offices"
-            disable-pagination
-            :hide-default-footer="true"
-            class="elevation-1">
-            
-            <!-- <template slot="items" slot-scope="props">
-            <td>{{ props.item.name }}</td>
-            <td>{{ props.item.county.name }}</td>
-            <td>{{ props.item.city.name }}</td>
-            <td>{{ props.item.address }}</td>
-            <td>{{ props.item.phone }}</td>
-            <td>{{ props.item.spots }}</td>
-            <td>{{ props.item.vaccine.name }}</td>
-            </template> -->
-          </v-data-table>
+            <v-data-table
+              :headers="headers"
+              :items="offices"
+              disable-pagination
+              :hide-default-footer="true"
+              class="elevation-1">
+            </v-data-table>
         </v-card>
       </v-col>
 
@@ -45,50 +34,8 @@
         <v-col
           class="my-2 px-1"
           cols="12"
-          sm="12"
+          sm="6"
         >
-        <div class="row">
-          <div class="col">
-            <v-text-field
-              readonly
-              v-model="date"
-              label="Dată Doza Initiala"
-              required
-              dense>
-              </v-text-field>
-          </div>
-            
-          <div class="col"> 
-            <v-text-field
-              readonly
-              v-model="hour"
-              label="Oră Doza Initiala"
-              required
-              dense>
-            </v-text-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <v-text-field
-              readonly
-              v-model="dateRapel"
-              label="Dată Doza Rapel"
-              required
-              dense>
-              </v-text-field>
-          </div>
-            
-          <div class="col"> 
-            <v-text-field
-              readonly
-              v-model="hourRapel"
-              label="Oră Doza Rapel"
-              required
-              dense>
-            </v-text-field>
-          </div>
-        </div>
         <v-date-picker
           v-model="date"
           @contextmenu:year="contextMenu"
@@ -103,9 +50,73 @@
           locale="ro"
           elevation="10"
           full-width
-          class="startDate"
         ></v-date-picker>
         </v-col>
+
+        &nbsp; &nbsp; &nbsp; &nbsp; 
+
+        <v-col
+          class="my-2 px-1"
+          cols="12"
+          sm=""
+        >
+        <div class="row" style="margin-top:1px">
+          <div class="col">
+            <v-text-field
+              readonly
+              v-model="date"
+              label="Dată Doza Initiala"
+              required
+              :rules="[(v) => !!v || 'Câmp obligatoriu']"
+              dense>
+              </v-text-field>
+          </div>
+            
+          <div class="col"> 
+            <v-text-field
+              readonly
+              v-model="hour"
+              label="Oră Doza Initiala"
+              required
+              :rules="[(v) => !!v || 'Câmp obligatoriu']"
+              dense>
+            </v-text-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <v-text-field
+              readonly
+              v-model="dateRapel"
+              label="Dată Doza Rapel"
+              required
+              :rules="[(v) => !!v || 'Câmp obligatoriu']"
+              dense>
+              </v-text-field>
+          </div>
+            
+          <div class="col"> 
+            <v-text-field
+              readonly
+              v-model="hourRapel"
+              label="Oră Doza Rapel"
+              required
+              :rules="[(v) => !!v || 'Câmp obligatoriu']"
+              dense>
+            </v-text-field>
+          </div>
+        </div>
+      <div align="center">
+        <v-btn
+          class="white--text"
+          width="120" 
+          elevation="5" 
+          color="deep-orange"
+          
+          v-on:click.stop.prevent="makeAppointments">Salvează</v-btn>
+      </div>
+        </v-col>
+
 
       <v-col
         class="my-2 px-1"
@@ -115,10 +126,12 @@
         <v-dialog
           v-model="modal1"
           scrollable
-          max-width="300px"
+          max-width="450px"
         >
         <v-card>    
-          <v-card-title>Alegeti Ora Doza Initiala</v-card-title>
+          <v-card-title>Alegeți ora programării pentru doza inițială</v-card-title>
+          <v-divider></v-divider>
+          <div div class='wrap'>
           <vue-timepicker 
             hide-disabled-items 
             v-model = "hour"
@@ -127,17 +140,34 @@
             close-on-complete
             hour-label="Ora"
           ></vue-timepicker>
-          <v-btn  v-on:click="disModal">Submit</v-btn>   
-          <v-card-text style="height: 200px; width:200px;"/>      
+          </div>
+          <div align="right">
+            <v-btn 
+              class="mx-2"
+              fab
+              dark
+              small
+              color="deep-orange"
+              v-on:click="disModal">
+                <v-icon dark>
+                mdi-arrow-right-bold
+                </v-icon>
+            </v-btn>
+          </div>
+
+          <v-card-text style="height: 150px; width:180px;"/>      
         </v-card>
         </v-dialog>
+
         <v-dialog
           v-model="modal2"
           scrollable
-          max-width="300px"
+          max-width="450px"
         >
-        <v-card>    
-          <v-card-title>Alegeti Ora Rapel</v-card-title>
+        <v-card>   
+          <v-card-title>Alegeți ora programării pentru rapel</v-card-title>
+          <v-divider></v-divider>
+          <div div class='wrap'> 
           <vue-timepicker 
             hide-disabled-items 
             v-model = "hourRapel"
@@ -146,21 +176,26 @@
             close-on-complete
             hour-label="Ora"
           ></vue-timepicker>
-          <v-btn  v-on:click="disModal2">Submit</v-btn>   
-          <v-card-text style="height: 200px; width:200px;"/>      
+          </div>
+          <div align="right">
+            <v-btn 
+              class="mx-2"
+              fab
+              dark
+              small
+              color="deep-orange"
+              v-on:click="disModal2">
+                <v-icon dark>
+                mdi-arrow-right-bold
+                </v-icon>
+            </v-btn>
+          </div>
+
+          <v-card-text style="height: 150px; width:180px;"/>     
         </v-card>
         </v-dialog>
       </v-col>
       </v-row>
-      <div align="center">
-      <v-btn
-        class="white--text"
-        width="120" 
-        elevation="5" 
-        color="deep-orange"
-        
-        v-on:click.stop.prevent="makeAppointments">Salvează</v-btn>
-        </div>
     </v-container>
     </v-row>
   </div>
@@ -170,6 +205,7 @@
 import DataService from "../services/DataService";
 import VueTimepicker from 'vue2-timepicker/src/vue-timepicker.vue'
 import AppointmentService from '../services/AppointmentService';
+// import AuthenticationService from "../services/AuthenticationService";
 
  export default {
    name: "appointment",
@@ -189,16 +225,17 @@ import AppointmentService from '../services/AppointmentService';
         hourrangerapel:null,
         hour:"8",
         hourRapel:"8",
-        office: null,  
+        office: null, 
+        // user:null, 
         offices:[],
         headers: [
-        { text: "Nume", value: "name", align: "center"},
-        { text: "Județ", value: "county", align: "center"},
-        { text: "Localitate", value: "city", align: "center"},
-        { text: "Adresă", value: "address", align: "center"},
-        { text: "Telefon", value: "phone", align: "center"},
-        { text: "Locuri libere", value: "spots", align: "center"},
-        { text: "Tip Vaccin", value: "vaccine", align: "center"},
+        { text: "Nume", value: "name", align: "center", sortable: false},
+        { text: "Județ", value: "county", align: "center", sortable: false},
+        { text: "Localitate", value: "city", align: "center", sortable: false},
+        { text: "Adresă", value: "address", align: "center", sortable: false},
+        { text: "Telefon", value: "phone", align: "center", sortable: false},
+        { text: "Locuri libere", value: "spots", align: "center", sortable: false},
+        { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: false},
       ],
       };
     },
@@ -264,7 +301,8 @@ methods: {
         date: this.date,
         time: parseInt(this.hour),
         office : parseInt(this.$route.params.id),
-        person : parseInt(this.$route.params.personId)
+        person : parseInt(this.$route.params.personId),
+        // user: this.user,
 
       };
       var secondAppointment={
@@ -272,7 +310,8 @@ methods: {
         date: this.dateRapel,
         time: parseInt(this.hourRapel),
         office : parseInt(this.$route.params.id),
-        person : parseInt(this.$route.params.personId)  
+        person : parseInt(this.$route.params.personId),
+        // user: this.user,
       };
       AppointmentService.postAppointment(firstAppointment)
         .then((response) => {
@@ -284,25 +323,12 @@ methods: {
         });
         AppointmentService.postAppointment(secondAppointment)
         .then((response) => {
-          this.$router.push('/recipient');
+          this.$router.push('/my-appointments');
           console.log(response.data);
         })
         .catch((e) => {
           console.log(e);
         });
-    },
-
-    getDisplayOffice(office) {
-      return {
-        id: office.id,
-        name: office.name,
-        county: office.county.name,
-        city: office.city.name,
-        address: office.address,
-        phone: office.phone,
-        spots: office.spots,
-        vaccine: office.vaccine.name
-      };
     },
 
     getOffice(id) {
@@ -336,19 +362,26 @@ methods: {
           console.log(e);
         });
     await this.getOffice(this.$route.params.id); 
-    console.log(this.office.id)
+    console.log(this.office.id);
+    
+    // await AuthenticationService.getCurrentlyLoggedUser().then((response)=>{  
+    //   this.user = response.data.id;
+    //   }).catch((e)=>{
+    //     console.log(e);
+    //   });
   }
 }
 </script>
 
 <style>
-.startDate {
-   margin-top: 30px;
-     }
 .list {
   max-width: 1200px;
 }
 .all {
   margin-top: 70px;
+}
+.wrap {
+    margin: 40px auto;
+    width: 160px;
 }
 </style>

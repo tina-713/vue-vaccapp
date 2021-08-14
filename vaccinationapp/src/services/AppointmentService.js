@@ -21,15 +21,31 @@ class AppointmentService {
     }}
     );
   }
-  postAppointment(appoinment){
+  postAppointment(appointment){
     return axios.post(endpoint.baseURL+`appointment/`,{
-      kind: appoinment.kind,
-      date: appoinment.date,
-      office: appoinment.office,
-      person: appoinment.person,
-      status: appoinment.status,
-      time: appoinment.time,
+      user: appointment.user,
+      kind: appointment.kind,
+      date: appointment.date,
+      office: appointment.office,
+      person: appointment.person,
+      status: appointment.status,
+      time: appointment.time,
     },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
+  }
+
+  getAppointment(person,office,kind,date,time,status,userId) {
+    return axios.get(endpoint.baseURL+`appointment/user/${userId}/`, {
+      person: person,
+      kind: kind,
+      status: status,
+      office: office,
+      date: date,
+      time: time,
+     },{
       headers:{
          Authorization:  `Bearer `+ user.data.access
     }}

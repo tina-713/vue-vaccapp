@@ -43,7 +43,7 @@
             class="elevation-1">
 
             <template v-slot:[`item.actions`]="{ item }">
-              <v-btn small color="blue" @click="makeAppointment(item.id)">Selectează</v-btn>
+              <v-btn class="white--text" small color="blue" @click="makeAppointment(item.id)">Selectează</v-btn>
             </template>
 
           </v-data-table>
