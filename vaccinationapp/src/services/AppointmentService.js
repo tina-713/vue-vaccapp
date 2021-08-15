@@ -23,7 +23,6 @@ class AppointmentService {
   }
   postAppointment(appointment){
     return axios.post(endpoint.baseURL+`appointment/`,{
-      user: appointment.user,
       kind: appointment.kind,
       date: appointment.date,
       office: appointment.office,

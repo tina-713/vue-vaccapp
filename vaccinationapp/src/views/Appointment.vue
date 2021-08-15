@@ -205,8 +205,6 @@
 import DataService from "../services/DataService";
 import VueTimepicker from 'vue2-timepicker/src/vue-timepicker.vue'
 import AppointmentService from '../services/AppointmentService';
-// import AuthenticationService from "../services/AuthenticationService";
-
  export default {
    name: "appointment",
     components:{
@@ -226,7 +224,6 @@ import AppointmentService from '../services/AppointmentService';
         hour:"8",
         hourRapel:"8",
         office: null, 
-        // user:null, 
         offices:[],
         headers: [
         { text: "Nume", value: "name", align: "center", sortable: false},
@@ -302,7 +299,6 @@ methods: {
         time: parseInt(this.hour),
         office : parseInt(this.$route.params.id),
         person : parseInt(this.$route.params.personId),
-        // user: this.user,
 
       };
       var secondAppointment={
@@ -311,7 +307,6 @@ methods: {
         time: parseInt(this.hourRapel),
         office : parseInt(this.$route.params.id),
         person : parseInt(this.$route.params.personId),
-        // user: this.user,
       };
       AppointmentService.postAppointment(firstAppointment)
         .then((response) => {
@@ -362,13 +357,6 @@ methods: {
           console.log(e);
         });
     await this.getOffice(this.$route.params.id); 
-    console.log(this.office.id);
-    
-    // await AuthenticationService.getCurrentlyLoggedUser().then((response)=>{  
-    //   this.user = response.data.id;
-    //   }).catch((e)=>{
-    //     console.log(e);
-    //   });
   }
 }
 </script>
