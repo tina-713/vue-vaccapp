@@ -50,6 +50,16 @@ class AppointmentService {
     }}
     );
   }
+  postWaitingList(wlist){
+    return axios.post(endpoint.baseURL+`waiting-list/`,{
+      office: wlist.office,
+      person: wlist.person,
+    },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
+  }
 }
 
 export default new AppointmentService();

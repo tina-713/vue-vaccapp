@@ -43,7 +43,42 @@
             class="elevation-1">
 
             <template v-slot:[`item.actions`]="{ item }">
-              <v-btn class="white--text" small color="blue" @click="makeAppointment(item.id)">Selectează</v-btn>
+              <div v-if="item.spots>0" align="center">
+              <v-btn class="white--text" small color="blue" @click="makeAppointment(item.id)">Prorgramare</v-btn>
+              </div>
+              <div v-else>
+                <v-btn class="white--text" small color="red" @click="makeWaitingList(item.id)">Lista de Asteptare</v-btn>
+              </div>
+    <v-dialog
+      v-model="dialog"
+      persistent
+      max-width="290"
+    >
+    
+      <v-card>
+        <v-card-title class="text-h5">
+          Use Google's location service?
+        </v-card-title>
+        <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog = false"
+          >
+            Disagree
+          </v-btn>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="postWList((item.id))"
+          >
+            Agree
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
             </template>
 
           </v-data-table>
@@ -56,7 +91,7 @@
 <script>
 
 import DataService from "../services/DataService";
-
+import AppointmentService from "../services/AppointmentService";
 export default {
   name: "offices",
   data() {
@@ -64,6 +99,7 @@ export default {
       office: [],
       search: '',
       county: "",
+      dialog:false,
       headers: [
         { text: "Nume", value: "name", align: "center", sortable: false},
         { text: "Județ", value: "county", align: "center", sortable: true },
@@ -94,7 +130,24 @@ export default {
     makeAppointment(id) {
       this.$router.push({ name: "office-id", params: {id: id } });
     },
+    makeWaitingList() {
 
+      this.dialog = true
+    },
+    postWList(id){
+      this.dialog=false;
+      let wlist = {
+        person :this.$route.params.personId,
+        office : id
+
+      };
+      AppointmentService.postWaitingList(wlist).then((response) => {
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
      getDisplayOffice(office) {
       return {
         id: office.id,
