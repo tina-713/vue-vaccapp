@@ -2,23 +2,27 @@
   <v-app>
     <v-app-bar app dark>
       <div>
-        <v-btn class="custom-btn" to="/home" text>
+        <v-btn class="custom-btn" v-if="loggedIn" to="/home" text>
           VaccinationApp
         </v-btn>
       </div>
 
-      <v-btn class="custom-btn" to="/recipient" text>
+      <v-btn class="custom-btn" v-if="loggedIn" to="/recipient" text>
         Beneficiari
       </v-btn>
 
-      <v-btn class="custom-btn" to="/my-appointments" text>
+      <v-btn class="custom-btn" v-if="loggedIn" to="/my-appointments" text>
         Programări
       </v-btn>
 
       <v-spacer></v-spacer>
 
       <v-btn class="custom-btn" v-if="!loggedIn" to="/login" text>
-        Login
+        Autentificare
+      </v-btn>
+
+      <v-btn class="custom-btn" v-if="!loggedIn" to="/register" text>
+        Creează Cont
       </v-btn>
   
     </v-app-bar>

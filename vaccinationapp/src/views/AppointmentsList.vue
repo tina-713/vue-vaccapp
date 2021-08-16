@@ -108,6 +108,10 @@ export default {
         time: appointment.time,
       };
     },
+
+    // cancellAppointment(){
+
+    // }
   },
   async mounted() {
     await AuthenticationService.getCurrentlyLoggedUser().then((response)=>{  

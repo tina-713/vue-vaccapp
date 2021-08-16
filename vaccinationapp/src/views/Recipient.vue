@@ -47,12 +47,41 @@
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon v-on="on" medium  class="mr-2" color="red" @click="deleteRec(item.id)">mdi-delete</v-icon>
+                  <v-icon v-on="on" medium  class="mr-2" color="red" @click="Delete(item.id)">mdi-delete</v-icon>
                 </template>
                   <span>Șterge</span>
               </v-tooltip>
-            </template>
 
+              <v-dialog
+      v-model="dialog"
+      persistent
+      max-width="320"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          Sunteți sigur că doriți să ștergeți acest beneficiar?
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="deep-orange"
+            text
+            @click="dialog = false"
+          >
+            Anulează
+          </v-btn>
+          <v-btn
+            color="deep-orange"
+            text
+            @click="deleteRec((item.id))"
+          >
+            Șterge
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+          
+            </template>
           </v-data-table>
         </v-card>
       </v-col>
@@ -72,6 +101,7 @@ export default {
       person: [],
       last_name: "",
       search: '',
+      dialog:false,
       headers: [
         { text: "Nume", value: "last_name", align: "center", sortable: true},
         { text: "Prenume", value: "name", align: "center", sortable: true },
@@ -106,17 +136,18 @@ export default {
     appointmentRec(personId,id) {
       this.$router.push({ name: "office", params: { personId: personId ,id: id } });
     },
-
+    Delete(){
+      this.dialog = true
+    },
     deleteRec(id) {
-      if(confirm("Sunteți sigur că doriți să ștergeți acest beneficiar?")){
         RecipientService.deleteRecipient(id)
           .then(() => {
+            this.dialog=false;
             this.refreshList();
           })
           .catch((e) => {
             console.log(e);
           });
-        }
     },
 
      getDisplayRecipient(person) {

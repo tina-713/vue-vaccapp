@@ -241,8 +241,8 @@ export default {
      
       RecipientService.postRecipient(person)
         .then((response) => {
-          this.person.id = response.data.id;
           this.$router.push('/recipient');
+          this.person.id = response.data.id;
           console.log(response.data);
           this.submitted = true;
         })

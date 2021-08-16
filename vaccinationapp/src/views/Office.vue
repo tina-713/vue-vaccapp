@@ -52,29 +52,29 @@
     <v-dialog
       v-model="dialog"
       persistent
-      max-width="290"
+      max-width="300"
     >
     
       <v-card>
         <v-card-title class="text-h5">
-          Use Google's location service?
+          Sunteți sigur că vreți să va înscrieți pe lista de așteptare?
         </v-card-title>
-        <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+        <v-card-text>Momentan centrul ales nu dispune de locuri libere. Aveți posibilitatea de a vă înscrie pe lista de așteptare a acestuia sau de a vă programa la un alt centru unde acțiunea "PROGRAMARE" este vizibilă.</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            color="green darken-1"
+            color="deep-orange"
             text
             @click="dialog = false"
           >
-            Disagree
+            anulează
           </v-btn>
           <v-btn
-            color="green darken-1"
+            color="deep-orange"
             text
             @click="postWList((item.id))"
           >
-            Agree
+            înscrie
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -103,10 +103,11 @@ export default {
       headers: [
         { text: "Nume", value: "name", align: "center", sortable: false},
         { text: "Județ", value: "county", align: "center", sortable: true },
-        { text: "Localitate", value: "city", align: "center", sortable: true },
+        { text: "Localitate", value: "city", align: "center", sortable: false },
         // { text: "Adresă", value: "address", align: "center", sortable: false },
         // { text: "Telefon", value: "phone", align: "center", sortable: false },
         { text: "Locuri libere", value: "spots", align: "center", sortable: true },
+        // { text: "Listă de așteptare", value: "", align: "center", sortable: true },
         { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: true },
         { text: "Acțiuni", value: "actions", align: "center",sortable: false },
       ],

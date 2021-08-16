@@ -60,6 +60,15 @@ class AppointmentService {
     }}
     );
   }
+  // postStatus(id, appointment){
+  //   return axios.post(endpoint.baseURL+`appointment/${id}/`,{
+  //     status: appointment.status,
+  //   },{
+  //     headers:{
+  //        Authorization:  `Bearer `+ user.data.access
+  //   }}
+  //   );
+  // }
 }
 
 export default new AppointmentService();
