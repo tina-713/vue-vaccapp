@@ -102,6 +102,7 @@ export default {
       last_name: "",
       search: '',
       dialog:false,
+      isAdmin:false,
       headers: [
         { text: "Nume", value: "last_name", align: "center", sortable: true},
         { text: "Prenume", value: "name", align: "center", sortable: true },
@@ -114,7 +115,16 @@ export default {
   },
   methods: {
     retrieveRecipients() {
-      
+      if(this.isAdmin){
+        RecipientService.adminGetRecipients().then((response) => {
+          this.person = response.data.map(this.getDisplayRecipient);
+          // console.log(response.data);
+          console.log(this.userId)
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      }else{
       RecipientService.getRecipients("","","","",this.userId).then((response) => {
           this.person = response.data.map(this.getDisplayRecipient);
           // console.log(response.data);
@@ -123,6 +133,7 @@ export default {
         .catch((e) => {
           console.log(e);
         });
+        }
     },
 
      refreshList() {
@@ -163,6 +174,7 @@ export default {
   async mounted() {
     await AuthenticationService.getCurrentlyLoggedUser().then((response)=>{  
       this.userId = response.data.id;
+      this.isAdmin = response.data.is_superuser;
       }).catch((e)=>{
         console.log(e);
       });

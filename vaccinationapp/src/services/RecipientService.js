@@ -38,7 +38,19 @@ class RecipientService {
     }}
     );
   }
+  adminGetRecipients(id,name,last_name,cnp) {
 
+    return axios.get(endpoint.baseURL+`person/`, {
+      id: id,
+      name: name,
+      last_name: last_name,
+      cnp: cnp,
+     },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
+  }
   //update
   putRecipient(id, person) {
     return axios.put(endpoint.baseURL+`person/${id}/`,{

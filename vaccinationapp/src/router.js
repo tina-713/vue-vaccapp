@@ -64,6 +64,16 @@ export default new Router({
       name: "my-appointments",
       component: () => import("./views/AppointmentsList")
     },
+    {
+      path: "/admin-offices",
+      name: "/admin-offices",
+      component: () => import("./views/AdminOffice")
+    },
+    {
+      path: "/edit-office/:id",
+      name: "edit-office",
+      component: () => import("./views/EditOffice")
+      },
   ]
 
 });

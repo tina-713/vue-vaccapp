@@ -14,7 +14,10 @@
       <v-btn class="custom-btn" v-if="loggedIn" to="/my-appointments" text>
         Programări
       </v-btn>
-
+      <v-btn class="custom-btn" v-if="isAdmin" to="/admin-offices" text>
+        Offices
+      </v-btn>
+  
       <v-spacer></v-spacer>
 
       <v-btn class="custom-btn" v-if="!loggedIn" to="/login" text>
@@ -35,13 +38,22 @@
 </template>
 
 <script>
+import AuthenticationService from '../services/AuthenticationService';
 export default{
   name: 'Nav',
   data(){
   return {
-    loggedIn: JSON.parse(localStorage.getItem('user') ? true : false)
+    loggedIn: JSON.parse(localStorage.getItem('user') ? true : false),
+    isAdmin : false,
     }
   },
+  async mounted(){
+    await AuthenticationService.getCurrentlyLoggedUser().then((response)=>{  
+      this.isAdmin = response.data.is_superuser;
+      }).catch((e)=>{
+        console.log(e);
+      });
+  }
 }
 </script>
 

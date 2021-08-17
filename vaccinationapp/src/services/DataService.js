@@ -42,6 +42,14 @@ class DataService {
     }}
     )
   }
+  deleteOffice(id) {
+    return axios.delete(endpoint.baseURL+`office/${id}/`, {
+     },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
+  }
 }
 
 export default new DataService();
