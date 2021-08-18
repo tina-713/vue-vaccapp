@@ -91,7 +91,7 @@
 import DataService from "../services/DataService";
 import AppointmentService from "../services/AppointmentService";
 export default {
-  name: "offices",
+  name: "admin-offices",
   data() {
     return {
       office: [],

@@ -125,7 +125,7 @@
 import DataService from "../services/DataService";
 
 export default{
-  name: "edit-recipient",
+  name: "edit-office",
   data() {
     return {
       counties:[],

@@ -36,8 +36,9 @@ class AppointmentService {
     );
   }
 
-  getAppointment(person,office,kind,date,time,status,userId) {
+  getAppointment(id,person,office,kind,date,time,status,userId) {
     return axios.get(endpoint.baseURL+`appointment/user/${userId}/`, {
+      id: id,
       person: person,
       kind: kind,
       status: status,
@@ -60,15 +61,18 @@ class AppointmentService {
     }}
     );
   }
-  // postStatus(id, appointment){
-  //   return axios.post(endpoint.baseURL+`appointment/${id}/`,{
-  //     status: appointment.status,
-  //   },{
-  //     headers:{
-  //        Authorization:  `Bearer `+ user.data.access
-  //   }}
-  //   );
-  // }
+  putStatus(appointment){
+    return axios.put(endpoint.baseURL+`appointment/${appointment.id}/`,{
+      kind: appointment.kind,
+      office: appointment.office,
+      status: appointment.status,
+      time: appointment.time,
+    },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
+  }
 }
 
 export default new AppointmentService();

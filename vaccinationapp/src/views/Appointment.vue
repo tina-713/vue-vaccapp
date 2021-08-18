@@ -221,8 +221,8 @@ import AppointmentService from '../services/AppointmentService';
         dates:null,
         hourrange:null,
         hourrangerapel:null,
-        hour:"8",
-        hourRapel:"8",
+        hour:"08",
+        hourRapel:"08",
         office: null, 
         offices:[],
         headers: [

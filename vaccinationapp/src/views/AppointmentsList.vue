@@ -43,11 +43,18 @@
             class="elevation-1">
 
             <template v-slot:[`item.actions`]="{ item }">
-              <div class="text-xs-right">
-                <v-btn class="white--text" small color="blue" @click="(item.id)">Detalii</v-btn>
-                <div class="divider"/>
-                <v-btn class="white--text" small color="red" @click="(item.id)">Anulează</v-btn>
-              </div>
+             <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-icon class="float-left" v-if="item.status != 'anulata'" v-on="on" medium color="blue" @click="download(item.status)">mdi-download</v-icon>
+                </template>
+                    <span>Descarcă recipisa</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-icon class="float-right" v-if="item.status == 'in curs'" v-on="on" medium color="red" @click="cancellAppointment(item)">mdi-close-thick</v-icon>
+                </template>
+                  <span>Anulează programarea</span>
+              </v-tooltip>
             </template>
 
           </v-data-table>
@@ -70,7 +77,7 @@ export default {
       search: '',
       headers: [
         { text: "Beneficiar", value: "person", align: "center", sortable: true},
-        { text: "Tip programare", value: "kind", align: "center", sortable: true },
+        { text: "Tip programare", value: "kind", align: "center", sortable: false },
         { text: "Status programare", value: "status", align: "center", sortable: false },
         { text: "Centru de vaccinare", value: "office", align: "center", sortable: false },
         { text: "Locație centru de vaccinare", value: "location", align: "center",sortable: false },
@@ -83,10 +90,10 @@ export default {
   methods:{
 
     retrieveAppointment() {
-      AppointmentService.getAppointment("","","","","","",this.userId).then((response) => {
+      AppointmentService.getAppointment("","","","","","","",this.userId).then((response) => {
           this.appointment = response.data.map(this.getDisplayAppointment);
           // console.log(response.data);
-          console.log(this.userId)
+          // console.log(this.userId)
         })
         .catch((e) => {
           console.log(e);
@@ -99,6 +106,7 @@ export default {
 
     getDisplayAppointment(appointment) {
       return {
+        id: appointment.id,
         person: appointment.person.last_name + ' '+ appointment.person.name,
         kind: appointment.kind,
         status: appointment.status,
@@ -109,9 +117,29 @@ export default {
       };
     },
 
-    // cancellAppointment(){
+    cancellAppointment(item){
+      console.log(item)
+      var appointment = {
+        id: item.id,
+        status: "anulata",
+        kind: item.kind,
+        office: item.office.id,
+        time: item.time,
+      };
 
-    // }
+
+      AppointmentService.putStatus(appointment).then((response) => {
+        console.log(response.data);
+        this.refreshList();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      },
+
+      download(id){
+        console.log(id);
+      }
   },
   async mounted() {
     await AuthenticationService.getCurrentlyLoggedUser().then((response)=>{  

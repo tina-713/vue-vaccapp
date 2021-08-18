@@ -56,7 +56,7 @@
           <div class="col">
         <v-text-field
           v-model="age"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          :rules="ageRules"
           label="Vârstă"
           required
           dense>
@@ -68,7 +68,7 @@
            <div class="col">
         <v-text-field
           v-model="cnp"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          :rules="cnpRules"
           label="CNP"
           required
           dense>
@@ -80,7 +80,7 @@
          <div class="col">
         <v-text-field
           v-model="phone"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          :rules="phoneRules"
           label="Telefon"
           required
           dense>
@@ -90,7 +90,7 @@
           <div class="col"> 
         <v-text-field
           v-model="email"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          :rules="emailRules"
           label="Email"
           required
           dense>
@@ -189,7 +189,23 @@ export default {
         selectedCity: null,
         selectedCategory: null,
       // },
-      submitted: false,
+        submitted: false,
+        emailRules: [
+          value => !!value || 'Câmp obligatoriu!',
+          v => /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'Introduceți un email valid!',
+        ],
+        phoneRules:[
+          value => !!value || 'Câmp obligatoriu!',
+          v => v.length >= 10  || 'Introduceți un număr de telefon valid!',
+        ],
+        cnpRules:[
+          value => !!value || 'Câmp obligatoriu!',
+          v => v.length >= 13  || 'Introduceți un CNP valid!',
+        ],
+        ageRules:[
+          value => !!value || 'Câmp obligatoriu!',
+          v => v >= 18  || 'Vârsta minimă este 18 ani!',
+        ],
     };
   },
 

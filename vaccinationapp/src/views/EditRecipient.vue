@@ -55,7 +55,7 @@
           <div class="col">
         <v-text-field
           v-model="currentRecipient.age"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          :rules="ageRules"
           label="Vârstă"
           required
           dense>
@@ -67,7 +67,7 @@
            <div class="col">
         <v-text-field
           v-model="currentRecipient.cnp"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          :rules="cnpRules"
           label="CNP"
           required
           dense>
@@ -79,7 +79,7 @@
          <div class="col">
         <v-text-field
           v-model="currentRecipient.phone"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          :rules="phoneRules"
           label="Telefon"
           required
           dense>
@@ -89,7 +89,7 @@
           <div class="col"> 
         <v-text-field
           v-model="currentRecipient.email"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          :rules="emailRules"
           label="Email"
           required
           dense>
@@ -176,6 +176,22 @@ export default{
       selectedCategory: null,
       gen:['M','F'],
       submitted: false,
+      emailRules: [
+          value => !!value || 'Câmp obligatoriu!',
+          v => /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'Introduceți un email valid!',
+        ],
+        phoneRules:[
+          value => !!value || 'Câmp obligatoriu!',
+          v => v.length >= 10  || 'Introduceți un număr de telefon valid!',
+        ],
+        cnpRules:[
+          value => !!value || 'Câmp obligatoriu!',
+          v => v.length >= 13  || 'Introduceți un CNP valid!',
+        ],
+        ageRules:[
+          value => !!value || 'Câmp obligatoriu!',
+          v => v >= 18  || 'Vârsta minimă este 18 ani!',
+        ],
     };
 },
 
@@ -214,31 +230,31 @@ methods:
       });
   },
 
-  updatePerson(id) {
-    var person = {
-      id: id,
-      name: this.currentRecipient.name,
-      last_name: this.currentRecipient.last_name,
-      cnp: this.currentRecipient.cnp,
-      gender: this.currentRecipient.gender,
-      age: parseInt(this.currentRecipient.age),
-      phone: this.currentRecipient.phone,
-      email: this.currentRecipient.email,
-      county : parseInt(this.currentRecipient.selectedCounty),
-      city: parseInt(this.currentRecipient.selectedCity),
-      category: parseInt(this.currentRecipient.selectedCategory),
-      user: this.currentRecipient.user,
-    };
+  // updatePerson(id) {
+  //   var person = {
+  //     id: id,
+  //     name: this.currentRecipient.name,
+  //     last_name: this.currentRecipient.last_name,
+  //     cnp: this.currentRecipient.cnp,
+  //     gender: this.currentRecipient.gender,
+  //     age: parseInt(this.currentRecipient.age),
+  //     phone: this.currentRecipient.phone,
+  //     email: this.currentRecipient.email,
+  //     county : parseInt(this.currentRecipient.selectedCounty),
+  //     city: parseInt(this.currentRecipient.selectedCity),
+  //     category: parseInt(this.currentRecipient.selectedCategory),
+  //     user: this.currentRecipient.user,
+  //   };
   
-    RecipientService.putRecipient(this.currentRecipient.id, person)
-        .then((response) => {
-          this.currentRecipient.id = id;
-          console.log(response.person);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+  //   RecipientService.putRecipient(this.currentRecipient.id, person)
+  //       .then((response) => {
+  //         this.currentRecipient.id = id;
+  //         console.log(response.person);
+  //       })
+  //       .catch((e) => {
+  //         console.log(e);
+  //       });
+  //   },
 
     updateRecipient() {
       RecipientService.putRecipient(this.currentRecipient.id, this.currentRecipient)
