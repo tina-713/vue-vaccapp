@@ -35,7 +35,22 @@ class AppointmentService {
     }}
     );
   }
-
+  getAdminAppointment(id) {
+    return axios.get(endpoint.baseURL+`appointment/${id}/`, {
+     },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
+  }
+  getAllAppointments(){
+    return axios.get(endpoint.baseURL+`appointment/`, {
+     },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
+  }
   getAppointment(id,person,office,kind,date,time,status,userId) {
     return axios.get(endpoint.baseURL+`appointment/user/${userId}/`, {
       id: id,
@@ -67,6 +82,21 @@ class AppointmentService {
       office: appointment.office,
       status: appointment.status,
       time: appointment.time,
+    },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
+  }
+  putAppointment(appointment) {
+    return axios.put(endpoint.baseURL+`appointment/${appointment.id}/`,{
+      id: appointment.id,
+      name: appointment.name, 
+      kind: appointment.kind,
+      status: appointment.status, 
+      time: appointment.time,
+      office: appointment.office,
+      person: appointment.person,
     },{
       headers:{
          Authorization:  `Bearer `+ user.data.access

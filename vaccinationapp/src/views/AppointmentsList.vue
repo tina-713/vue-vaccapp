@@ -55,6 +55,12 @@
                 </template>
                   <span>Anulează programarea</span>
               </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-icon class="float-right" v-if="isAdmin" v-on="on" medium color="red" @click="editAppointment(item.id)">mdi-pen</v-icon>
+                </template>
+                  <span>Editeaza programarea</span>
+              </v-tooltip>
             </template>
 
           </v-data-table>
@@ -75,6 +81,7 @@ export default {
       userId:"",
       appointment: [],
       search: '',
+      isAdmin:false,
       headers: [
         { text: "Beneficiar", value: "person", align: "center", sortable: true},
         { text: "Tip programare", value: "kind", align: "center", sortable: false },
@@ -90,14 +97,21 @@ export default {
   methods:{
 
     retrieveAppointment() {
-      AppointmentService.getAppointment("","","","","","","",this.userId).then((response) => {
+      if (this.isAdmin){
+          AppointmentService.getAllAppointments().then((response) => {
           this.appointment = response.data.map(this.getDisplayAppointment);
-          // console.log(response.data);
-          // console.log(this.userId)
         })
         .catch((e) => {
           console.log(e);
         });
+      }else{
+      AppointmentService.getAppointment("","","","","","","",this.userId).then((response) => {
+          this.appointment = response.data.map(this.getDisplayAppointment);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+        }
     },
 
     refreshList() {
@@ -139,11 +153,15 @@ export default {
 
       download(id){
         console.log(id);
-      }
+      },
+      editAppointment(id) {
+        this.$router.push({ name: "edit-appointment", params: { id: id } });
+    },
   },
   async mounted() {
     await AuthenticationService.getCurrentlyLoggedUser().then((response)=>{  
       this.userId = response.data.id;
+      this.isAdmin = response.data.is_superuser;
       }).catch((e)=>{
         console.log(e);
       });

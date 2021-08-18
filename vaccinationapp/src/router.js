@@ -74,6 +74,11 @@ export default new Router({
       name: "edit-office",
       component: () => import("./views/EditOffice")
       },
+    {
+      path: "/edit-appointment/:id",
+      name: "edit-appointment",
+      component: () => import("./views/EditAppointment")
+    },
   ]
 
 });
