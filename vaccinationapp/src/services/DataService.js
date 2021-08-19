@@ -34,6 +34,14 @@ class DataService {
     }}
     )
   }
+  getAllOfficesforUser(personid) {
+    return axios.get(endpoint.baseURL+`office/user/${personid}`,{
+    },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    )
+  }
   getOffice(id) {
     return axios.get(endpoint.baseURL+`office/${id}/`,{
     },{

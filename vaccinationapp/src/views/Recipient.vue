@@ -121,7 +121,7 @@ export default {
         { text: "Prenume", value: "name", align: "center", sortable: true },
         { text: "CNP", value: "cnp", align: "center", sortable: false },
         { text: "Cod identificare", value: "id", align: "center", sortable: false },
-        { text: "Nr. ordine pe lista de așteptare", value: "", align: "center", sortable: false },
+        { text: "Nr. ordine pe lista de așteptare", value: "waiting", align: "center", sortable: false },
         { text: "Acțiuni", value: "actions", align: "center",sortable: false },
       ],
     };
@@ -190,7 +190,7 @@ export default {
         name: person.name.length > 30 ? person.name.substr(0, 30) + "..." : person.name,
         cnp: person.cnp,
         id: person.id,
-
+        waiting : person.waitingList,
       };
     },
   },

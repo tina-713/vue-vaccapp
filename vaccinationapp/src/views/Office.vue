@@ -41,14 +41,21 @@
             disable-pagination
             :hide-default-footer="true"
             class="elevation-1">
+            
+            <template  v-slot:[`item.actions`]="{ item }">
+              <div v-if="!isAppointed && !isWaitingList">
+                <div v-if="item.spots>0" align="center">
+                <v-btn class="white--text" small color="blue" @click="makeAppointment(item.id)">Programare</v-btn>
+                </div>
+                <div v-else>
+                  <v-btn class="white--text" small color="red" @click="makeWaitingList(item.id)">Lista de Asteptare</v-btn>
+                </div>
 
-            <template v-slot:[`item.actions`]="{ item }">
-              <div v-if="item.spots>0" align="center">
-              <v-btn class="white--text" small color="blue" @click="makeAppointment(item.id)">Prorgramare</v-btn>
-              </div>
-              <div v-else>
-                <v-btn class="white--text" small color="red" @click="makeWaitingList(item.id)">Lista de Asteptare</v-btn>
-              </div>
+               </div>
+               <div v-else>
+                 <v-btn class="white--text" small color="red" v-if="item.isWaitingList" @click="cancelWaitingList(item.id)">Cancel Waiting List</v-btn>
+                 <v-btn class="white--text" small color="red" v-if="item.isAppointed" @click="cancelAppointment(item.id)">Cancel Appointment </v-btn>
+               </div>
     <v-dialog
       v-model="dialog"
       persistent
@@ -80,7 +87,7 @@
       </v-card>
     </v-dialog>
             </template>
-
+            
           </v-data-table>
         </v-card>
       </v-col>
@@ -100,6 +107,8 @@
 
 import DataService from "../services/DataService";
 import AppointmentService from "../services/AppointmentService";
+import AuthenticationService from "../services/AuthenticationService";
+
 export default {
   name: "offices",
   data() {
@@ -107,7 +116,10 @@ export default {
       office: [],
       search: '',
       county: "",
+      isAdmin:false,
       dialog:false,
+      isAppointed:false,
+      isWaitingList:false,
       snackbar: {
                 show: false,
                 message: null,
@@ -122,6 +134,7 @@ export default {
         { text: "Locuri libere", value: "spots", align: "center", sortable: true },
         // { text: "Listă de așteptare", value: "", align: "center", sortable: true },
         { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: true },
+        { text: "Lista Asteptare", value: "waiting", align: "center", sortable: true },
         { text: "Acțiuni", value: "actions", align: "center",sortable: false },
       ],
     };
@@ -129,13 +142,31 @@ export default {
 
   methods: {
     retrieveOffices() {
+      if (this.isAdmin){
       DataService.getAllOffices().then((response) => {
           this.office = response.data.map(this.getDisplayOffice)
-          console.log(response.data);
+
         })
         .catch((e) => {
           console.log(e);
         });
+        }
+        else{
+          DataService.getAllOfficesforUser(this.$route.params.personId).then((response) => {
+          this.office = response.data.map(this.getDisplayOffice)
+           for (const x of response.data){
+             if(x['isAppointed']){
+               this.isAppointed= true;
+             }
+             if(x['isWaitingList']){
+               this.isWaitingList= true;
+             }
+           }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+        }
     },
 
      refreshList() {
@@ -164,6 +195,29 @@ export default {
           console.log(e);
         });
     },
+    cancellAppointment(item){
+      var appointment = {
+        id: item.id,
+        status: "anulata",
+        kind: item.kind,
+        office: item.office.id,
+        time: item.time,
+      };
+
+      AppointmentService.putStatus(appointment).then((response) => {
+        console.log(response.data);
+        this.snackbar = {
+                      message: 'Programare anulată cu succes.',
+                      color: 'success',
+                      show: true
+                  };
+         this.dialog=false;
+        this.refreshList();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      },
      getDisplayOffice(office) {
       return {
         id: office.id,
@@ -173,12 +227,21 @@ export default {
         // address: office.address,
         // phone: office.phone,
         spots: office.spots,
-        vaccine: office.vaccine.name
+        vaccine: office.vaccine.name,
+        waiting:office.waitingList,
+        isWaitingList:office.isWaitingList,
+        isAppointed: office.isAppointed
       };
     },
   },
   
-  mounted() {
+  async mounted() {
+    await AuthenticationService.getCurrentlyLoggedUser().then((response)=>{  
+      this.userId = response.data.id;
+      this.isAdmin = response.data.is_superuser;
+      }).catch((e)=>{
+        console.log(e);
+      });
     this.retrieveOffices();
   },
 };

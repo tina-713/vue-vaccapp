@@ -28,7 +28,7 @@
         Creează Cont
       </v-btn>
 
-      <v-btn class="custom-btn" v-if="loggedIn" text>
+      <v-btn class="custom-btn" v-if="loggedIn" @click="logOut" to="/login" text>
         Deconectare
       </v-btn>
   
@@ -51,13 +51,20 @@ export default{
     isAdmin : false,
     }
   },
+   methods:
+  {
+    logOut()
+    {
+      localStorage.removeItem('user');
+    }
+  },
   async mounted(){
     await AuthenticationService.getCurrentlyLoggedUser().then((response)=>{  
       this.isAdmin = response.data.is_superuser;
       }).catch((e)=>{
         console.log(e);
       });
-  }
+  },
 }
 </script>
 
