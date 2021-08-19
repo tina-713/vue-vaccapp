@@ -17,13 +17,13 @@
 <div class="submit-form mt-3 mx-auto">
     <p class ="benef" align="center">Editează Beneficiar</p>
     <div v-if="!submitted">
-      <v-form ref="form" lazy-validation>
+      <v-form ref="form" v-model="isFormValid" lazy-validation>
         
         <div class="row">
           <div class="col">
           <v-text-field
             v-model="currentRecipient.last_name"
-            :rules="[(v) => !!v || 'Câmp obligatoriu']"
+            :rules="lastRules"
             label="Nume"
             required
             dense>
@@ -33,7 +33,7 @@
           <div class="col">
             <v-text-field
               v-model="currentRecipient.name"
-              :rules="[(v) => !!v || 'Câmp obligatoriu']"
+              :rules="nameRules"
               label="Prenume"
               required>
               </v-text-field>
@@ -147,12 +147,23 @@
 
        <v-layout align-center justify-center>
         <v-btn
+        :disabled="!isFormValid"
         class="white--text"
         width="120" 
         elevation="5" 
         color="deep-orange"
-        v-on:click.stop.prevent="updateRecipient">Salvează</v-btn>
+        v-on:click.stop.prevent="updateRecipient; snackbar.show = false">Salvează</v-btn>
        </v-layout>
+
+       <v-snackbar 
+          :timeout="3000"
+          bottom
+          outlined
+          :color="snackbar.color" 
+          v-model="snackbar.show">
+            {{ snackbar.message }}
+        </v-snackbar>
+
     </div>
 
   </div>
@@ -167,6 +178,7 @@ export default{
   name: "edit-recipient",
   data() {
     return {
+      isFormValid: false,
       counties:[],
       cities:[],
       categories:[],
@@ -176,21 +188,34 @@ export default{
       selectedCategory: null,
       gen:['M','F'],
       submitted: false,
+      snackbar: {
+                show: false,
+                message: null,
+                color: null,
+            },
       emailRules: [
           value => !!value || 'Câmp obligatoriu!',
           v => /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'Introduceți un email valid!',
         ],
         phoneRules:[
           value => !!value || 'Câmp obligatoriu!',
-          v => v.length >= 10  || 'Introduceți un număr de telefon valid!',
+          v => v.length == 10  || 'Introduceți un număr de telefon valid!',
         ],
         cnpRules:[
           value => !!value || 'Câmp obligatoriu!',
-          v => v.length >= 13  || 'Introduceți un CNP valid!',
+          v => v.length == 13  || 'Introduceți un CNP valid!',
         ],
         ageRules:[
           value => !!value || 'Câmp obligatoriu!',
           v => v >= 18  || 'Vârsta minimă este 18 ani!',
+        ],
+        lastRules: [
+          value => !!value || 'Câmp obligatoriu!',
+          v => v.length <= 60 || "Numele este prea lung!",
+        ],
+        nameRules: [
+          value => !!value || 'Câmp obligatoriu!',
+          v => v.length <= 60 || "Prenumele este prea lung!",
         ],
     };
 },
@@ -259,10 +284,20 @@ methods:
     updateRecipient() {
       RecipientService.putRecipient(this.currentRecipient.id, this.currentRecipient)
         .then((response) => {
+          this.snackbar = {
+                      message: 'Succes.',
+                      color: 'success',
+                      show: true
+                  }
           this.$router.push('/recipient');
           console.log(response.data);
         })
         .catch((e) => {
+          this.snackbar = {
+                      message: 'Eroare.',
+                      color: 'error',
+                      show: true
+                    }
           console.log(e);
         });
     },

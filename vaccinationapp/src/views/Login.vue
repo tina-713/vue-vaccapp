@@ -9,7 +9,7 @@
                 <h1 class="mb-2">Autentificare</h1>
               </div>
               <v-card-text>
-                <v-form>
+                <v-form v-model="isFormValid">
                   <v-text-field 
                     label="Introduceți adresa de email" 
                     name="email" 
@@ -36,12 +36,13 @@
                   </v-text-field>
                   <router-link to="/forgot-password">Ți-ai uitat parola?</router-link>
                   <v-btn 
+                    :disabled="!isFormValid"
                     class="rounded-0" 
                     color="#000000" 
                     x-large 
                     block 
                     dark 
-                    v-on:click="login">
+                    v-on:click="login; snackbar.show = false">
                   Conectează-te</v-btn>
                   <v-card-actions class="text--secondary">
                     <v-spacer></v-spacer>
@@ -50,6 +51,14 @@
                   </v-card-actions>
                 </v-form>
               </v-card-text>
+              <v-snackbar 
+                :timeout="3000"
+                bottom
+                outlined
+                :color="snackbar.color" 
+                v-model="snackbar.show">
+                  {{ snackbar.message }}
+              </v-snackbar>
             </v-card>
           </v-col>
         </v-row>
@@ -67,6 +76,12 @@ export default {
     show2: false,
     email : "",
     password : "",
+    isFormValid: false,
+    snackbar: {
+                show: false,
+                message: null,
+                color: null,
+            },
     rules: {
       required: value => !!value || 'Câmp obligatoriu!',
       min: v => v.length >= 6,
@@ -81,11 +96,21 @@ methods:{
 login(){
     AuthenticationService.postLogin(this.email,this.password)
     .then(response =>{
-       localStorage.setItem('user', JSON.stringify(response));
-       this.$router.push('/home');
-       console.log(response.data.access);
+      this.snackbar = {
+                        message: 'Succes.',
+                        color: 'success',
+                        show: true
+                    }
+      localStorage.setItem('user', JSON.stringify(response));
+      this.$router.push('/home');
+      //  console.log(response.data.access);
     })
    .catch(e => {
+     this.snackbar = {
+                      message: 'Ați introdus credențialele greșite!',
+                      color: 'error',
+                      show: true
+                    }
     console.log(e);
 
    })

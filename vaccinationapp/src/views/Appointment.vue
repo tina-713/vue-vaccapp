@@ -124,6 +124,7 @@
         sm="6"
       >
         <v-dialog
+          persistent
           v-model="modal1"
           scrollable
           max-width="450px"
@@ -160,6 +161,7 @@
         </v-dialog>
 
         <v-dialog
+          persistent
           v-model="modal2"
           scrollable
           max-width="450px"

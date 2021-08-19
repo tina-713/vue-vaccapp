@@ -9,7 +9,7 @@
                 <h1 class="mb-2">Creează Cont</h1>
               </div>
               <v-card-text>
-                <v-form>
+                <v-form v-model="isFormValid">
                   <v-text-field 
                     label="Introduceți adresa de email" 
                     name="email" 
@@ -36,7 +36,7 @@
                     v-model="password" 
                     value="password">
                    </v-text-field>
-                  <v-btn class="rounded-0" color="#000000" x-large block dark v-on:click="register">Înscrie-te</v-btn>
+                  <v-btn :disabled="!isFormValid" class="rounded-0" color="#000000" x-large block dark v-on:click="register">Înscrie-te</v-btn>
                   <v-card-actions class="text--secondary">
                     <v-spacer></v-spacer>
                     Ai deja cont? <a href="#" class="pl-2" style="color: #000000"></a>
@@ -61,6 +61,7 @@ export default {
     show2: false,
     email : "",
     password : "",
+    isFormValid: false,
     rules: {
       required: value => !!value || 'Câmp obligatoriu!',
       min: v => v.length >= 6 || 'Minim 6 caractere.',
@@ -74,13 +75,12 @@ export default {
 methods:{
 register(){
     AuthenticationService.postRegister(this.email,this.password)
-    .then(response =>{
+    .then(() =>{
        this.$router.push('/login');
-       console.log(response);
     })
    .catch(e => {
     console.log(e);
-   })
+   });
   },
 
   onEnter: function() {

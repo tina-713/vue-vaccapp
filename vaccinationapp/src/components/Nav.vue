@@ -27,6 +27,10 @@
       <v-btn class="custom-btn" v-if="!loggedIn" to="/register" text>
         Creează Cont
       </v-btn>
+
+      <v-btn class="custom-btn" v-if="loggedIn" text>
+        Deconectare
+      </v-btn>
   
     </v-app-bar>
     

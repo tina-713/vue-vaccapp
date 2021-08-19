@@ -17,13 +17,13 @@
 <div class="submit-form mt-3 mx-auto">
     <p class ="benef" align="center">Adaugă Beneficiar</p>
     <div v-if="!submitted">
-      <v-form ref="form" lazy-validation>
+      <v-form ref="form" v-model="isFormValid" lazy-validation>
         
         <div class="row">
           <div class="col">
           <v-text-field
             v-model="last_name"
-            :rules="[(v) => !!v || 'Câmp obligatoriu']"
+            :rules="lastRules"
             label="Nume"
             required
             dense>
@@ -33,7 +33,7 @@
           <div class="col">
             <v-text-field
               v-model="name"
-              :rules="[(v) => !!v || 'Câmp obligatoriu']"
+              :rules="nameRules"
               label="Prenume"
               required
               dense>
@@ -148,12 +148,23 @@
 
        <v-layout align-center justify-center>
         <v-btn
+        :disabled="!isFormValid"
         class="white--text"
         width="120" 
         elevation="5" 
         color="deep-orange"
-        v-on:click.stop.prevent="savePerson">Salvează</v-btn>
+        v-on:click.stop.prevent="savePerson; snackbar.show = false">Salvează</v-btn>
        </v-layout>
+
+        <v-snackbar 
+          :timeout="3000"
+          bottom
+          outlined
+          :color="snackbar.color" 
+          v-model="snackbar.show">
+            {{ snackbar.message }}
+        </v-snackbar>
+
     </div>
 
   </div>
@@ -170,6 +181,7 @@ export default {
   data() {
     return {
       // person: {
+        isFormValid: false,
         id: null,
         user: null,
         name: "",
@@ -188,6 +200,11 @@ export default {
         selectedCounty: null,
         selectedCity: null,
         selectedCategory: null,
+        snackbar: {
+                show: false,
+                message: null,
+                color: null,
+            },
       // },
         submitted: false,
         emailRules: [
@@ -196,15 +213,23 @@ export default {
         ],
         phoneRules:[
           value => !!value || 'Câmp obligatoriu!',
-          v => v.length >= 10  || 'Introduceți un număr de telefon valid!',
+          v => v.length == 10  || 'Introduceți un număr de telefon valid!',
         ],
         cnpRules:[
           value => !!value || 'Câmp obligatoriu!',
-          v => v.length >= 13  || 'Introduceți un CNP valid!',
+          v => v.length == 13  || 'Introduceți un CNP valid!',
         ],
         ageRules:[
           value => !!value || 'Câmp obligatoriu!',
           v => v >= 18  || 'Vârsta minimă este 18 ani!',
+        ],
+        lastRules: [
+          value => !!value || 'Câmp obligatoriu!',
+          v => v.length <= 60 || "Numele este prea lung!",
+        ],
+        nameRules: [
+          value => !!value || 'Câmp obligatoriu!',
+          v => v.length <= 60 || "Prenumele este prea lung!",
         ],
     };
   },
@@ -257,17 +282,38 @@ export default {
      
       RecipientService.postRecipient(person)
         .then((response) => {
+          this.snackbar = {
+                      message: 'Succes.',
+                      color: 'success',
+                      show: true
+                  }
           this.$router.push('/recipient');
           this.person.id = response.data.id;
-          console.log(response.data);
+          // console.log(response.data);
           this.submitted = true;
         })
         .catch((e) => {
+           this.snackbar = {
+                      message: 'Eroare.',
+                      color: 'error',
+                      show: true
+                    }
           console.log(e);
         });
     },
-  },
 
+      capitalizeFirstLetter: (str) => {
+          return str.charAt(0).toUpperCase() + str.slice(1);
+        },
+  },
+      watch: {
+        last_name: function(newValue) {
+          this.last_name = this.capitalizeFirstLetter(newValue);
+        },
+        name: function(newValue) {
+          this.name = this.capitalizeFirstLetter(newValue);
+        },
+      },
 };
 
 </script>

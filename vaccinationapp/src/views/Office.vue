@@ -72,7 +72,7 @@
           <v-btn
             color="deep-orange"
             text
-            @click="postWList((item.id))"
+            @click="postWList((item.id)); snackbar.show = false"
           >
             înscrie
           </v-btn>
@@ -85,6 +85,14 @@
         </v-card>
       </v-col>
     </v-row>
+        <v-snackbar 
+          :timeout="3000"
+          bottom
+          outlined
+          :color="snackbar.color" 
+          v-model="snackbar.show">
+            {{ snackbar.message }}
+        </v-snackbar>
   </div>
 </template>
 
@@ -100,6 +108,11 @@ export default {
       search: '',
       county: "",
       dialog:false,
+      snackbar: {
+                show: false,
+                message: null,
+                color: null,
+            },
       headers: [
         { text: "Nume", value: "name", align: "center", sortable: false},
         { text: "Județ", value: "county", align: "center", sortable: true },
@@ -132,7 +145,6 @@ export default {
       this.$router.push({ name: "office-id", params: {id: id } });
     },
     makeWaitingList() {
-
       this.dialog = true
     },
     postWList(id){
@@ -140,10 +152,13 @@ export default {
       let wlist = {
         person :this.$route.params.personId,
         office : id
-
       };
-      AppointmentService.postWaitingList(wlist).then((response) => {
-          console.log(response.data);
+      AppointmentService.postWaitingList(wlist).then(() => {
+          this.snackbar = {
+                      message: 'V-ați înscris cu succes pe lista de așteptare.',
+                      color: 'success',
+                      show: true
+                  }
         })
         .catch((e) => {
           console.log(e);

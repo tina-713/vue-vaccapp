@@ -51,7 +51,7 @@
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon class="float-right" v-if="item.status == 'in curs'" v-on="on" medium color="red" @click="cancellAppointment(item)">mdi-close-thick</v-icon>
+                  <v-icon class="float-right" v-if="item.status == 'in curs'" v-on="on" medium color="red" @click="Cancel(item)">mdi-close-thick</v-icon>
                 </template>
                   <span>Anulează programarea</span>
               </v-tooltip>
@@ -61,12 +61,50 @@
                 </template>
                   <span>Editeaza programarea</span>
               </v-tooltip>
+            
+            <v-dialog
+      v-model="dialog"
+      persistent
+      max-width="400"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          Sunteți sigur că doriți să anulați această programare?
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="deep-orange"
+            text
+            @click="dialog = false"
+          >
+            nu
+          </v-btn>
+          <v-btn
+            color="deep-orange"
+            text
+            @click="cancellAppointment((item)); snackbar.show = false"
+          >
+            da
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+            
             </template>
 
           </v-data-table>
         </v-card>
       </v-col>
     </v-row>
+      <v-snackbar 
+        :timeout="3000"
+        bottom
+        outlined
+        :color="snackbar.color" 
+        v-model="snackbar.show">
+          {{ snackbar.message }}
+      </v-snackbar>
   </div>
 </template>
 
@@ -78,10 +116,16 @@ export default {
   name: "my-appointments",
   data() {
     return {
+      dialog:false,
       userId:"",
       appointment: [],
       search: '',
       isAdmin:false,
+      snackbar: {
+                show: false,
+                message: null,
+                color: null,
+            },
       headers: [
         { text: "Beneficiar", value: "person", align: "center", sortable: true},
         { text: "Tip programare", value: "kind", align: "center", sortable: false },
@@ -131,8 +175,10 @@ export default {
       };
     },
 
+    Cancel(){
+      this.dialog = true
+    },
     cancellAppointment(item){
-      console.log(item)
       var appointment = {
         id: item.id,
         status: "anulata",
@@ -141,9 +187,14 @@ export default {
         time: item.time,
       };
 
-
       AppointmentService.putStatus(appointment).then((response) => {
         console.log(response.data);
+        this.snackbar = {
+                      message: 'Programare anulată cu succes.',
+                      color: 'success',
+                      show: true
+                  };
+         this.dialog=false;
         this.refreshList();
         })
         .catch((e) => {

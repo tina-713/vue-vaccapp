@@ -73,7 +73,7 @@
           <v-btn
             color="deep-orange"
             text
-            @click="deleteRec((item.id))"
+            @click="deleteRec((item.id)); snackbar.show = false"
           >
             Șterge
           </v-btn>
@@ -85,6 +85,14 @@
           </v-data-table>
         </v-card>
       </v-col>
+        <v-snackbar 
+          :timeout="3000"
+          bottom
+          outlined
+          :color="snackbar.color" 
+          v-model="snackbar.show">
+            {{ snackbar.message }}
+        </v-snackbar>
     </v-row>
   </div>
 </template>
@@ -103,6 +111,11 @@ export default {
       search: '',
       dialog:false,
       isAdmin:false,
+      snackbar: {
+                show: false,
+                message: null,
+                color: null,
+            },
       headers: [
         { text: "Nume", value: "last_name", align: "center", sortable: true},
         { text: "Prenume", value: "name", align: "center", sortable: true },
@@ -153,10 +166,20 @@ export default {
     deleteRec(id) {
         RecipientService.deleteRecipient(id)
           .then(() => {
+            this.snackbar = {
+                    message: 'Beneficiar șters.',
+                    color: 'success',
+                    show: true
+                  }
             this.dialog=false;
             this.refreshList();
           })
           .catch((e) => {
+            this.snackbar = {
+                      message: 'Eroare',
+                      color: 'error',
+                      show: true
+                    }
             console.log(e);
           });
     },
