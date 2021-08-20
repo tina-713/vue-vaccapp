@@ -139,7 +139,6 @@ export default {
           });
     },
     makeWaitingList() {
-
       this.dialog = true
     },
     postWList(id){

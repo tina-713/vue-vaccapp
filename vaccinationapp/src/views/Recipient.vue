@@ -164,6 +164,8 @@ export default {
       this.dialog = true
     },
     deleteRec(id) {
+      this.dialog=false;
+
         RecipientService.deleteRecipient(id)
           .then(() => {
             this.snackbar = {
@@ -171,7 +173,6 @@ export default {
                     color: 'success',
                     show: true
                   }
-            this.dialog=false;
             this.refreshList();
           })
           .catch((e) => {

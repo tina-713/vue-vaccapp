@@ -50,14 +50,14 @@
                 <div v-else>
                   <v-btn class="white--text" small color="red" @click="makeWaitingList(item.id)">Lista de Asteptare</v-btn>
                 </div>
-
                </div>
+
                <div v-else>
-                 <v-btn class="white--text" small color="red" v-if="item.isWaitingList" @click="cancelWaitingList(item.id)">Cancel Waiting List</v-btn>
-                 <v-btn class="white--text" small color="red" v-if="item.isAppointed" @click="cancelAppointment(item.id)">Cancel Appointment </v-btn>
+                 <v-btn class="white--text" small color="red" v-if="item.isWaitingList" @click="Delete(item.id)">Părăsește lista</v-btn>
+                 <v-btn class="white--text" small color="red" v-if="item.isAppointed" @click="Cancel(item.id)">Anulează programarea</v-btn>
                </div>
     <v-dialog
-      v-model="dialog"
+      v-model="dialogWList"
       persistent
       max-width="300"
     >
@@ -72,7 +72,7 @@
           <v-btn
             color="deep-orange"
             text
-            @click="dialog = false"
+            @click="dialogWList = false"
           >
             anulează
           </v-btn>
@@ -82,6 +82,65 @@
             @click="postWList((item.id)); snackbar.show = false"
           >
             înscrie
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog
+      v-model="dialogDeleteWList"
+      persistent
+      max-width="390"
+    >
+    
+      <v-card>
+        <v-card-title class="text-h5">
+          Sunteți sigur că vreți să părăsiți lista de așteptare?
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="deep-orange"
+            text
+            @click="dialogDeleteWList = false"
+          >
+            nu
+          </v-btn>
+          <v-btn
+            color="deep-orange"
+            text
+            @click="deleteWList((item.id)); snackbar.show = false"
+          >
+            da
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog
+      v-model="dialogCancelAp"
+      persistent
+      max-width="400"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          Sunteți sigur că doriți să anulați această programare?
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="deep-orange"
+            text
+            @click="dialog = false"
+          >
+            nu
+          </v-btn>
+          <v-btn
+            color="deep-orange"
+            text
+            @click="cancellAppointment((item)); snackbar.show = false"
+          >
+            da
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -117,7 +176,10 @@ export default {
       search: '',
       county: "",
       isAdmin:false,
-      dialog:false,
+      dialogWList:false,
+      dialogDeleteWList: false,
+      dialogCancelApp:false,
+
       isAppointed:false,
       isWaitingList:false,
       snackbar: {
@@ -129,10 +191,7 @@ export default {
         { text: "Nume", value: "name", align: "center", sortable: false},
         { text: "Județ", value: "county", align: "center", sortable: true },
         { text: "Localitate", value: "city", align: "center", sortable: false },
-        // { text: "Adresă", value: "address", align: "center", sortable: false },
-        // { text: "Telefon", value: "phone", align: "center", sortable: false },
         { text: "Locuri libere", value: "spots", align: "center", sortable: true },
-        // { text: "Listă de așteptare", value: "", align: "center", sortable: true },
         { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: true },
         { text: "Lista Asteptare", value: "waiting", align: "center", sortable: true },
         { text: "Acțiuni", value: "actions", align: "center",sortable: false },
@@ -176,10 +235,10 @@ export default {
       this.$router.push({ name: "office-id", params: {id: id } });
     },
     makeWaitingList() {
-      this.dialog = true
+      this.dialogWList = true
     },
     postWList(id){
-      this.dialog=false;
+      this.dialogWList=false;
       let wlist = {
         person :this.$route.params.personId,
         office : id
@@ -189,13 +248,19 @@ export default {
                       message: 'V-ați înscris cu succes pe lista de așteptare.',
                       color: 'success',
                       show: true
-                  }
+                  };
+          this.refreshList();
         })
         .catch((e) => {
           console.log(e);
         });
     },
+
+    Cancel(){
+      this.dialogCancelApp = true
+    },
     cancellAppointment(item){
+      this.dialogCancelAp = false;
       var appointment = {
         id: item.id,
         status: "anulata",
@@ -211,13 +276,40 @@ export default {
                       color: 'success',
                       show: true
                   };
-         this.dialog=false;
         this.refreshList();
         })
         .catch((e) => {
           console.log(e);
         });
       },
+
+      Delete(){
+      this.dialogDeleteWList = true;
+      },
+
+      deleteWList(id) {
+        this.dialogDeleteWList = false;
+
+        AppointmentService.deleteWaitingList(id)
+          .then(() => {
+            this.snackbar = {
+                    message: 'Ați părăsit lista de așteptare.',
+                    color: 'success',
+                    show: true
+                  }
+            console.log(id)
+            this.refreshList();
+          })
+          .catch((e) => {
+            this.snackbar = {
+                      message: 'Eroare',
+                      color: 'error',
+                      show: true
+                    }
+            console.log(e);
+          });
+    },
+
      getDisplayOffice(office) {
       return {
         id: office.id,

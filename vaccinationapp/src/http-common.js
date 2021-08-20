@@ -1,7 +1,7 @@
 
 
 const endpoint = ({
-  baseURL: "http://172.20.100.195:8000/",
+  baseURL: "http://172.31.14.135:8000/",
   withCredentials: false,
   headers: {
     "Content-type": "application/json"

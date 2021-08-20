@@ -179,6 +179,7 @@ export default {
       this.dialog = true
     },
     cancellAppointment(item){
+      this.dialog=false;
       var appointment = {
         id: item.id,
         status: "anulata",
@@ -194,7 +195,6 @@ export default {
                       color: 'success',
                       show: true
                   };
-         this.dialog=false;
         this.refreshList();
         })
         .catch((e) => {

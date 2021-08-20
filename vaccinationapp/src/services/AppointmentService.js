@@ -76,6 +76,14 @@ class AppointmentService {
     }}
     );
   }
+  deleteWaitingList(id){
+    return axios.delete(endpoint.baseURL+`waiting-list/${id}/`,{
+    },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
+  }
   putStatus(appointment){
     return axios.put(endpoint.baseURL+`appointment/${appointment.id}/`,{
       kind: appointment.kind,
