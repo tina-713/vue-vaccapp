@@ -109,7 +109,7 @@
           <v-btn
             color="deep-orange"
             text
-            @click="deleteWList((item.id)); snackbar.show = false"
+            @click="deleteWList((item)); snackbar.show = false"
           >
             da
           </v-btn>
@@ -260,7 +260,7 @@ export default {
       this.dialogCancelApp = true
     },
     cancellAppointment(item){
-      this.dialogCancelAp = false;
+      this.dialogCancelApp = false;
       var appointment = {
         id: item.id,
         status: "anulata",
@@ -287,17 +287,17 @@ export default {
       this.dialogDeleteWList = true;
       },
 
-      deleteWList(id) {
+      deleteWList(item) {
+        console.log(item);
         this.dialogDeleteWList = false;
 
-        AppointmentService.deleteWaitingList(id)
-          .then(() => {
+        AppointmentService.deleteWaitingList(item.id,this.$route.params.personId).then(() => {
             this.snackbar = {
                     message: 'Ați părăsit lista de așteptare.',
                     color: 'success',
                     show: true
                   }
-            console.log(id)
+
             this.refreshList();
           })
           .catch((e) => {

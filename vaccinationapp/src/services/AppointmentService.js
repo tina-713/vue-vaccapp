@@ -51,15 +51,8 @@ class AppointmentService {
     }}
     );
   }
-  getAppointment(id,person,office,kind,date,time,status,userId) {
+  getAppointment(userId) {
     return axios.get(endpoint.baseURL+`appointment/user/${userId}/`, {
-      id: id,
-      person: person,
-      kind: kind,
-      status: status,
-      office: office,
-      date: date,
-      time: time,
      },{
       headers:{
          Authorization:  `Bearer `+ user.data.access
@@ -76,8 +69,8 @@ class AppointmentService {
     }}
     );
   }
-  deleteWaitingList(id){
-    return axios.delete(endpoint.baseURL+`waiting-list/${id}/`,{
+  deleteWaitingList(id,personid){
+    return axios.delete(endpoint.baseURL+`waiting-list/person/${personid}/office/${id}`,{
     },{
       headers:{
          Authorization:  `Bearer `+ user.data.access

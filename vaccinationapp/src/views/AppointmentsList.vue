@@ -83,7 +83,7 @@
           <v-btn
             color="deep-orange"
             text
-            @click="cancellAppointment((item)); snackbar.show = false"
+            @click="cancellAppointment(dialogItem); snackbar.show = false"
           >
             da
           </v-btn>
@@ -117,6 +117,7 @@ export default {
   data() {
     return {
       dialog:false,
+      dialogItem:null,
       userId:"",
       appointment: [],
       search: '',
@@ -149,7 +150,7 @@ export default {
           console.log(e);
         });
       }else{
-      AppointmentService.getAppointment("","","","","","","",this.userId).then((response) => {
+      AppointmentService.getAppointment(this.userId).then((response) => {
           this.appointment = response.data.map(this.getDisplayAppointment);
         })
         .catch((e) => {
@@ -175,7 +176,8 @@ export default {
       };
     },
 
-    Cancel(){
+    Cancel(item){
+      this.dialogItem = item;
       this.dialog = true
     },
     cancellAppointment(item){
@@ -187,6 +189,7 @@ export default {
         office: item.office.id,
         time: item.time,
       };
+      print(item)
 
       AppointmentService.putStatus(appointment).then((response) => {
         console.log(response.data);
