@@ -45,7 +45,7 @@
             <template v-slot:[`item.actions`]="{ item }">
              <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon class="float-left" v-if="item.status != 'anulata'" v-on="on" medium color="blue" @click="download(item.status)">mdi-download</v-icon>
+                  <v-icon class="float-left" v-if="item.status != 'anulata'" v-on="on" medium color="blue" @click="download(item.id)">mdi-download</v-icon>
                 </template>
                     <span>Descarcă recipisa</span>
               </v-tooltip>
@@ -189,7 +189,7 @@ export default {
         office: item.office.id,
         time: item.time,
       };
-      print(item)
+  
 
       AppointmentService.putStatus(appointment).then((response) => {
         console.log(response.data);
@@ -203,10 +203,22 @@ export default {
         .catch((e) => {
           console.log(e);
         });
+        this.$router.go();
       },
 
       download(id){
-        console.log(id);
+        AppointmentService.getPdfAppointment(id).then((response) => {
+        console.log(response.data);
+        this.snackbar = {
+                      message: 'Programare anulată cu succes.',
+                      color: 'success',
+                      show: true
+                  };
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      
       },
       editAppointment(id) {
         this.$router.push({ name: "edit-appointment", params: { id: id } });

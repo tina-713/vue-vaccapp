@@ -45,16 +45,15 @@
             <template  v-slot:[`item.actions`]="{ item }">
               <div v-if="!isAppointed && !isWaitingList">
                 <div v-if="item.spots>0" align="center">
-                <v-btn class="white--text" small color="blue" @click="makeAppointment(item.id)">Programare</v-btn>
+                <v-btn class="white--text" small color="blue" @click="makeAppointment(item)">Programare</v-btn>
                 </div>
                 <div v-else>
-                  <v-btn class="white--text" small color="red" @click="makeWaitingList(item.id)">Lista de Asteptare</v-btn>
+                  <v-btn class="white--text" small color="red" @click="makeWaitingList(item)">Lista de Asteptare</v-btn>
                 </div>
                </div>
 
                <div v-else>
-                 <v-btn class="white--text" small color="red" v-if="item.isWaitingList" @click="Delete(item.id)">Părăsește lista</v-btn>
-                 <v-btn class="white--text" small color="red" v-if="item.isAppointed" @click="Cancel(item.id)">Anulează programarea</v-btn>
+                 <v-btn class="white--text" small color="red" v-if="item.isWaitingList" @click="Delete(item)">Părăsește lista</v-btn>
                </div>
     <v-dialog
       v-model="dialogWList"
@@ -79,7 +78,7 @@
           <v-btn
             color="deep-orange"
             text
-            @click="postWList((item.id)); snackbar.show = false"
+            @click="postWList((dialogItem)); snackbar.show = false"
           >
             înscrie
           </v-btn>
@@ -109,7 +108,7 @@
           <v-btn
             color="deep-orange"
             text
-            @click="deleteWList((item)); snackbar.show = false"
+            @click="deleteWList((dialogItem)); snackbar.show = false"
           >
             da
           </v-btn>
@@ -117,34 +116,6 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog
-      v-model="dialogCancelAp"
-      persistent
-      max-width="400"
-    >
-      <v-card>
-        <v-card-title class="text-h5">
-          Sunteți sigur că doriți să anulați această programare?
-        </v-card-title>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="deep-orange"
-            text
-            @click="dialog = false"
-          >
-            nu
-          </v-btn>
-          <v-btn
-            color="deep-orange"
-            text
-            @click="cancellAppointment((item)); snackbar.show = false"
-          >
-            da
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
             </template>
             
           </v-data-table>
@@ -176,6 +147,7 @@ export default {
       search: '',
       county: "",
       isAdmin:false,
+      dialogItem:null,
       dialogWList:false,
       dialogDeleteWList: false,
       dialogCancelApp:false,
@@ -231,17 +203,20 @@ export default {
      refreshList() {
       this.retrieveOffices();
     },
-    makeAppointment(id) {
-      this.$router.push({ name: "office-id", params: {id: id } });
+    makeAppointment(item) {
+      this.dialogItem= item;
+      this.$router.push({ name: "office-id", params: {id: item.id } });
     },
-    makeWaitingList() {
+    makeWaitingList(item) {
+      this.dialogItem = item;
       this.dialogWList = true
     },
-    postWList(id){
+    postWList(item){
+      console.log()
       this.dialogWList=false;
       let wlist = {
         person :this.$route.params.personId,
-        office : id
+        office : item.id
       };
       AppointmentService.postWaitingList(wlist).then(() => {
           this.snackbar = {
@@ -276,38 +251,38 @@ export default {
                       color: 'success',
                       show: true
                   };
-        this.refreshList();
+
         })
         .catch((e) => {
           console.log(e);
         });
       },
 
-      Delete(){
+      Delete(item){
+      this.dialogItem= item;
       this.dialogDeleteWList = true;
       },
 
       deleteWList(item) {
-        console.log(item);
         this.dialogDeleteWList = false;
-
         AppointmentService.deleteWaitingList(item.id,this.$route.params.personId).then(() => {
             this.snackbar = {
                     message: 'Ați părăsit lista de așteptare.',
                     color: 'success',
                     show: true
                   }
-
+           
             this.refreshList();
+            
           })
           .catch((e) => {
             this.snackbar = {
-                      message: 'Eroare',
+                      message: e,
                       color: 'error',
                       show: true
                     }
-            console.log(e);
           });
+          this.$router.go();
     },
 
      getDisplayOffice(office) {

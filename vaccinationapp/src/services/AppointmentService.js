@@ -104,6 +104,34 @@ class AppointmentService {
     }}
     );
   }
+  getPdfAppointment(id) {
+    
+    // return axios.get(endpoint.baseURL+`appointment/pdf/${id}/`,{
+    // },{
+    //   headers:{
+    //      Authorization:  `Bearer `+ user.data.access
+    // }}
+    // );
+
+    return axios({
+      url: endpoint.baseURL+`appointment/pdf/${id}/`,
+      method: 'GET',
+      responseType: 'blob',
+      headers: {
+        Authorization:  `Bearer `+ user.data.access
+      }
+  }).then((response) => {
+       var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+       var fileLink = document.createElement('a');
+    
+       fileLink.href = fileURL;
+       fileLink.setAttribute('download', 'Appointment.pdf');
+       document.body.appendChild(fileLink);
+     
+       fileLink.click();
+  });
+
+  }
 }
 
 export default new AppointmentService();
