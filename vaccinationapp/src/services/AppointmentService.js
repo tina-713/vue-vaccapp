@@ -104,6 +104,22 @@ class AppointmentService {
     }}
     );
   }
+  getAllAppointmentsForOffice(id){
+    return axios.get(endpoint.baseURL+`appointment/office/${id}`, {
+    },{
+     headers:{
+        Authorization:  `Bearer `+ user.data.access
+   }}
+   );
+  }
+  getTodaysAppointmentsForOffice(id,date){
+    return axios.get(endpoint.baseURL+`appointment/office/${id}/${date}`, {
+    },{
+     headers:{
+        Authorization:  `Bearer `+ user.data.access
+   }}
+   );
+  }
   getPdfAppointment(id) {
     
     // return axios.get(endpoint.baseURL+`appointment/pdf/${id}/`,{
@@ -132,6 +148,35 @@ class AppointmentService {
   });
 
   }
+  getPdfAppointmentsToday(office,date) {
+    
+    // return axios.get(endpoint.baseURL+`appointment/pdf/${id}/`,{
+    // },{
+    //   headers:{
+    //      Authorization:  `Bearer `+ user.data.access
+    // }}
+    // );
+
+    return axios({
+      url: endpoint.baseURL+`appointments/pdf/${office}/${date}`,
+      method: 'GET',
+      responseType: 'blob',
+      headers: {
+        Authorization:  `Bearer `+ user.data.access
+      }
+  }).then((response) => {
+       var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+       var fileLink = document.createElement('a');
+    
+       fileLink.href = fileURL;
+       fileLink.setAttribute('download', 'Appointment.pdf');
+       document.body.appendChild(fileLink);
+     
+       fileLink.click();
+  });
+
+  }
+  
 }
 
 export default new AppointmentService();

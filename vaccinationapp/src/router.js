@@ -47,8 +47,6 @@ export default new Router({
     name: "edit-recipient",
     component: () => import("./views/EditRecipient")
     },
-
-
     {
       path: "/office/:personId",
       name: "office",
@@ -78,6 +76,11 @@ export default new Router({
       path: "/edit-appointment/:id",
       name: "edit-appointment",
       component: () => import("./views/EditAppointment")
+    },
+    {
+      path: "/office-appointments/:id",
+      name: "office-appointments",
+      component: () => import("./views/AdminOfficeAppointments")
     },
   ]
 

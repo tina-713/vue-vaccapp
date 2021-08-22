@@ -42,43 +42,29 @@
             :hide-default-footer="true"
             class="elevation-1">
 
-            <template v-slot:[`item.actions`]="{ item }">
-              
-              <v-btn class="white--text" small color="blue" @click="editOffice(item.id)">Edit</v-btn>
-              <v-btn class="white--text" small color="red" @click="deleteOffice(item.id)">Delete</v-btn>
-              
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="300"
-    >
-    
-      <v-card>
-        <v-card-title class="text-h5">
-          Sunteți sigur că vreți să va înscrieți pe lista de așteptare?
-        </v-card-title>
-        <v-card-text>Momentan centrul ales nu dispune de locuri libere. Aveți posibilitatea de a vă înscrie pe lista de așteptare a acestuia sau de a vă programa la un alt centru unde acțiunea "PROGRAMARE" este vizibilă.</v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="deep-orange"
-            text
-            @click="dialog = false"
-          >
-            anulează
-          </v-btn>
-          <v-btn
-            color="deep-orange"
-            text
-            @click="postWList((item.id))"
-          >
-            înscrie
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-            </template>
 
+            <template v-slot:[`item.actions`]="{ item }">
+             <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-icon  v-on="on" medium color="blue" @click="getAppontmentsOffices(item.id)">mdi-eye</v-icon>
+                </template>
+                    <span>See Office Apointments</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-icon  v-on="on" medium color="red" @click="editOffice(item.id)">mdi-pen</v-icon>
+                </template>
+                  <span>Edit office</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-icon  v-on="on" medium color="red" @click="deleteOffice(item.id)">mdi-close-thick</v-icon>
+                </template>
+                  <span>Delete office</span>
+              </v-tooltip>
+              </template>
+            
+          
           </v-data-table>
         </v-card>
       </v-col>
@@ -125,6 +111,9 @@ export default {
 
      refreshList() {
       this.retrieveOffices();
+    },
+    getAppontmentsOffices(id){
+      this.$router.push({ name: "office-appointments", params: { id: id } });
     },
     editOffice(id) {
       this.$router.push({ name: "edit-office", params: { id: id } });
