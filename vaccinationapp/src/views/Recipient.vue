@@ -29,21 +29,20 @@
             :items="person"
             :search="search"
             disable-pagination
-            :hide-default-footer="true"
+            :hide-default-footer="false"
             class="elevation-1">
 
             <template v-slot:[`item.actions`]="{ item }">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                    <v-icon v-on="on" medium class="mr-2" color="blue" @click="editRecipient(item.id)">mdi-pencil</v-icon>
+                    <v-icon v-if="!isAdmin" v-on="on" medium class="mr-2" color="blue" @click="editRecipient(item.id)">mdi-pencil</v-icon>
                   </template>
                     <span>Editează</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon v-on="on" medium  class="mr-2" color="green" @click="appointmentRec(item.id)">mdi-clock-outline</v-icon>
-                </template>
-                  <span>Programează-te</span>
+                  <v-icon v-if="!isAdmin" v-on="on" medium  class="mr-2" color="green" @click="appointmentRec(item.id)">mdi-clock-outline</v-icon>
+                </template>                  <span>Programează-te</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">

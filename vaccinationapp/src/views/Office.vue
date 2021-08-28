@@ -38,8 +38,7 @@
             :headers="headers"
             :items="office"
             :search="search"
-            disable-pagination
-            :hide-default-footer="true"
+            :hide-default-footer="false"
             class="elevation-1">
             
             <template  v-slot:[`item.actions`]="{ item }">

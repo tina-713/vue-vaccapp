@@ -38,28 +38,27 @@
             :headers="headers"
             :items="appointment"
             :search="search"
-            disable-pagination
-            :hide-default-footer="true"
+            :hide-default-footer="false"
             class="elevation-1">
 
             <template v-slot:[`item.actions`]="{ item }">
              <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon class="float-left" v-if="item.status != 'anulata'" v-on="on" medium color="blue" @click="download(item.id)">mdi-download</v-icon>
+                  <v-icon v-if="item.status != 'anulata'" v-on="on" medium color="blue" @click="download(item.id)">mdi-download</v-icon>
                 </template>
                     <span>Descarcă recipisa</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon class="float-right" v-if="item.status == 'in curs'" v-on="on" medium color="red" @click="Cancel(item)">mdi-close-thick</v-icon>
+                  <v-icon v-if="isAdmin" v-on="on" medium color="green" @click="editAppointment(item.id)">mdi-pen</v-icon>
                 </template>
-                  <span>Anulează programarea</span>
+                  <span>Editează programarea</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon class="float-right" v-if="isAdmin" v-on="on" medium color="red" @click="editAppointment(item.id)">mdi-pen</v-icon>
+                  <v-icon v-if="item.status == 'in curs'" v-on="on" medium color="red" @click="Cancel(item)">mdi-close-thick</v-icon>
                 </template>
-                  <span>Editeaza programarea</span>
+                  <span>Anulează programarea</span>
               </v-tooltip>
             
             <v-dialog

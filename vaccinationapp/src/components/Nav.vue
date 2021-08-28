@@ -15,7 +15,7 @@
         Programări
       </v-btn>
       <v-btn class="custom-btn" v-if="isAdmin" to="/admin-offices" text>
-        Offices
+        Centre
       </v-btn>
   
       <v-spacer></v-spacer>

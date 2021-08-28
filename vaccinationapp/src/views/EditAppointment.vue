@@ -15,7 +15,7 @@
   </v-container>
 
 <div class="submit-form mt-3 mx-auto">
-    <p class ="Appointment" align="center">Editează Appointment</p>
+    <p class ="Appointment" align="center">Editează Programare</p>
     <div v-if="!submitted">
       <v-form ref="form" lazy-validation>
         
@@ -31,12 +31,14 @@
           </div>
 
           <div class="col">
-            <v-text-field
-              v-model="currentAppointment.kind"
-              :rules="[(v) => !!v || 'Câmp obligatoriu']"
-              label="Tip"
-              required>
-              </v-text-field>
+            <v-select
+          v-model="currentAppointment.kind"
+          :items="kindvac"
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          label="Tip"
+          required
+          dense>
+          </v-select>
           </div>
         </div>
 
@@ -151,12 +153,9 @@ export default{
     return {
       counties:[],
       cities:[],
-      categories:[],
       statuses:["finalizata","in curs","anulata"],
+      kindvac:["prima doza","rapel"],
       currentAppointment: null,
-      selectedCounty: null,
-      selectedCity: null,
-      selectedCategory: null,
       submitted: false,
     };
 },

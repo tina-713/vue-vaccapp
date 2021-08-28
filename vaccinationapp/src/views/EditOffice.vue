@@ -15,7 +15,7 @@
   </v-container>
 
 <div class="submit-form mt-3 mx-auto">
-    <p class ="office" align="center">Editează Office</p>
+    <p class ="office" align="center">Editează Centru de Vaccinare</p>
     <div v-if="!submitted">
       <v-form ref="form" lazy-validation>
         
@@ -34,7 +34,7 @@
             <v-text-field
               v-model="currentOffice.address"
               :rules="[(v) => !!v || 'Câmp obligatoriu']"
-              label="Adresa"
+              label="Adresă"
               required>
               </v-text-field>
           </div>
@@ -55,7 +55,7 @@
         <v-text-field
           v-model="currentOffice.spots"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
-          label="Locuri Libere"
+          label="Locuri libere"
           required
           dense>
           </v-text-field>
@@ -67,7 +67,7 @@
         <v-text-field
           v-model="currentOffice.hourlyLimit"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
-          label="Limita pe ora"
+          label="Limită pe ora"
           required
           dense>
           </v-text-field>

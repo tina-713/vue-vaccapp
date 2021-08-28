@@ -38,8 +38,7 @@
             :headers="headers"
             :items="office"
             :search="search"
-            disable-pagination
-            :hide-default-footer="true"
+            :hide-default-footer="false"
             class="elevation-1">
 
 
@@ -52,7 +51,7 @@
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon  v-on="on" medium color="red" @click="editOffice(item.id)">mdi-pen</v-icon>
+                  <v-icon  v-on="on" medium color="green" @click="editOffice(item.id)">mdi-pen</v-icon>
                 </template>
                   <span>Edit office</span>
               </v-tooltip>
