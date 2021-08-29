@@ -40,8 +40,8 @@
             :search="search"
             :hide-default-footer="false"
             class="elevation-1">
-            
             <template  v-slot:[`item.actions`]="{ item }">
+             
               <div v-if="!isAppointed && !isWaitingList">
                 <div v-if="item.spots>0" align="center">
                 <v-btn class="white--text" small color="blue" @click="makeAppointment(item)">Programare</v-btn>
@@ -54,6 +54,11 @@
                <div v-else>
                  <v-btn class="white--text" small color="red" v-if="item.isWaitingList" @click="Delete(item)">Părăsește lista</v-btn>
                </div>
+                <div v-if="!rapel && isAppointed">
+                 <div v-if="item.spots>0" align="center">
+                 <v-btn class="white--text" small color="green" @click="makeRapelAppointment(item)">Programare Rapel</v-btn>
+                 </div>
+              </div>
     <v-dialog
       v-model="dialogWList"
       persistent
@@ -150,9 +155,10 @@ export default {
       dialogWList:false,
       dialogDeleteWList: false,
       dialogCancelApp:false,
-
       isAppointed:false,
       isWaitingList:false,
+      rapelFromDate:null,
+      rapel : null,
       snackbar: {
                 show: false,
                 message: null,
@@ -191,6 +197,13 @@ export default {
              if(x['isWaitingList']){
                this.isWaitingList= true;
              }
+             if(x['rapel']){
+               this.rapel = true;
+             }
+             if(x['rapelFromDate']){
+               this.rapelFromDate = x['rapelFromDate'];
+             }
+             
            }
         })
         .catch((e) => {
@@ -202,13 +215,16 @@ export default {
      refreshList() {
       this.retrieveOffices();
     },
+    makeRapelAppointment(item){
+      this.$router.push({ name: "rapel-office-id", params: {id: item.id,rapelDate:this.rapelFromDate } });
+    },
     makeAppointment(item) {
       this.dialogItem= item;
       this.$router.push({ name: "office-id", params: {id: item.id } });
     },
     makeWaitingList(item) {
       this.dialogItem = item;
-      this.dialogWList = true
+      this.dialogWList = true;
     },
     postWList(item){
       console.log()

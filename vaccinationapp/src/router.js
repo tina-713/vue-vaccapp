@@ -58,6 +58,11 @@ export default new Router({
       component: () => import("./views/Appointment")
     },
     {
+      path: "/office/:personId/:id/:rapelDate",
+      name: "rapel-office-id",
+      component: () => import("./views/RapelAppointment")
+    },
+    {
       path: "/my-appointments",
       name: "my-appointments",
       component: () => import("./views/AppointmentsList")

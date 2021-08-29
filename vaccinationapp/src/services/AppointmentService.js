@@ -13,6 +13,15 @@ class AppointmentService {
     }}
     );
   }
+ 
+  getRapelAppointmentDate(id,date) {
+    return axios.get(endpoint.baseURL+`office/${id}/${date}/rapel`, {
+     },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
+  }
   getAppointmentHours(id,date) {
     return axios.get(endpoint.baseURL+`office/${id}/${date}/time`, {
      },{
