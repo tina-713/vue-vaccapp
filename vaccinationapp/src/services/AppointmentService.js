@@ -15,7 +15,7 @@ class AppointmentService {
   }
  
   getRapelAppointmentDate(id,date) {
-    return axios.get(endpoint.baseURL+`office/${id}/${date}/rapel`, {
+    return axios.get(endpoint.baseURL+`office/${id}/${date}/rapel/rapelDate`, {
      },{
       headers:{
          Authorization:  `Bearer `+ user.data.access
