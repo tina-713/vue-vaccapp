@@ -223,8 +223,8 @@ import AppointmentService from '../services/AppointmentService';
         dates:null,
         hourrange:null,
         hourrangerapel:null,
-        hour:"08",
-        hourRapel:"08",
+        hour:"07",
+        hourRapel:"07",
         office: null, 
         offices:[],
         headers: [
@@ -233,8 +233,8 @@ import AppointmentService from '../services/AppointmentService';
         { text: "Localitate", value: "city", align: "center", sortable: false},
         { text: "Adresă", value: "address", align: "center", sortable: false},
         { text: "Telefon", value: "phone", align: "center", sortable: false},
-        { text: "Locuri libere", value: "spots", align: "center", sortable: false},
         { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: false},
+        { text: "Locuri libere", value: "spots", align: "center", sortable: false},
       ],
       };
     },

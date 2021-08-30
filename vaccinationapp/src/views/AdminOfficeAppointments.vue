@@ -69,7 +69,12 @@
             :items="appointment"
             :search="search"
             :hide-default-footer="false"
+            :items-per-page="5"
             class="elevation-1">
+
+            <template slot="no-data">
+              <div></div>
+            </template>
 
             <template v-slot:[`item.actions`]="{ item }">
              <v-tooltip bottom>
@@ -103,7 +108,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            color="deep-orange"
+            color="grey darken-1"
             text
             @click="dialog = false"
           >

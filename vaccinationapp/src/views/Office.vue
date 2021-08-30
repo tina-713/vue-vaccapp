@@ -39,7 +39,25 @@
             :items="office"
             :search="search"
             :hide-default-footer="false"
+            :items-per-page="5"
             class="elevation-1">
+
+            <template slot="no-data">
+              <div></div>
+            </template>
+
+            <template v-slot:[`item.spots`]="{ item }">
+              <v-chip :color="getColorSpots(item.spots)" dark>{{ item.spots }}</v-chip>
+            </template>
+
+            <template v-slot:[`item.vaccine`]="{ item }">
+              <div class="font-weight-bold">{{ item.vaccine }}</div>
+            </template>
+
+            <template v-slot:[`item.waiting`]="{ item }">
+              <v-chip :color="getColorWaiting(item.waiting)" dark>{{ item.waiting }}</v-chip>
+            </template>
+
             <template  v-slot:[`item.actions`]="{ item }">
              
               <div v-if="!isAppointed && !isWaitingList">
@@ -66,14 +84,16 @@
     >
     
       <v-card>
-        <v-card-title class="text-h5">
+        <v-card-title class="text-h5 white--text deep-orange darken-4">
           Sunteți sigur că vreți să va înscrieți pe lista de așteptare?
         </v-card-title>
-        <v-card-text>Momentan centrul ales nu dispune de locuri libere. Aveți posibilitatea de a vă înscrie pe lista de așteptare a acestuia sau de a vă programa la un alt centru unde acțiunea "PROGRAMARE" este vizibilă.</v-card-text>
+        <v-card-text
+        style="font-size:17px"
+        ><br/>Momentan centrul ales nu dispune de locuri libere. Aveți posibilitatea de a vă înscrie pe lista de așteptare a acestuia sau de a vă programa la un alt centru unde acțiunea "PROGRAMARE" este vizibilă.</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            color="deep-orange"
+            color="grey darken-1"
             text
             @click="dialogWList = false"
           >
@@ -103,7 +123,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            color="deep-orange"
+            color="grey darken-1"
             text
             @click="dialogDeleteWList = false"
           >
@@ -168,8 +188,8 @@ export default {
         { text: "Nume", value: "name", align: "center", sortable: false},
         { text: "Județ", value: "county", align: "center", sortable: true },
         { text: "Localitate", value: "city", align: "center", sortable: false },
+        { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: true},
         { text: "Locuri libere", value: "spots", align: "center", sortable: true },
-        { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: true },
         { text: "Lista Asteptare", value: "waiting", align: "center", sortable: true },
         { text: "Acțiuni", value: "actions", align: "center",sortable: false },
       ],
@@ -177,6 +197,20 @@ export default {
   },
 
   methods: {
+
+    getColorSpots(spots){
+      if (spots > 500) return 'green'
+      else if (spots > 200) return 'orange'
+      else if (spots == 0) return 'transparent'
+      else return 'red'
+    },
+
+    getColorWaiting(waiting){
+      if (waiting > 250) return 'red'
+      else if (waiting > 0) return 'orange'
+      else return 'transparent'
+    },
+
     retrieveOffices() {
       if (this.isAdmin){
       DataService.getAllOffices().then((response) => {

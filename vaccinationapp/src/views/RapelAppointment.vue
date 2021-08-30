@@ -173,8 +173,8 @@ import AppointmentService from '../services/AppointmentService';
         { text: "Localitate", value: "city", align: "center", sortable: false},
         { text: "Adresă", value: "address", align: "center", sortable: false},
         { text: "Telefon", value: "phone", align: "center", sortable: false},
-        { text: "Locuri libere", value: "spots", align: "center", sortable: false},
         { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: false},
+        { text: "Locuri libere", value: "spots", align: "center", sortable: false},
       ],
       };
     },
@@ -218,7 +218,7 @@ methods: {
   
     DisabledDates(){
       // const currentDate = new Date();
-      const x = new Date("2021-20-08");
+      const x = new Date("20-08-2021");
       return x;
       // return currentDate;
     },

@@ -39,7 +39,12 @@
             :items="appointment"
             :search="search"
             :hide-default-footer="false"
+            :items-per-page="5"
             class="elevation-1">
+
+            <template slot="no-data">
+              <div></div>
+            </template>
 
             <template v-slot:[`item.actions`]="{ item }">
              <v-tooltip bottom>
@@ -67,13 +72,16 @@
       max-width="400"
     >
       <v-card>
-        <v-card-title class="text-h5">
-          Sunteți sigur că doriți să anulați această programare?
-        </v-card-title>
+        <v-card-title class="text-h5 white--text deep-orange darken-4">
+          Sunteți sigur că doriți să anulați această programare?</v-card-title>
+          <v-card-text
+          style="font-size:17px"
+          ><br/>Dacă programarea aleasă este cea pentru PRIMA DOZĂ, atât ea, cât și cea pentru rapel vor fi anulate.
+          <br/>În cazul în care programarea selectată este RAPEL, aveți posibilitatea de a vă reprograma!</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            color="deep-orange"
+            color="grey darken-1"
             text
             @click="dialog = false"
           >

@@ -39,9 +39,13 @@
             :items="office"
             :search="search"
             :hide-default-footer="false"
+            :items-per-page="5"
             class="elevation-1">
 
-
+            <template slot="no-data">
+              <div></div>
+            </template>
+            
             <template v-slot:[`item.actions`]="{ item }">
              <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
@@ -87,11 +91,11 @@ export default {
         { text: "Nume", value: "name", align: "center", sortable: false},
         { text: "Județ", value: "county", align: "center", sortable: true },
         { text: "Localitate", value: "city", align: "center", sortable: false },
+        { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: true },
         // { text: "Adresă", value: "address", align: "center", sortable: false },
         // { text: "Telefon", value: "phone", align: "center", sortable: false },
         { text: "Locuri libere", value: "spots", align: "center", sortable: true },
         // { text: "Listă de așteptare", value: "", align: "center", sortable: true },
-        { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: true },
         { text: "Acțiuni", value: "actions", align: "center",sortable: false },
       ],
     };
