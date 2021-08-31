@@ -153,7 +153,7 @@
         width="120" 
         elevation="5" 
         color="deep-orange"
-        v-on:click.stop.prevent="savePerson; snackbar.show = false">Salvează</v-btn>
+        v-on:click="savePerson">Salvează</v-btn>
        </v-layout>
 
         <v-snackbar 
@@ -193,10 +193,10 @@ export default {
         phone: "",
         email: "",
         county: "",
-        city: "",
+        city: [],
         category: null,
-        counties: {},
-        categories: {},
+        counties: [],
+        categories: [],
         selectedCounty: null,
         selectedCity: null,
         selectedCategory: null,
@@ -255,7 +255,7 @@ export default {
       });
   },
 
-  methods: 
+  methods:
   {
     getCitiesByCounty(){
       DataService.getCitiesByCounty(this.selectedCounty).then((response)=>{  
@@ -263,9 +263,10 @@ export default {
       }).catch((e)=>{
         console.log(e);
       });
-  },
+      },
+  
     savePerson() {
-     
+      
       var person = {
         name: this.name,
         last_name: this.last_name,
