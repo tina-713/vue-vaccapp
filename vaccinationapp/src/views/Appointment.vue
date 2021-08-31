@@ -60,62 +60,64 @@
           cols="12"
           sm=""
         >
-        <div class="row" style="margin-top:1px">
-          <div class="col">
-            <v-text-field
-              readonly
-              v-model="date"
-              label="Dată Doza Initiala"
-              required
-              :rules="[(v) => !!v || 'Câmp obligatoriu']"
-              dense>
-              </v-text-field>
+          <v-form ref="form" v-model="isFormValid" lazy-validation>
+            <div class="row" style="margin-top:1px">
+              <div class="col">
+                <v-text-field
+                  readonly
+                  v-model="date"
+                  label="Dată Doza Initiala"
+                  required
+                  :rules="[(v) => !!v || 'Câmp obligatoriu']"
+                  dense>
+                  </v-text-field>
+              </div>
+                
+              <div class="col"> 
+                <v-text-field
+                  readonly
+                  v-model="hour"
+                  label="Oră Doza Initiala"
+                  required
+                  :rules="[(v) => !!v || 'Câmp obligatoriu']"
+                  dense>
+                </v-text-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <v-text-field
+                  readonly
+                  v-model="dateRapel"
+                  label="Dată Doza Rapel"
+                  required
+                  :rules="[(v) => !!v || 'Câmp obligatoriu']"
+                  dense>
+                  </v-text-field>
+              </div>
+                
+              <div class="col"> 
+                <v-text-field
+                  readonly
+                  v-model="hourRapel"
+                  label="Oră Doza Rapel"
+                  required
+                  :rules="[(v) => !!v || 'Câmp obligatoriu']"
+                  dense>
+                </v-text-field>
+              </div>
+            </div>
+          <div align="right" style="margin-top:220px">
+            <v-btn
+              class="white--text"
+              width="120" 
+              elevation="5" 
+              color="deep-orange"
+              :disabled="!isFormValid"
+              v-on:click.stop.prevent="makeAppointments">Salvează</v-btn>
           </div>
-            
-          <div class="col"> 
-            <v-text-field
-              readonly
-              v-model="hour"
-              label="Oră Doza Initiala"
-              required
-              :rules="[(v) => !!v || 'Câmp obligatoriu']"
-              dense>
-            </v-text-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <v-text-field
-              readonly
-              v-model="dateRapel"
-              label="Dată Doza Rapel"
-              required
-              :rules="[(v) => !!v || 'Câmp obligatoriu']"
-              dense>
-              </v-text-field>
-          </div>
-            
-          <div class="col"> 
-            <v-text-field
-              readonly
-              v-model="hourRapel"
-              label="Oră Doza Rapel"
-              required
-              :rules="[(v) => !!v || 'Câmp obligatoriu']"
-              dense>
-            </v-text-field>
-          </div>
-        </div>
-      <div align="center">
-        <v-btn
-          class="white--text"
-          width="120" 
-          elevation="5" 
-          color="deep-orange"
-          
-          v-on:click.stop.prevent="makeAppointments">Salvează</v-btn>
-      </div>
-        </v-col>
+        </v-form>
+      </v-col>
 
 
       <v-col
@@ -127,13 +129,25 @@
           persistent
           v-model="modal1"
           scrollable
-          max-width="450px"
-        >
-        <v-card>    
-          <v-card-title>Alegeți ora programării pentru doza inițială</v-card-title>
-          <v-divider></v-divider>
+          @keydown.esc="modal1 = false"
+          max-width="470px">
+        <v-card height="330px">
+          <v-toolbar
+          dark
+          class="white--text deep-orange darken-4">
+          <v-btn
+            icon
+            dark
+            @click="modal1 = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Alegeți ora programării pentru doza inițială</v-toolbar-title>
+          <v-spacer></v-spacer>
+        </v-toolbar>
+
           <div div class='wrap'>
-          <vue-timepicker 
+          <vue-timepicker
+            input-width="15em" 
             hide-disabled-items 
             v-model = "hour"
             :hour-range= "hourrange" 
@@ -164,13 +178,25 @@
           persistent
           v-model="modal2"
           scrollable
-          max-width="450px"
-        >
-        <v-card>   
-          <v-card-title>Alegeți ora programării pentru rapel</v-card-title>
-          <v-divider></v-divider>
+          @keydown.esc="modal2 = false"
+          max-width="470px">
+        <v-card height="330px">   
+          <v-toolbar
+          dark
+          class="white--text deep-orange darken-4">
+          <v-btn
+            icon
+            dark
+            @click="modal2 = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Alegeți ora programării pentru rapel</v-toolbar-title>
+          <v-spacer></v-spacer>
+        </v-toolbar>
+
           <div div class='wrap'> 
           <vue-timepicker 
+            input-width="15em"
             hide-disabled-items 
             v-model = "hourRapel"
             :hour-range= "hourrangerapel" 
@@ -179,18 +205,35 @@
             hour-label="Ora"
           ></vue-timepicker>
           </div>
-          <div align="right">
-            <v-btn 
-              class="mx-2"
-              fab
-              dark
-              small
-              color="deep-orange"
-              v-on:click="disModal2">
-                <v-icon dark>
-                mdi-arrow-right-bold
-                </v-icon>
-            </v-btn>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col" align="left">
+                <v-btn 
+                  class="mx-2"
+                  fab
+                  dark
+                  small
+                  color="deep-orange"
+                  v-on:click="modal1 = true; modal2=false">
+                    <v-icon dark>
+                    mdi-arrow-left-bold
+                    </v-icon>
+                </v-btn>
+              </div>
+              <div class="col" align="right">
+                <v-btn 
+                  class="mx-2"
+                  fab
+                  dark
+                  small
+                  color="deep-orange"
+                  v-on:click="disModal2">
+                    <v-icon dark>
+                    mdi-arrow-right-bold
+                    </v-icon>
+                </v-btn>
+              </div>
+            </div>
           </div>
 
           <v-card-text style="height: 150px; width:180px;"/>     
@@ -214,6 +257,7 @@ import AppointmentService from '../services/AppointmentService';
       },
    data(){
       return{
+        isFormValid: false,
         date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         dateRapel: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         done: [false, false, false],
@@ -372,6 +416,6 @@ methods: {
 }
 .wrap {
     margin: 40px auto;
-    width: 160px;
+    width: 235px;
 }
 </style>

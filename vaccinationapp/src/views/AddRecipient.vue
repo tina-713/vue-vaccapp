@@ -153,7 +153,7 @@
         width="120" 
         elevation="5" 
         color="deep-orange"
-        v-on:click="savePerson">Salvează</v-btn>
+        v-on:click.stop.prevent="savePerson">Salvează</v-btn>
        </v-layout>
 
         <v-snackbar 

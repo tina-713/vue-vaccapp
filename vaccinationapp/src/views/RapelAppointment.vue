@@ -51,50 +51,50 @@
           elevation="10"
           full-width
         ></v-date-picker>
-        </v-col>
+          </v-col>
 
-        &nbsp; &nbsp; &nbsp; &nbsp; 
+          &nbsp; &nbsp; &nbsp; &nbsp; 
 
-        <v-col
-          class="my-2 px-1"
-          cols="12"
-          sm=""
-        >
-        <div class="row" style="margin-top:1px">
-          <div class="col">
-            <v-text-field
-              readonly
-              v-model="date"
-              label="Dată Doza Rapel"
-              required
-              :rules="[(v) => !!v || 'Câmp obligatoriu']"
-              dense>
-              </v-text-field>
-          </div>
-            
-          <div class="col"> 
-            <v-text-field
-              readonly
-              v-model="hour"
-              label="Oră Doza Rapel"
-              required
-              :rules="[(v) => !!v || 'Câmp obligatoriu']"
-              dense>
-            </v-text-field>
-          </div>
-        </div>
-       
- 
-      <div align="center">
-        <v-btn
-          class="white--text"
-          width="120" 
-          elevation="5" 
-          color="deep-orange"
-          
-          v-on:click.stop.prevent="makeAppointments">Salvează</v-btn>
-      </div>
-        </v-col>
+          <v-col
+            class="my-2 px-1"
+            cols="12"
+            sm=""
+          >
+          <v-form ref="form" v-model="isFormValid" lazy-validation>
+            <div class="row" style="margin-top:1px">
+              <div class="col">
+                <v-text-field
+                  readonly
+                  v-model="date"
+                  label="Dată Doza Rapel"
+                  required
+                  :rules="[(v) => !!v || 'Câmp obligatoriu']"
+                  dense>
+                  </v-text-field>
+              </div>
+                
+              <div class="col"> 
+                <v-text-field
+                  readonly
+                  v-model="hour"
+                  label="Oră Doza Rapel"
+                  required
+                  :rules="[(v) => !!v || 'Câmp obligatoriu']"
+                  dense>
+                </v-text-field>
+              </div>
+            </div>
+            <div align="right" style="margin-top:220px">
+              <v-btn
+                class="white--text"
+                width="120" 
+                elevation="5" 
+                color="deep-orange"
+                :disabled="!isFormValid"
+                v-on:click.stop.prevent="makeAppointments">Salvează</v-btn>
+            </div>
+          </v-form>
+          </v-col>
 
 
       <v-col
@@ -106,13 +106,25 @@
           persistent
           v-model="modal1"
           scrollable
-          max-width="450px"
-        >
-        <v-card>    
-          <v-card-title>Alegeți ora programării pentru Rapel</v-card-title>
-          <v-divider></v-divider>
+          @keydown.esc="modal1 = false"
+          max-width="470px">
+        <v-card height="330px">    
+          <v-toolbar
+          dark
+          class="white--text deep-orange darken-4">
+          <v-btn
+            icon
+            dark
+            @click="modal1 = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Alegeți ora programării pentru rapel</v-toolbar-title>
+          <v-spacer></v-spacer>
+        </v-toolbar>
+        
           <div div class='wrap'>
-          <vue-timepicker 
+          <vue-timepicker
+            input-width="15em" 
             hide-disabled-items 
             v-model = "hour"
             :hour-range= "hourrange" 
@@ -157,6 +169,7 @@ import AppointmentService from '../services/AppointmentService';
       },
    data(){
       return{
+        isFormValid: false,
         // date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         date: this.$route.params.rapelDate,
         done: [false, false, false],
@@ -293,6 +306,6 @@ methods: {
 }
 .wrap {
     margin: 40px auto;
-    width: 160px;
+    width: 235px;
 }
 </style>

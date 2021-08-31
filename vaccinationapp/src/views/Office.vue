@@ -80,7 +80,7 @@
     <v-dialog
       v-model="dialogWList"
       persistent
-      max-width="300"
+      max-width="430"
     >
     
       <v-card>
