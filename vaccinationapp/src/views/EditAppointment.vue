@@ -15,9 +15,9 @@
   </v-container>
 
 <div class="submit-form mt-3 mx-auto">
-    <p class ="Appointment" align="center">Editează Programare</p>
+    <p class ="benef" align="center">Editează Programare</p>
     <div v-if="!submitted">
-      <v-form ref="form" lazy-validation>
+      <v-form ref="form" v-model="isFormValid" lazy-validation>
         
         <div class="row">
           <div class="col">
@@ -31,11 +31,21 @@
           </div>
 
           <div class="col">
+           <v-text-field
+          v-model="currentAppointment.time"
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          label="Ora"
+          required
+          dense>
+          </v-text-field>
+        </div>
+
+          <div class="col">
             <v-select
           v-model="currentAppointment.kind"
           :items="kindvac"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
-          label="Tip"
+          label="Tip Programare"
           required
           dense>
           </v-select>
@@ -47,7 +57,7 @@
         <v-text-field
           v-model="currentAppointment.office.name"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
-          label="Birou"
+          label="Centru de Vaccinare"
           required
           dense>
         </v-text-field>
@@ -117,19 +127,12 @@
           </v-select>
         </div>
         </div>
-        <div class="row">
-           <v-text-field
-          v-model="currentAppointment.time"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
-          label="Time"
-          required
-          dense>
-          </v-text-field>
-        </div>
+        
       </v-form>
 
        <v-layout align-center justify-center>
         <v-btn
+        :disabled="!isFormValid"
         class="white--text"
         width="120" 
         elevation="5" 
@@ -151,6 +154,7 @@ export default{
   name: "edit-Appointment",
   data() {
     return {
+      isFormValid: false,
       counties:[],
       cities:[],
       statuses:["finalizata","in curs","anulata"],
@@ -203,12 +207,12 @@ methods:
     AppointmentService.putAppointment(Appointment)
         .then((response) => {
           console.log(response.person);
+          this.$router.push('/my-appointments');
         })
         .catch((e) => {
           console.log(e);
         });
     },
-
     getCitiesByCounty(){
       DataService.getCitiesByCounty(this.currentAppointment.county).then((response)=>{  
       this.cities = response.data;

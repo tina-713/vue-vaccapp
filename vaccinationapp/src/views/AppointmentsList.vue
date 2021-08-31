@@ -246,7 +246,7 @@ export default {
 
 <style scoped>
 .list {
-  max-width: 1200px;
+  max-width: 1300px;
 }
 .all {
   margin-top: 70px;

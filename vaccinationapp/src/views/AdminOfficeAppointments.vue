@@ -29,6 +29,7 @@
           append-icon="mdi-magnify">
         </v-text-field>
       </v-col>
+
        <v-col cols="12" sm="3">
       <v-layout >
         <v-btn
@@ -50,6 +51,7 @@
         @click="retrieveAppointment">Toate Programarile</v-btn>
        </v-layout>
     </v-col>
+    
       <v-col cols="12" sm="3">
       <v-layout >
         <v-btn
@@ -57,7 +59,7 @@
         width="220" 
         elevation="5" 
         color="deep-orange"
-        @click="downloadPdfTodaysAppointments()">Genereaza Liste</v-btn>
+        @click="downloadPdfTodaysAppointments()">Generează Liste</v-btn>
        </v-layout>
     </v-col>   
       <v-col cols="12" sm="12">
@@ -291,7 +293,7 @@ export default {
 
 <style scoped>
 .list {
-  max-width: 1200px;
+  max-width: 1300px;
 }
 .all {
   margin-top: 70px;

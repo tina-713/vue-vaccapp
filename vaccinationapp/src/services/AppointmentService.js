@@ -150,7 +150,7 @@ class AppointmentService {
        var fileLink = document.createElement('a');
     
        fileLink.href = fileURL;
-       fileLink.setAttribute('download', 'Appointment.pdf');
+       fileLink.setAttribute('download', 'Recipisa.pdf');
        document.body.appendChild(fileLink);
      
        fileLink.click();
@@ -178,7 +178,7 @@ class AppointmentService {
        var fileLink = document.createElement('a');
     
        fileLink.href = fileURL;
-       fileLink.setAttribute('download', 'Appointment.pdf');
+       fileLink.setAttribute('download', 'Programari.pdf');
        document.body.appendChild(fileLink);
      
        fileLink.click();
