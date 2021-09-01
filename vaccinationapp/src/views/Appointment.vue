@@ -109,7 +109,9 @@
                 </v-text-field>
               </div>
             </div>
-          <div align="right" style="margin-top:220px">
+         
+        </v-form>
+        <div align="center" style="margin-top:220px" v-if="form1 || form2">
             <v-btn
               class="white--text"
               width="120" 
@@ -117,8 +119,7 @@
               color="deep-orange"
               :disabled="!isFormValid"
               v-on:click.stop.prevent="makeAppointments">Salvează</v-btn>
-          </div>
-        </v-form>
+              </div>
       </v-col>
 
 
@@ -321,7 +322,9 @@ methods: {
 
     disModal(){
       this.modal1 = false;
+      if (this.office.vaccine.name != "Johnson&Johnson"){
       this.modal2 = true;
+      }
     },
     disModal2(){
   
@@ -345,6 +348,7 @@ methods: {
       this.mouseMonth = null
     },
     makeAppointments(){
+      if (this.office.vaccine.name != "Johnson&Johnson"){
       var firstAppointment={
         kind : "prima doza",
         date: this.date,
@@ -376,6 +380,26 @@ methods: {
         .catch((e) => {
           console.log(e);
         });
+      }else{
+        var appointment={
+        kind : "doza unica",
+        date: this.date,
+        time: parseInt(this.hour),
+        office : parseInt(this.$route.params.id),
+        person : parseInt(this.$route.params.personId),
+
+      };
+      AppointmentService.postAppointment(appointment)
+        .then((response) => {
+   
+          console.log(response.data);
+          this.$router.push('/my-appointments');
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      }
+
     },
 
     getOffice(id) {

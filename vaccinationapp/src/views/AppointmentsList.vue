@@ -193,11 +193,9 @@ export default {
         id: item.id,
         status: "anulata",
         kind: item.kind,
-        office: item.office.id,
         time: item.time,
       };
   
-
       AppointmentService.putStatus(appointment).then((response) => {
         console.log(response.data);
         this.snackbar = {

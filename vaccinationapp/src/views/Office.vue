@@ -73,7 +73,7 @@
                  <v-btn class="white--text" small color="red" v-if="item.isWaitingList" @click="Delete(item)">Părăsește lista</v-btn>
                </div>
                 <div v-if="!rapel && isAppointed">
-                 <div v-if="item.spots>0" align="center">
+                 <div v-if="item.spots>0 && item.rapelEligible" align="center">
                  <v-btn class="white--text" small color="green" @click="makeRapelAppointment(item)">Programare Rapel</v-btn>
                  </div>
               </div>
@@ -346,7 +346,8 @@ export default {
         vaccine: office.vaccine.name,
         waiting:office.waitingList,
         isWaitingList:office.isWaitingList,
-        isAppointed: office.isAppointed
+        isAppointed: office.isAppointed,
+        rapelEligible:office.rapelEligible
       };
     },
   },
