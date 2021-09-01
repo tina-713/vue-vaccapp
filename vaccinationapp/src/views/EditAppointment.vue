@@ -15,9 +15,36 @@
   </v-container>
 
 <div class="submit-form mt-3 mx-auto">
-    <p class ="benef" align="center">Editează Programare</p>
+    <p class ="benef" align="center">Editează Status Programare</p>
     <div v-if="!submitted">
       <v-form ref="form" v-model="isFormValid" lazy-validation>
+        
+        <div class="row">
+          <div class="col">
+        <v-text-field
+          v-model="currentAppointment.person.last_name"
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          label="Nume beneficiar"
+          value ="currentAppointment.person.id"
+          required
+          readonly
+          disabled
+          dense>
+          </v-text-field>
+          </div>
+          <div class="col">
+        <v-text-field
+          v-model="currentAppointment.person.name"
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          label="Prenume beneficiar"
+          value ="currentAppointment.person.id"
+          required
+          readonly
+          disabled
+          dense>
+          </v-text-field>
+          </div>
+        </div>
         
         <div class="row">
           <div class="col">
@@ -26,30 +53,22 @@
             :rules="[(v) => !!v || 'Câmp obligatoriu']"
             label="Data"
             required
+            readonly
+            disabled
             dense>
             </v-text-field>
           </div>
-
           <div class="col">
            <v-text-field
           v-model="currentAppointment.time"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
           label="Ora"
           required
+          readonly
+          disabled
           dense>
           </v-text-field>
         </div>
-
-          <div class="col">
-            <v-select
-          v-model="currentAppointment.kind"
-          :items="kindvac"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
-          label="Tip Programare"
-          required
-          dense>
-          </v-select>
-          </div>
         </div>
 
          <div class="row">
@@ -57,44 +76,12 @@
         <v-text-field
           v-model="currentAppointment.office.name"
           :rules="[(v) => !!v || 'Câmp obligatoriu']"
-          label="Centru de Vaccinare"
+          label="Centru de vaccinare"
           required
+          readonly
+          disabled
           dense>
         </v-text-field>
-          </div>
-
-          <div class="col">
-        <v-text-field
-          v-model="currentAppointment.person.name"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
-          label="Person"
-          value ="currentAppointment.person.id"
-          required
-          dense>
-          </v-text-field>
-          </div>
-        </div>
-        
-        <div class="row">
-           <div class="col">
-        <v-select
-          v-model="currentAppointment.status"
-          :items="statuses"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
-          label="Status"
-          required
-          dense>
-          </v-select>
-           </div>
-           <div class="col">
-           <v-text-field
-          v-model="currentAppointment.office.name"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
-          label="Office"
-          value ="currentAppointment.office.id"
-          required
-          dense>
-          </v-text-field>
           </div>
         </div>
 
@@ -109,10 +96,11 @@
           item-value= "id"
           item-text="name"
           required
+          readonly
+          disabled
           dense>
           </v-select>
-             </div>
-
+          </div>
           <div class="col">
         <v-select
           :items="cities"
@@ -123,9 +111,36 @@
           item-value= "id"
           label="Localitate"
           required
+          readonly
+          disabled
           dense>
           </v-select>
         </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+        <v-select
+          v-model="currentAppointment.kind"
+          :items="kindvac"
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          label="Tip"
+          required
+          readonly
+          disabled
+          dense>
+          </v-select>
+          </div>
+          <div class="col">
+        <v-select
+          v-model="currentAppointment.status"
+          :items="statuses"
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          label="Status"
+          required
+          dense>
+          </v-select>
+           </div>
         </div>
         
       </v-form>
@@ -207,7 +222,7 @@ methods:
     AppointmentService.putAppointment(Appointment)
         .then((response) => {
           console.log(response.person);
-          this.$router.push('/my-appointments');
+          this.$router.go(-1);
         })
         .catch((e) => {
           console.log(e);

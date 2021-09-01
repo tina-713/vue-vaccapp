@@ -16,7 +16,7 @@
     
     <v-row align="center" class="list mx-auto">
 
-      <v-col cols="12" sm="3">
+      <v-col cols="12" sm="5">
         <v-text-field
           v-model="search"
           label="Căutare..."
@@ -30,25 +30,31 @@
         </v-text-field>
       </v-col>
 
-       <v-col cols="12" sm="3">
+       <v-col cols="12" sm="2">
       <v-layout >
-        <v-btn
+        <v-checkbox
+         v-model="checkbox1"
+        label="Programările de astăzi"
         class="white--text"
         width="220" 
         elevation="5" 
         color="deep-orange"
-        @click="TodaysAppointments">Programarile de astazi</v-btn>
+        @change="TodaysAppointments"
+        ></v-checkbox>
        </v-layout>
      </v-col>
 
-      <v-col cols="12" sm="3">
+      <v-col cols="12" sm="2">
       <v-layout >
-        <v-btn
+        <v-checkbox
+         v-model="checkbox2"
+        label="Toate programările"
         class="white--text"
         width="220" 
         elevation="5" 
         color="deep-orange"
-        @click="retrieveAppointment">Toate Programarile</v-btn>
+        @change="retrieveAppointment"
+        ></v-checkbox>
        </v-layout>
     </v-col>
     
@@ -91,44 +97,7 @@
                 </template>
                   <span>Editează programarea</span>
               </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-icon v-if="item.status == 'in curs'" v-on="on" medium color="red" @click="Cancel(item)">mdi-close-thick</v-icon>
-                </template>
-                  <span>Anulează programarea</span>
-              </v-tooltip>
-            
-            <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="400"
-    >
-      <v-card>
-        <v-card-title class="text-h5">
-          Sunteți sigur că doriți să anulați această programare?
-        </v-card-title>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="grey darken-1"
-            text
-            @click="dialog = false"
-          >
-            nu
-          </v-btn>
-          <v-btn
-            color="deep-orange"
-            text
-            @click="cancellAppointment(dialogItem); snackbar.show = false"
-          >
-            da
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-            
             </template>
-
           </v-data-table>
         </v-card>
       </v-col>
@@ -152,6 +121,8 @@ export default {
   name: "my-appointments",
   data() {
     return {
+      checkbox1: false,
+      checkbox2: false,
       dialog:false,
       dialogItem:null,
       userId:"",
@@ -181,6 +152,7 @@ export default {
 
         AppointmentService.getAllAppointmentsForOffice(this.$route.params.id).then((response) => {
           this.appointment = response.data.map(this.getDisplayAppointment);
+          this.checkbox1=false;
         })
         .catch((e) => {
           console.log(e);
@@ -209,41 +181,43 @@ export default {
         const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
         AppointmentService.getTodaysAppointmentsForOffice(this.$route.params.id,date).then((response) => {
           this.appointment = response.data.map(this.getDisplayAppointment);
+          this.checkbox2=false;
         })
         .catch((e) => {
           console.log(e);
         });
     },
 
-    Cancel(item){
-      this.dialogItem = item;
-      this.dialog = true
-    },
-    cancellAppointment(item){
-      this.dialog=false;
-      var appointment = {
-        id: item.id,
-        status: "anulata",
-        kind: item.kind,
-        office: item.office.id,
-        time: item.time,
-      };
+    // Cancel(item){
+    //   this.dialogItem = item;
+    //   this.dialog = true
+    // },
+    // cancellAppointment(item){
+    //   this.dialog=false;
+    //   var appointment = {
+    //     id: item.id,
+    //     status: "anulata",
+    //     kind: item.kind,
+    //     office: item.office.id,
+    //     time: item.time,
+    //   };
   
 
-      AppointmentService.putStatus(appointment).then((response) => {
-        console.log(response.data);
-        this.snackbar = {
-                      message: 'Programare anulată cu succes.',
-                      color: 'success',
-                      show: true
-                  };
-        this.refreshList();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-        this.$router.go();
-      },
+    //   AppointmentService.putStatus(appointment).then((response) => {
+    //     console.log(response.data);
+    //     this.snackbar = {
+    //                   message: 'Programare anulată cu succes.',
+    //                   color: 'success',
+    //                   show: true
+    //               };
+    //     this.refreshList();
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //     });
+    //     this.$router.go();
+    //   },
+
       downloadPdfTodaysAppointments(){
         const current = new Date();
         const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;  
@@ -296,7 +270,7 @@ export default {
   max-width: 1300px;
 }
 .all {
-  margin-top: 70px;
+  margin-top: 50px;
 }
 .text-xs-right{
   white-space: nowrap;

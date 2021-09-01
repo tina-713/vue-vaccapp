@@ -34,7 +34,7 @@
         <v-col
           class="my-2 px-1"
           cols="12"
-          sm="6"
+          sm="8"
         >
         <v-date-picker
           v-model="date"
@@ -282,7 +282,7 @@ import AppointmentService from '../services/AppointmentService';
         { text: "Localitate", value: "city", align: "center", sortable: false},
         { text: "Adresă", value: "address", align: "center", sortable: false},
         { text: "Telefon", value: "phone", align: "center", sortable: false},
-        { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: false},
+        { text: "Vaccin", value: "vaccine", align: "center", sortable: false},
         { text: "Locuri libere", value: "spots", align: "center", sortable: false},
       ],
       };
@@ -439,10 +439,10 @@ methods: {
 
 <style>
 .list {
-  max-width: 1300px;
+  max-width: 1200px;
 }
 .all {
-  margin-top: 70px;
+  margin-top: 50px;
 }
 .wrap {
     margin: 40px auto;

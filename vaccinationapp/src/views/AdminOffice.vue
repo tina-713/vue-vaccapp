@@ -30,6 +30,10 @@
         </v-text-field>
       </v-col>
 
+      <v-col cols="12" md="12" class="text-right">
+        <v-btn class="white--text" to="/add-office" color="deep-orange">Adaugă Centru</v-btn>
+      </v-col>
+
       <v-col cols="12" sm="12">
         <v-card class="mx-auto" tile>
           <v-card-title style="background-color:#F2F3F4">Centre</v-card-title>
@@ -61,13 +65,41 @@
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon  v-on="on" medium color="red" @click="deleteOffice(item.id)">mdi-close-thick</v-icon>
+                  <v-icon  v-on="on" medium color="red" @click="Delete(item.id)">mdi-close-thick</v-icon>
                 </template>
                   <span>Delete office</span>
               </v-tooltip>
+
+              <v-dialog
+      v-model="dialog"
+      persistent
+      max-width="410"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          Sunteți sigur că doriți să ștergeți acest punct de vaccinare?
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="grey darken-1"
+            text
+            @click="dialog = false"
+          >
+            Anulează
+          </v-btn>
+          <v-btn
+            color="deep-orange"
+            text
+            @click="deleteOffice((item.id)); snackbar.show = false"
+          >
+            Șterge
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
               </template>
-            
-          
           </v-data-table>
         </v-card>
       </v-col>
@@ -91,7 +123,7 @@ export default {
         { text: "Nume", value: "name", align: "center", sortable: false},
         { text: "Județ", value: "county", align: "center", sortable: true },
         { text: "Localitate", value: "city", align: "center", sortable: false },
-        { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: true },
+        { text: "Vaccin", value: "vaccine", align: "center", sortable: true },
         // { text: "Adresă", value: "address", align: "center", sortable: false },
         // { text: "Telefon", value: "phone", align: "center", sortable: false },
         { text: "Locuri libere", value: "spots", align: "center", sortable: true },
@@ -121,12 +153,27 @@ export default {
     editOffice(id) {
       this.$router.push({ name: "edit-office", params: { id: id } });
     },
+    Delete(){
+      this.dialog = true
+    },
     deleteOffice(id) {
+      this.dialog=false;
+
         DataService.deleteOffice(id)
           .then(() => {
+            this.snackbar = {
+                    message: 'Centru șters.',
+                    color: 'success',
+                    show: true
+                  }
             this.refreshList();
           })
           .catch((e) => {
+            this.snackbar = {
+                      message: 'Eroare',
+                      color: 'error',
+                      show: true
+                    }
             console.log(e);
           });
     },
@@ -172,6 +219,6 @@ export default {
   max-width: 1300px;
 }
 .all {
-  margin-top: 70px;
+  margin-top: 50px;
 }
 </style>

@@ -58,6 +58,31 @@ class DataService {
     }}
     );
   }
+  getVaccine() {
+    return axios.get(endpoint.baseURL+'vaccine/',{
+    },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    )
+  }
+  putOffice(id, office) {
+    return axios.put(endpoint.baseURL+`office/${id}/`,{
+      id: office.id,
+      name: office.name,
+      address: office.address,
+      phone: office.phone,
+      spots: office.spots,
+      vaccine: office.selectedVaccine,
+      county : office.selectedCounty,
+      city: office.selectedCity,
+
+    },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
+  }
 }
 
 export default new DataService();

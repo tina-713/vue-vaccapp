@@ -4,8 +4,9 @@
       <v-container>
         <v-row align="center" justify="center" dense>
           <v-col cols="12" sm="8" md="4" lg="4">
-            <v-card elevation="0">
+            <v-card elevation="20">
               <div class="text-center">
+                &nbsp;
                 <h1 class="mb-2">Autentificare</h1>
               </div>
               <v-card-text>
@@ -37,12 +38,11 @@
                   <router-link to="/forgot-password">Ți-ai uitat parola?</router-link>
                   <v-btn 
                     :disabled="!isFormValid"
-                    class="rounded-0" 
-                    color="#000000" 
+                    class="white--text" 
+                    color="deep-orange" 
                     x-large 
                     block 
-                    dark 
-                    v-on:click="login; snackbar.show = false">
+                    v-on:click="login">
                   Conectează-te</v-btn>
                   <v-card-actions class="text--secondary">
                     <v-spacer></v-spacer>
@@ -122,3 +122,15 @@ login(){
  }}
 
 </script>
+
+<style scoped>
+.container{
+  justify-content: flex-start;
+  max-width: 1300px;
+  width: 100%;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>

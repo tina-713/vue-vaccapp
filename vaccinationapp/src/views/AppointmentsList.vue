@@ -61,7 +61,7 @@
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon v-if="item.status == 'in curs'" v-on="on" medium color="red" @click="Cancel(item)">mdi-close-thick</v-icon>
+                  <v-icon v-if="item.status == 'in curs' && !isAdmin" v-on="on" medium color="red" @click="Cancel(item)">mdi-close-thick</v-icon>
                 </template>
                   <span>Anulează programarea</span>
               </v-tooltip>
@@ -77,7 +77,7 @@
           <v-card-text
           style="font-size:17px"
           ><br/>Dacă programarea aleasă este cea pentru PRIMA DOZĂ, atât ea, cât și cea pentru rapel vor fi anulate.
-          <br/>În cazul în care programarea selectată este RAPEL, aveți posibilitatea de a vă reprograma!</v-card-text>
+          <br/>În cazul în care programarea selectată este RAPEL sau DOZĂ UNICĂ, aveți posibilitatea de a vă reprograma!</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
@@ -247,7 +247,7 @@ export default {
   max-width: 1300px;
 }
 .all {
-  margin-top: 70px;
+  margin-top: 50px;
 }
 .text-xs-right{
   white-space: nowrap;

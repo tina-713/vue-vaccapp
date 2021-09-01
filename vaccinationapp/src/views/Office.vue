@@ -82,7 +82,6 @@
       persistent
       max-width="430"
     >
-    
       <v-card>
         <v-card-title class="text-h5 white--text deep-orange darken-4">
           Sunteți sigur că vreți să va înscrieți pe lista de așteptare?
@@ -188,9 +187,9 @@ export default {
         { text: "Nume", value: "name", align: "center", sortable: false},
         { text: "Județ", value: "county", align: "center", sortable: true },
         { text: "Localitate", value: "city", align: "center", sortable: false },
-        { text: "Tip Vaccin", value: "vaccine", align: "center", sortable: true},
+        { text: "Vaccin", value: "vaccine", align: "center", sortable: true},
         { text: "Locuri libere", value: "spots", align: "center", sortable: true },
-        { text: "Lista Asteptare", value: "waiting", align: "center", sortable: true },
+        { text: "Listă asteptare", value: "waiting", align: "center", sortable: true },
         { text: "Acțiuni", value: "actions", align: "center",sortable: false },
       ],
     };
@@ -369,6 +368,6 @@ export default {
   max-width: 1300px;
 }
 .all {
-  margin-top: 70px;
+  margin-top: 50px;
 }
 </style>

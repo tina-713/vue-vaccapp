@@ -73,6 +73,11 @@ export default new Router({
       component: () => import("./views/AdminOffice")
     },
     {
+      path: "/add-office",
+      name: "/add-office",
+      component: () => import("./views/AddOffice")
+    },
+    {
       path: "/edit-office/:id",
       name: "edit-office",
       component: () => import("./views/EditOffice")

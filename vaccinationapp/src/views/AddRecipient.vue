@@ -24,6 +24,7 @@
           <v-text-field
             v-model="last_name"
             :rules="lastRules"
+            v-on:keypress="isLetter($event)"
             label="Nume"
             required
             dense>
@@ -34,6 +35,7 @@
             <v-text-field
               v-model="name"
               :rules="nameRules"
+              v-on:keypress="isLetter($event)"
               label="Prenume"
               required
               dense>
@@ -57,6 +59,7 @@
         <v-text-field
           v-model="age"
           :rules="ageRules"
+          v-on:keypress="isNumber($event)"
           label="Vârstă"
           required
           dense>
@@ -69,6 +72,7 @@
         <v-text-field
           v-model="cnp"
           :rules="cnpRules"
+          v-on:keypress="isNumber($event)"
           label="CNP"
           required
           dense>
@@ -81,6 +85,7 @@
         <v-text-field
           v-model="phone"
           :rules="phoneRules"
+          v-on:keypress="isNumber($event)"
           label="Telefon"
           required
           dense>
@@ -221,7 +226,7 @@ export default {
         ],
         ageRules:[
           value => !!value || 'Câmp obligatoriu!',
-          v => v >= 18  || 'Vârsta minimă este 18 ani!',
+          v => v >= 18 && v<= 100 || 'Vârsta minimă este 18 ani!',
         ],
         lastRules: [
           value => !!value || 'Câmp obligatoriu!',
@@ -257,6 +262,21 @@ export default {
 
   methods:
   {
+    isNumber: function(evt) {
+      evt = (evt) ? evt : window.event;
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
+    isLetter(e) {
+      let char = String.fromCharCode(e.keyCode);
+      if(/^[A-Za-z]+$/.test(char)) return true;
+      else e.preventDefault();
+      },
+
     getCitiesByCounty(){
       DataService.getCitiesByCounty(this.selectedCounty).then((response)=>{  
       this.city = response.data;

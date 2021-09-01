@@ -15,9 +15,9 @@
   </v-container>
 
 <div class="submit-form mt-3 mx-auto">
-    <p class ="office" align="center">Editează Centru de Vaccinare</p>
+    <p class ="benef" align="center">Editează Centru de Vaccinare</p>
     <div v-if="!submitted">
-      <v-form ref="form" lazy-validation>
+      <v-form ref="form" v-model="isFormValid" lazy-validation>
         
         <div class="row">
           <div class="col">
@@ -35,7 +35,8 @@
               v-model="currentOffice.address"
               :rules="[(v) => !!v || 'Câmp obligatoriu']"
               label="Adresă"
-              required>
+              required
+              dense>
               </v-text-field>
           </div>
         </div>
@@ -44,7 +45,8 @@
            <div class="col">
         <v-text-field
           v-model="currentOffice.phone"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          :rules="phoneRules"
+          v-on:keypress="isNumber($event)"
           label="Telefon"
           required
           dense>
@@ -54,7 +56,8 @@
           <div class="col">
         <v-text-field
           v-model="currentOffice.spots"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          :rules="spotsRules"
+          v-on:keypress="isNumber($event)"
           label="Locuri libere"
           required
           dense>
@@ -66,11 +69,25 @@
            <div class="col">
         <v-text-field
           v-model="currentOffice.hourlyLimit"
-          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          :rules="limitRules"
+          v-on:keypress="isNumber($event)"
           label="Limită pe ora"
           required
           dense>
           </v-text-field>
+          </div>
+
+          <div class="col">
+        <v-select
+          :items="vaccines"
+          v-model="currentOffice.vaccine"
+          :rules="[(v) => !!v || 'Câmp obligatoriu']"
+          label="Vaccin"
+          item-value= "id"
+          item-text="name"
+          required
+          dense>
+          </v-select>
           </div>
         </div>
 
@@ -108,6 +125,7 @@
 
        <v-layout align-center justify-center>
         <v-btn
+        :disabled="!isFormValid"
         class="white--text"
         width="120" 
         elevation="5" 
@@ -128,14 +146,28 @@ export default{
   name: "edit-office",
   data() {
     return {
+      isFormValid: false,
       counties:[],
       cities:[],
       categories:[],
+      vaccines:[],
       currentOffice: null,
       selectedCounty: null,
       selectedCity: null,
-      selectedCategory: null,
+      selectedVaccine: null,
       submitted: false,
+      phoneRules:[
+          value => !!value || 'Câmp obligatoriu!',
+          v => v.length == 10  || 'Introduceți un număr de telefon valid!',
+        ],
+      limitRules:[
+          value => !!value || 'Câmp obligatoriu!',
+          v => v <= 12 || 'Limită depășită!',
+        ],
+      spotsRules:[
+          value => !!value || 'Câmp obligatoriu!',
+          v => v <= 1000 || 'Limită depășită!',
+        ]
     };
 },
 
@@ -158,11 +190,26 @@ export default{
     
       }).catch((e)=>{
         console.log(e);
-      });  
-  
+      }); 
+  DataService.getVaccine().then((response)=>{
+    this.vaccines = response.data;
+    
+      }).catch((e)=>{
+        console.log(e);
+      });   
   },
 methods: 
 {
+  isNumber: function(evt) {
+      evt = (evt) ? evt : window.event;
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
+
   getOffice(id) {
     return DataService.getOffice(id)
       .then((response) => {
@@ -181,9 +228,9 @@ methods:
       address: this.currentOffice.address,
       phone: this.currentOffice.phone,
       spots: this.currentOffice.spots,
+      vaccine: parseInt(this.currentOffice.selectedVaccine),
       county : parseInt(this.currentOffice.selectedCounty),
       city: parseInt(this.currentOffice.selectedCity),
-      vaccine: this.currentOffice.vaccine,
     };
   
     DataService.putOffice(this.currentOffice.id, office)
@@ -199,7 +246,7 @@ methods:
     updateOffice() {
       DataService.putOffice(this.currentOffice.id, this.currentOffice)
         .then((response) => {
-          this.$router.push('/recipient');
+          this.$router.push('/admin-offices');
           console.log(response.data);
         })
         .catch((e) => {

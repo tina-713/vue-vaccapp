@@ -225,6 +225,6 @@ export default {
   max-width: 1300px;
 }
 .all {
-  margin-top: 70px;
+  margin-top: 50px;
 }
 </style>

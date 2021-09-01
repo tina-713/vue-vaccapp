@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app dark>
+    <v-app-bar app dark dense v-if="loggedIn">
       <div>
         <v-btn class="custom-btn" v-if="loggedIn" to="/home" text>
           VaccinationApp
@@ -30,6 +30,9 @@
 
       <v-btn class="custom-btn" v-if="loggedIn" @click="logOut" to="/login" text>
         Deconectare
+       <v-icon right>
+        mdi-exit-to-app 
+      </v-icon>
       </v-btn>
   
     </v-app-bar>
