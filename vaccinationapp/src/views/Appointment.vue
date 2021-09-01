@@ -60,7 +60,7 @@
           cols="12"
           sm=""
         >
-          <v-form ref="form" v-model="isFormValid" lazy-validation>
+          <v-form ref="form" v-model="isFormValid" v-if="form1" lazy-validation>
             <div class="row" style="margin-top:1px">
               <div class="col">
                 <v-text-field
@@ -84,6 +84,8 @@
                 </v-text-field>
               </div>
             </div>
+            </v-form>
+            <v-form ref="form" v-model="isFormValid" v-if="form2" lazy-validation>
             <div class="row">
               <div class="col">
                 <v-text-field
@@ -257,6 +259,8 @@ import AppointmentService from '../services/AppointmentService';
       },
    data(){
       return{
+        form1:false,
+        form2:false,
         isFormValid: false,
         date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         dateRapel: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -311,16 +315,18 @@ methods: {
       .catch((e) => {
         console.log(e);
       });
-      this.modal1 = true
+      this.modal1 = true;
+      this.form1 = true;
     },
 
     disModal(){
-      this.modal1 = false
-      this.modal2 = true
+      this.modal1 = false;
+      this.modal2 = true;
     },
     disModal2(){
   
       this.modal2 = false
+      this.form2 = true;
     },
   
     DisabledDates(){
