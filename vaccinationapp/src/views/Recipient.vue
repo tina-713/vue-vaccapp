@@ -38,7 +38,7 @@
             </template>
 
             <template v-slot:[`item.waiting`]="{ item }">
-              <v-chip :color="getColor(item.waiting)" dark>{{ item.waiting }}</v-chip>
+              <v-chip v-if="!isAdmin" :color="getColor(item.waiting)" dark>{{ item.waiting }}</v-chip>
             </template>
 
             <template v-slot:[`item.actions`]="{ item }">
@@ -51,7 +51,8 @@
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
                   <v-icon v-if="!isAdmin" v-on="on" medium  class="mr-2" color="green" @click="appointmentRec(item.id)">mdi-clock-outline</v-icon>
-                </template>                  <span>Programează-te</span>
+                </template>                  
+                <span>Programează-te</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">

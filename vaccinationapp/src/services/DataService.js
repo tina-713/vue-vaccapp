@@ -73,10 +73,27 @@ class DataService {
       address: office.address,
       phone: office.phone,
       spots: office.spots,
-      vaccine: office.selectedVaccine,
-      county : office.selectedCounty,
-      city: office.selectedCity,
+      vaccine: office.vaccine,
+      county : office.county,
+      city: office.city,
+      hourlyLimit: office.hourlyLimit,
 
+    },{
+      headers:{
+         Authorization:  `Bearer `+ user.data.access
+    }}
+    );
+  }
+  postOffice(office) {
+    return axios.post(endpoint.baseURL+`office/`,{
+      name: office.name,
+      address: office.address,
+      phone: office.phone,
+      spots: office.spots,
+      vaccine: office.vaccine,
+      county : office.county,
+      city: office.city,
+      hourlyLimit: office.hourlyLimit,
     },{
       headers:{
          Authorization:  `Bearer `+ user.data.access

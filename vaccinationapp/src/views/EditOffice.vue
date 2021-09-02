@@ -185,12 +185,6 @@ export default{
       }).catch((e)=>{
         console.log(e);
       });
- DataService.getAllCategories().then((response)=>{
-    this.categories = response.data;
-    
-      }).catch((e)=>{
-        console.log(e);
-      }); 
   DataService.getVaccine().then((response)=>{
     this.vaccines = response.data;
     
@@ -228,6 +222,7 @@ methods:
       address: this.currentOffice.address,
       phone: this.currentOffice.phone,
       spots: this.currentOffice.spots,
+      hourlyLimit: this.currentOffice.hourlyLimit,
       vaccine: parseInt(this.currentOffice.selectedVaccine),
       county : parseInt(this.currentOffice.selectedCounty),
       city: parseInt(this.currentOffice.selectedCity),
