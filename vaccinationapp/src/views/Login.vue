@@ -27,7 +27,7 @@
                     :type="show2 ? 'text' : 'password'"
                     @click:append="show2 = !show2"
                     @keyup.enter.native="onEnter" 
-                    label="Introduceți parola." 
+                    label="Introduceți parola" 
                     name="password" 
                     prepend-inner-icon="mdi-lock" 
                     class="rounded-0" 
@@ -39,7 +39,7 @@
                   <v-btn 
                     :disabled="!isFormValid"
                     class="white--text" 
-                    color="deep-orange" 
+                    color="deep-orange darken-1" 
                     x-large 
                     block 
                     v-on:click="login">

@@ -6,7 +6,6 @@
       fab
       dark
       small
-      color="deep-orange"
       @click="$router.go(-1)">
         <v-icon dark>
         mdi-arrow-left-bold
@@ -17,7 +16,7 @@
     <v-row align="center" class="list mx-auto">
       <v-col cols="12" sm="12">
         <v-card class="mx-auto" tile>
-          <v-card-title style="background-color:#F2F3F4">Detalii
+          <v-card-title style="background-color:#F2F3F4">Detalii Centru
           </v-card-title>
             <v-data-table
               :headers="headers"
@@ -42,7 +41,7 @@
           @dblclick:date="dblClick"
           :allowedDates="getAllowedDates"
           scrollable 
-          color="black"
+          color="blue-grey darken-1"
           year-icon="mdi-calendar-blank"
           prev-icon="mdi-skip-previous"
           next-icon="mdi-skip-next"
@@ -116,7 +115,7 @@
               class="white--text"
               width="120" 
               elevation="5" 
-              color="deep-orange"
+              color="deep-orange darken-1"
               :disabled="!isFormValid"
               v-on:click.stop.prevent="makeAppointments">Salvează</v-btn>
               </div>
@@ -137,7 +136,7 @@
         <v-card height="330px">
           <v-toolbar
           dark
-          class="white--text deep-orange darken-4">
+          class="white--text deep-orange darken-1 darken-4">
           <v-btn
             icon
             dark
@@ -165,7 +164,7 @@
               fab
               dark
               small
-              color="deep-orange"
+              color="deep-orange darken-1"
               v-on:click="disModal">
                 <v-icon dark>
                 mdi-arrow-right-bold
@@ -186,7 +185,7 @@
         <v-card height="330px">   
           <v-toolbar
           dark
-          class="white--text deep-orange darken-4">
+          class="white--text deep-orange darken-1 darken-4">
           <v-btn
             icon
             dark
@@ -216,7 +215,7 @@
                   fab
                   dark
                   small
-                  color="deep-orange"
+                  color="deep-orange darken-1"
                   v-on:click="modal1 = true; modal2=false">
                     <v-icon dark>
                     mdi-arrow-left-bold
@@ -229,7 +228,7 @@
                   fab
                   dark
                   small
-                  color="deep-orange"
+                  color="deep-orange darken-1"
                   v-on:click="disModal2">
                     <v-icon dark>
                     mdi-arrow-right-bold
@@ -318,18 +317,21 @@ methods: {
       });
       this.modal1 = true;
       this.form1 = true;
+      this.isFormValid = false;
     },
 
     disModal(){
       this.modal1 = false;
       if (this.office.vaccine.name != "Johnson&Johnson"){
       this.modal2 = true;
+      this.isFormValid = false;
       }
     },
     disModal2(){
   
       this.modal2 = false
       this.form2 = true;
+      this.isFormValid = true;
     },
   
     DisabledDates(){

@@ -6,7 +6,6 @@
         fab
         dark
         small
-        color="deep-orange"
         @click="$router.go(-1)">
           <v-icon dark>
           mdi-arrow-left-bold
@@ -31,8 +30,12 @@
       </v-col>
 
       <v-col cols="12" sm="12">
-        <v-card class="mx-auto" tile>
-          <v-card-title style="background-color:#F2F3F4">Programările mele</v-card-title>
+        <div class="v-card--material mt-4 v-card v-sheet theme--light">
+          <div class="v-card__title align-start">
+            <div class="overflow-hidden mt-n9 transition-swing v-card--material__sheet v-sheet theme--light elevation-6 rounded blue-grey darken-1" style="max-width: 100%; width: 100%;">
+              <div class="pa-8 white--text">
+                <div class="text-h4 font-weight-light"> Programările mele </div>
+                </div></div></div>
 
           <v-data-table
             :headers="headers"
@@ -46,22 +49,26 @@
               <div></div>
             </template>
 
+            <template v-slot:[`item.status`]="{ item }">
+              <v-chip v-if="!isAdmin" :color="getColorSpots(item.status)" dark>{{ item.status }}</v-chip>
+            </template>
+
             <template v-slot:[`item.actions`]="{ item }">
              <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon v-if="item.status != 'anulata'" v-on="on" medium color="blue" @click="download(item.id)">mdi-download</v-icon>
+                  <v-icon v-if="item.status != 'anulata'" v-on="on" medium class="mr-2" color="blue darken-2" @click="download(item.id)">mdi-download</v-icon>
                 </template>
                     <span>Descarcă recipisa</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon v-if="isAdmin" v-on="on" medium color="green" @click="editAppointment(item.id)">mdi-pen</v-icon>
+                  <v-icon v-if="isAdmin" v-on="on" medium class="mr-2" color="green darken-2" @click="editAppointment(item.id)">mdi-pencil</v-icon>
                 </template>
                   <span>Editează programarea</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon v-if="item.status == 'in curs' && !isAdmin" v-on="on" medium color="red" @click="Cancel(item)">mdi-close-thick</v-icon>
+                  <v-icon v-if="item.status == 'in curs' && !isAdmin" v-on="on" medium class="mr-2" color="red darken-2" @click="Cancel(item)">mdi-close</v-icon>
                 </template>
                   <span>Anulează programarea</span>
               </v-tooltip>
@@ -72,7 +79,7 @@
       max-width="400"
     >
       <v-card>
-        <v-card-title class="text-h5 white--text deep-orange darken-4">
+        <v-card-title class="text-h5 white--text deep-orange darken-1 darken-4">
           Sunteți sigur că doriți să anulați această programare?</v-card-title>
           <v-card-text
           style="font-size:17px"
@@ -88,7 +95,7 @@
             nu
           </v-btn>
           <v-btn
-            color="deep-orange"
+            color="deep-orange darken-1"
             text
             @click="cancellAppointment(dialogItem); snackbar.show = false"
           >
@@ -101,7 +108,7 @@
             </template>
 
           </v-data-table>
-        </v-card>
+        </div>
       </v-col>
     </v-row>
       <v-snackbar 
@@ -135,18 +142,24 @@ export default {
                 color: null,
             },
       headers: [
-        { text: "Beneficiar", value: "person", align: "center", sortable: true},
-        { text: "Tip programare", value: "kind", align: "center", sortable: false },
-        { text: "Status programare", value: "status", align: "center", sortable: false },
-        { text: "Centru de vaccinare", value: "office", align: "center", sortable: false },
-        { text: "Locație centru de vaccinare", value: "location", align: "center",sortable: false },
-        { text: "Data programării", value: "date", align: "center", sortable: false },
-        { text: "Ora programării", value: "time", align: "center", sortable: false },
-        { text: "Acțiuni", value: "actions", align: "center",sortable: false },
+        { text: "Beneficiar", value: "person", align: "center", sortable: true, class: 'my-header-style'},
+        { text: "Tip programare", value: "kind", align: "center", sortable: true, class: 'my-header-style' },
+        { text: "Status", value: "status", align: "center", sortable: true, class: 'my-header-style' },
+        { text: "Centru de vaccinare", value: "office", align: "center", sortable: false, class: 'my-header-style' },
+        { text: "Locație centru de vaccinare", value: "location", align: "center",sortable: false, class: 'my-header-style' },
+        { text: "Data", value: "date", align: "center", sortable: false, class: 'my-header-style' },
+        { text: "Ora", value: "time", align: "center", sortable: false, class: 'my-header-style' },
+        { text: "Acțiuni", value: "actions", align: "center",sortable: false, class: 'my-header-style' },
       ],
     };
   },
   methods:{
+
+     getColorSpots(status){
+      if (status == 'finalizata') return 'green darken-2'
+      else if (status == 'in curs') return 'orange darken-2'
+      else if (status == 'anulata') return 'red darken-2'
+    },
 
     retrieveAppointment() {
       if (this.isAdmin){
@@ -242,7 +255,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style>
 .list {
   max-width: 1300px;
 }
@@ -256,5 +269,9 @@ export default {
     width:5px;
     height:auto;
     display:inline-block;
+}
+.my-header-style {
+color: #BDBDBD !important;
+  font-size: 15px !important;
 }
 </style>

@@ -23,7 +23,7 @@
                   class="rounded-0"
                   outlined
                   ></v-text-field>
-                  <v-btn :disabled="!isFormValid" class="white--text" color="deep-orange" x-large block>Resetează Parola</v-btn>
+                  <v-btn :disabled="!isFormValid" class="white--text" color="deep-orange darken-1" x-large block>Resetează Parola</v-btn>
                   <v-card-actions class="text--secondary">
                     <v-spacer></v-spacer>
                     Înapoi la <a href="#" class="pl-2" style="color: #000000"></a>

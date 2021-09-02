@@ -6,7 +6,7 @@
         fab
         dark
         small
-        color="deep-orange"
+        color="deep-orange darken-1"
         @click="$router.go(-1)">
           <v-icon dark>
           mdi-arrow-left-bold
@@ -31,8 +31,12 @@
       </v-col>
 
       <v-col cols="12" sm="12">
-        <v-card class="mx-auto" tile>
-          <v-card-title style="background-color:#F2F3F4">Centre</v-card-title>
+        <div class="v-card--material mt-4 v-card v-sheet theme--light">
+          <div class="v-card__title align-start">
+            <div class="overflow-hidden mt-n9 transition-swing v-card--material__sheet v-sheet theme--light elevation-6 rounded blue-grey darken-1" style="max-width: 100%; width: 100%;">
+              <div class="pa-8 white--text">
+                <div class="text-h4 font-weight-light"> Centre </div>
+                </div></div></div>
 
           <v-data-table
             :headers="headers"
@@ -62,19 +66,19 @@
              
               <div v-if="!isAppointed && !isWaitingList">
                 <div v-if="item.spots>0" align="center">
-                <v-btn class="white--text" small color="blue" @click="makeAppointment(item)">Programare</v-btn>
+                <v-btn class="white--text" small color="blue darken-2" @click="makeAppointment(item)">Programare</v-btn>
                 </div>
                 <div v-else>
-                  <v-btn class="white--text" small color="red" @click="makeWaitingList(item)">Lista de Asteptare</v-btn>
+                  <v-btn class="white--text" small color="red darken-2" @click="makeWaitingList(item)">Lista de Asteptare</v-btn>
                 </div>
                </div>
 
                <div v-else>
-                 <v-btn class="white--text" small color="red" v-if="item.isWaitingList" @click="Delete(item)">Părăsește lista</v-btn>
+                 <v-btn class="white--text" small color="red darken-2" v-if="item.isWaitingList" @click="Delete(item)">Părăsește lista</v-btn>
                </div>
                 <div v-if="!rapel && isAppointed">
                  <div v-if="item.spots>0 && item.rapelEligible" align="center">
-                 <v-btn class="white--text" small color="green" @click="makeRapelAppointment(item)">Programare Rapel</v-btn>
+                 <v-btn class="white--text" small color="green darken-2" @click="makeRapelAppointment(item)">Programare Rapel</v-btn>
                  </div>
               </div>
     <v-dialog
@@ -83,7 +87,7 @@
       max-width="430"
     >
       <v-card>
-        <v-card-title class="text-h5 white--text deep-orange darken-4">
+        <v-card-title class="text-h5 white--text deep-orange darken-1 darken-4">
           Sunteți sigur că vreți să va înscrieți pe lista de așteptare?
         </v-card-title>
         <v-card-text
@@ -99,7 +103,7 @@
             anulează
           </v-btn>
           <v-btn
-            color="deep-orange"
+            color="deep-orange darken-1"
             text
             @click="postWList((dialogItem)); snackbar.show = false"
           >
@@ -129,7 +133,7 @@
             nu
           </v-btn>
           <v-btn
-            color="deep-orange"
+            color="deep-orange darken-1"
             text
             @click="deleteWList((dialogItem)); snackbar.show = false"
           >
@@ -142,7 +146,7 @@
             </template>
             
           </v-data-table>
-        </v-card>
+        </div>
       </v-col>
     </v-row>
         <v-snackbar 
@@ -184,13 +188,13 @@ export default {
                 color: null,
             },
       headers: [
-        { text: "Nume", value: "name", align: "center", sortable: false},
-        { text: "Județ", value: "county", align: "center", sortable: true },
-        { text: "Localitate", value: "city", align: "center", sortable: false },
-        { text: "Vaccin", value: "vaccine", align: "center", sortable: true},
-        { text: "Locuri libere", value: "spots", align: "center", sortable: true },
-        { text: "Listă asteptare", value: "waiting", align: "center", sortable: true },
-        { text: "Acțiuni", value: "actions", align: "center",sortable: false },
+        { text: "Nume", value: "name", align: "center", sortable: false, class: 'my-header-style'},
+        { text: "Județ", value: "county", align: "center", sortable: true, class: 'my-header-style'},
+        { text: "Localitate", value: "city", align: "center", sortable: false, class: 'my-header-style'},
+        { text: "Vaccin", value: "vaccine", align: "center", sortable: true, class: 'my-header-style'},
+        { text: "Locuri libere", value: "spots", align: "center", sortable: true, class: 'my-header-style'},
+        { text: "Listă asteptare", value: "waiting", align: "center", sortable: true, class: 'my-header-style'},
+        { text: "Acțiuni", value: "actions", align: "center",sortable: false, class: 'my-header-style'},
       ],
     };
   },
@@ -198,15 +202,15 @@ export default {
   methods: {
 
     getColorSpots(spots){
-      if (spots > 500) return 'green'
-      else if (spots > 200) return 'orange'
+      if (spots > 500) return 'green darken-2'
+      else if (spots > 200) return 'orange darken-2'
       else if (spots == 0) return 'transparent'
-      else return 'red'
+      else return 'red darken-2'
     },
 
     getColorWaiting(waiting){
-      if (waiting > 250) return 'red'
-      else if (waiting > 0) return 'orange'
+      if (waiting > 250) return 'red darken-2'
+      else if (waiting > 0) return 'orange darken-2'
       else return 'transparent'
     },
 
@@ -363,11 +367,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .list {
   max-width: 1300px;
 }
 .all {
   margin-top: 50px;
+}
+.my-header-style {
+color: #BDBDBD !important;
+  font-size: 15px !important;
 }
 </style>

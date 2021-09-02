@@ -6,7 +6,6 @@
       fab
       dark
       small
-      color="deep-orange"
       @click="$router.go(-1)">
         <v-icon dark>
         mdi-arrow-left-bold
@@ -129,7 +128,7 @@
         class="white--text"
         width="120" 
         elevation="5" 
-        color="deep-orange"
+        color="deep-orange darken-1"
         v-on:click.stop.prevent="updateOffice">Salvează</v-btn>
        </v-layout>
     </div>

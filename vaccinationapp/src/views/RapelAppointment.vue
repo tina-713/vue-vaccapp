@@ -6,7 +6,7 @@
       fab
       dark
       small
-      color="deep-orange"
+      color="deep-orange darken-1"
       @click="$router.go(-1)">
         <v-icon dark>
         mdi-arrow-left-bold
@@ -89,7 +89,7 @@
                 class="white--text"
                 width="120" 
                 elevation="5" 
-                color="deep-orange"
+                color="deep-orange darken-1"
                 :disabled="!isFormValid"
                 v-on:click.stop.prevent="makeAppointments">Salvează</v-btn>
             </div>
@@ -111,7 +111,7 @@
         <v-card height="330px">    
           <v-toolbar
           dark
-          class="white--text deep-orange darken-4">
+          class="white--text deep-orange darken-1 darken-4">
           <v-btn
             icon
             dark
@@ -139,7 +139,7 @@
               fab
               dark
               small
-              color="deep-orange"
+              color="deep-orange darken-1"
               v-on:click="disModal">
                 <v-icon dark>
                 mdi-arrow-right-bold

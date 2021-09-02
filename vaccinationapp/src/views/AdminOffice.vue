@@ -6,7 +6,6 @@
         fab
         dark
         small
-        color="deep-orange"
         @click="$router.go(-1)">
           <v-icon dark>
           mdi-arrow-left-bold
@@ -31,12 +30,16 @@
       </v-col>
 
       <v-col cols="12" md="12" class="text-right">
-        <v-btn class="white--text" to="/add-office" color="deep-orange">Adaugă Centru</v-btn>
+        <v-btn class="white--text" to="/add-office" color="deep-orange darken-1">Adaugă Centru</v-btn>
       </v-col>
 
       <v-col cols="12" sm="12">
-        <v-card class="mx-auto" tile>
-          <v-card-title style="background-color:#F2F3F4">Centre</v-card-title>
+        <div class="v-card--material mt-4 v-card v-sheet theme--light">
+          <div class="v-card__title align-start">
+            <div class="overflow-hidden mt-n9 transition-swing v-card--material__sheet v-sheet theme--light elevation-6 rounded blue-grey darken-1" style="max-width: 100%; width: 100%;">
+              <div class="pa-8 white--text">
+                <div class="text-h4 font-weight-light"> Centre </div>
+                </div></div></div>
 
           <v-data-table
             :headers="headers"
@@ -53,21 +56,21 @@
             <template v-slot:[`item.actions`]="{ item }">
              <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon  v-on="on" medium color="blue" @click="getAppontmentsOffices(item.id)">mdi-eye</v-icon>
+                  <v-icon  v-on="on" medium class="mr-2" color="blue darken-2" @click="getAppontmentsOffices(item.id)">mdi-eye</v-icon>
                 </template>
-                    <span>See Office Apointments</span>
+                    <span>Vezi programările</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon  v-on="on" medium color="green" @click="editOffice(item.id)">mdi-pen</v-icon>
+                  <v-icon  v-on="on" medium class="mr-2" color="green darken-2" @click="editOffice(item.id)">mdi-pencil</v-icon>
                 </template>
-                  <span>Edit office</span>
+                  <span>Editează</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon  v-on="on" medium color="red" @click="Delete(item.id)">mdi-close-thick</v-icon>
+                  <v-icon  v-on="on" medium class="mr-2" color="red darken-2" @click="Delete(item.id)">mdi-delete</v-icon>
                 </template>
-                  <span>Delete office</span>
+                  <span>Șterge</span>
               </v-tooltip>
 
               <v-dialog
@@ -89,7 +92,7 @@
             Anulează
           </v-btn>
           <v-btn
-            color="deep-orange"
+            color="deep-orange darken-1"
             text
             @click="deleteOffice((item.id)); snackbar.show = false"
           >
@@ -101,7 +104,7 @@
 
               </template>
           </v-data-table>
-        </v-card>
+        </div>
       </v-col>
     </v-row>
   </div>
@@ -120,15 +123,15 @@ export default {
       county: "",
       dialog:false,
       headers: [
-        { text: "Nume", value: "name", align: "center", sortable: false},
-        { text: "Județ", value: "county", align: "center", sortable: true },
-        { text: "Localitate", value: "city", align: "center", sortable: false },
-        { text: "Vaccin", value: "vaccine", align: "center", sortable: true },
+        { text: "Nume", value: "name", align: "center", sortable: false, class: 'my-header-style'},
+        { text: "Județ", value: "county", align: "center", sortable: true, class: 'my-header-style'},
+        { text: "Localitate", value: "city", align: "center", sortable: false, class: 'my-header-style'},
+        { text: "Vaccin", value: "vaccine", align: "center", sortable: true, class: 'my-header-style'},
         // { text: "Adresă", value: "address", align: "center", sortable: false },
         // { text: "Telefon", value: "phone", align: "center", sortable: false },
-        { text: "Locuri libere", value: "spots", align: "center", sortable: true },
+        { text: "Locuri libere", value: "spots", align: "center", sortable: true, class: 'my-header-style'},
         // { text: "Listă de așteptare", value: "", align: "center", sortable: true },
-        { text: "Acțiuni", value: "actions", align: "center",sortable: false },
+        { text: "Acțiuni", value: "actions", align: "center",sortable: false, class: 'my-header-style'},
       ],
     };
   },
@@ -214,11 +217,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .list {
   max-width: 1300px;
 }
 .all {
   margin-top: 50px;
+}
+.my-header-style {
+color: #BDBDBD !important;
+  font-size: 15px !important;
 }
 </style>

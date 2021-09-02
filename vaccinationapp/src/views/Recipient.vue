@@ -17,12 +17,16 @@
       </v-col>
 
       <v-col cols="12" md="12" class="text-right">
-        <v-btn class="white--text" to="/add-recipient" color="deep-orange">Adaugă Beneficiar</v-btn>
+        <v-btn v-if="!isAdmin" class="white--text" to="/add-recipient" color="deep-orange darken-1">Adaugă Beneficiar</v-btn>
       </v-col>
 
       <v-col cols="12" sm="12">
-        <v-card class="mx-auto" tile>
-          <v-card-title style="background-color:#F2F3F4">Beneficiari</v-card-title>
+        <div class="v-card--material mt-4 v-card v-sheet theme--light">
+          <div class="v-card__title align-start">
+            <div class="overflow-hidden mt-n9 transition-swing v-card--material__sheet v-sheet theme--light elevation-6 rounded blue-grey darken-1" style="max-width: 100%; width: 100%;">
+              <div class="pa-8 white--text">
+                <div class="text-h4 font-weight-light"> Beneficiari </div>
+                </div></div></div>
 
           <v-data-table
             :headers="headers"
@@ -44,19 +48,19 @@
             <template v-slot:[`item.actions`]="{ item }">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                    <v-icon v-if="!isAdmin" v-on="on" medium class="mr-2" color="blue" @click="editRecipient(item.id)">mdi-pencil</v-icon>
+                    <v-icon v-if="!isAdmin" v-on="on" medium class="mr-2" color="blue darken-2" @click="editRecipient(item.id)">mdi-pencil</v-icon>
                   </template>
                     <span>Editează</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon v-if="!isAdmin" v-on="on" medium  class="mr-2" color="green" @click="appointmentRec(item.id)">mdi-clock-outline</v-icon>
+                  <v-icon v-if="!isAdmin" v-on="on" medium  class="mr-2" color="green darken-2" @click="appointmentRec(item.id)">mdi-clock-outline</v-icon>
                 </template>                  
                 <span>Programează-te</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon v-on="on" medium  class="mr-2" color="red" @click="Delete(item.id)">mdi-delete</v-icon>
+                  <v-icon v-on="on" medium  class="mr-2" color="red darken-2" @click="Delete(item.id)">mdi-delete</v-icon>
                 </template>
                   <span>Șterge</span>
               </v-tooltip>
@@ -80,7 +84,7 @@
             Anulează
           </v-btn>
           <v-btn
-            color="deep-orange"
+            color="deep-orange darken-1"
             text
             @click="deleteRec((item.id)); snackbar.show = false"
           >
@@ -92,7 +96,7 @@
           
             </template>
           </v-data-table>
-        </v-card>
+        </div>
       </v-col>
         <v-snackbar 
           :timeout="3000"
@@ -126,12 +130,12 @@ export default {
                 color: null,
             },
       headers: [
-        { text: "Nume", value: "last_name", align: "center", sortable: true},
-        { text: "Prenume", value: "name", align: "center", sortable: true },
-        { text: "CNP", value: "cnp", align: "center", sortable: false },
-        { text: "Cod identificare", value: "id", align: "center", sortable: false },
-        { text: "Nr. ordine pe lista de așteptare", value: "waiting", align: "center", sortable: false },
-        { text: "Acțiuni", value: "actions", align: "center",sortable: false },
+        { text: "Nume", value: "last_name", align: "center", sortable: true, class: 'my-header-style'},
+        { text: "Prenume", value: "name", align: "center", sortable: true, class: 'my-header-style' },
+        { text: "CNP", value: "cnp", align: "center", sortable: false, class: 'my-header-style' },
+        { text: "Cod identificare", value: "id", align: "center", sortable: false, class: 'my-header-style' },
+        { text: "Nr. ordine pe lista de așteptare", value: "waiting", align: "center", sortable: false, class: 'my-header-style' },
+        { text: "Acțiuni", value: "actions", align: "center",sortable: false, class: 'my-header-style' },
       ],
     };
   },
@@ -221,11 +225,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .list {
   max-width: 1300px;
 }
 .all {
   margin-top: 50px;
+}
+.my-header-style {
+color: #BDBDBD !important;
+  font-size: 15px !important;
 }
 </style>
