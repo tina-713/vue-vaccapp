@@ -92,6 +92,11 @@ export default new Router({
       name: "office-appointments",
       component: () => import("./views/AdminOfficeAppointments")
     },
+    {
+      path: "/confirmation/:token",
+      name: "confirmation",
+      component: () => import("./views/Confirmation")
+    },
   ]
 
 });

@@ -2,8 +2,9 @@
   <v-app>
     <v-app-bar color="blue-grey darken-4" app dark dense v-if="loggedIn">
       <div>
-        <v-btn class="custom-btn" v-if="loggedIn" to="/home" text>
-          VaccinationApp
+        <v-btn class="custom-btn" v-if="loggedIn" to="/home" text><v-icon>
+          mdi-view-dashboard
+        </v-icon>
         </v-btn>
       </div>
 

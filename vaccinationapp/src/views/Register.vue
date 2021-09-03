@@ -51,6 +51,27 @@
                 </v-form>
               </v-card-text>
             </v-card>
+
+            <v-dialog
+              transition="dialog-bottom-transition"
+              v-model="dialog"
+              persistent
+              max-width="400">
+              <v-card height="40vh">
+                <v-card-title class="justify-center text-h5 white--text deep-orange darken-1 darken-4">
+                  <v-icon dark x-large>mdi-email-outline</v-icon>
+                    Confirmarea adresei de email</v-card-title>
+                  <v-card-text
+                  class=text-center
+                  style="font-size:17px"
+                  ><br/>Un email de confirmare a fost trimis către adresa înregistrată.
+                  <br/>Verificați mesajele de email primite și dați click pe link-ul atașat pentru a confirma adresa!</v-card-text>
+                <v-card-actions class="justify-center" style="font-size:14px">
+                    <router-link to="/login">Întoarce-te la pagina de autentificare</router-link>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+
           </v-col>
         </v-row>
       </v-container>
@@ -64,6 +85,7 @@ export default {
   name: 'register',
   data(){
   return{
+    dialog:false,
     show2: false,
     email : "",
     password : "",
@@ -82,7 +104,7 @@ methods:{
 register(){
     AuthenticationService.postRegister(this.email,this.password)
     .then(() =>{
-       this.$router.push('/login');
+      this.dialog = true;
     })
    .catch(e => {
     console.log(e);

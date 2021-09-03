@@ -32,7 +32,6 @@
             :headers="headers"
             :items="person"
             :search="search"
-            disable-pagination
             :hide-default-footer="false"
             :items-per-page="5"
             class="elevation-1">

@@ -100,6 +100,11 @@ class DataService {
     }}
     );
   }
+  getToken(token) {
+    return axios.get(endpoint.baseURL+`auth/verify/${token}`,{
+    }
+    )
+  }
 }
 
 export default new DataService();
