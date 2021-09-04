@@ -32,7 +32,7 @@
                 <h1 class="mb-2">Ne pare rau!</h1>
                 <v-card-title class="justify-center"><v-icon x-large>mdi-email-remove-outline</v-icon></v-card-title>
                 <div class="send">
-                <p>Contul tău nu a putut fi activat cu succes.</p>
+                <p>Contul tău nu a putut fi activat.</p>
                 </div>
               </div>
               <v-card-text>
