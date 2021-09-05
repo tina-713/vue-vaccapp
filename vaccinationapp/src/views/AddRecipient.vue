@@ -314,7 +314,7 @@ export default {
         })
         .catch((e) => {
            this.snackbar = {
-                      message: 'Eroare.',
+                      message: e.response.data.error,
                       color: 'error',
                       show: true
                     }
