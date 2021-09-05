@@ -59,15 +59,22 @@
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon v-on="on" medium  class="mr-2" color="red darken-2" @click="Delete(item)">mdi-delete</v-icon>
+                  <v-icon v-on="on" medium  class="mr-2" color="red darken-2" @click="Delete(item.id)">mdi-delete</v-icon>
                 </template>
                   <span>Șterge</span>
               </v-tooltip>
 
-              <v-dialog
+      
+          
+            </template>
+          </v-data-table>
+        </div>
+      </v-col>
+      <v-dialog
       v-model="dialog"
       persistent
       max-width="320"
+      :retain-focus="false"
     >
       <v-card>
         <v-card-title class="text-h5">
@@ -92,11 +99,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-          
-            </template>
-          </v-data-table>
-        </div>
-      </v-col>
         <v-snackbar 
           :timeout="3000"
           bottom
@@ -178,14 +180,14 @@ export default {
     appointmentRec(personId,id) {
       this.$router.push({ name: "office", params: { personId: personId ,id: id } });
     },
-    Delete(item){
-      this.dialogItem=item;
+    Delete(id){
+      this.dialogItem=id;
       this.dialog = true
     },
-    deleteRec(item) {
+    deleteRec(dialogItem) {
       this.dialog=false;
 
-        RecipientService.deleteRecipient(item.id)
+        RecipientService.deleteRecipient(dialogItem)
           .then(() => {
             this.snackbar = {
                     message: 'Beneficiar șters.',

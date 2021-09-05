@@ -73,7 +73,12 @@
                   <span>Anulează programarea</span>
               </v-tooltip>
             
-            <v-dialog
+  
+            
+            </template>
+
+          </v-data-table>
+                    <v-dialog
       v-model="dialog"
       persistent
       max-width="400"
@@ -104,10 +109,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-            
-            </template>
-
-          </v-data-table>
         </div>
       </v-col>
     </v-row>

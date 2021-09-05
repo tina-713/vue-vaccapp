@@ -81,7 +81,10 @@
                  <v-btn class="white--text" small color="green darken-2" @click="makeRapelAppointment(item)">Programare Rapel</v-btn>
                  </div>
               </div>
-    <v-dialog
+            </template>
+            
+          </v-data-table>
+              <v-dialog
       v-model="dialogWList"
       persistent
       max-width="430"
@@ -142,10 +145,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-            </template>
-            
-          </v-data-table>
         </div>
       </v-col>
     </v-row>

@@ -202,6 +202,7 @@
             hide-disabled-items 
             v-model = "hourRapel"
             :hour-range= "hourrangerapel" 
+            
             format="HH" 
             close-on-complete
             hour-label="Ora"
