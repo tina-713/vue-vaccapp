@@ -12,14 +12,14 @@
               rounded="lg"
               min-height="73vh"
             >
-            <v-card class="grey" dark min-height="73vh">
+            <v-card class="grey" dark min-height="73vh" height="733">
               <div>
                 &nbsp;
                 <h4 class="text-center">Despre COVID-19</h4>
                 <v-card-title class="justify-center"><v-icon x-large>mdi-information-outline</v-icon></v-card-title>
                 <div class="send">
                 <p>Apariția infecției cu noul Coronavirus sau Coronavirusul Sindromului Acut Respirator Sever 2 (SARS-CoV-2) a condus la o răspândire rapidă a COVID-19 în întreaga lume. Pe 30 ianuarie 2020, Organizația Mondială a Sănătății (World Health Organization) a declarat COVID-19 o urgență de sănătate publică de interes internațional, iar pe 11 martie 2020, a fost declarată pandemia. Până în noiembrie 2020, au fost raportate peste 56 milioane de cazuri confirmate și peste 1 milion de decese la nivel mondial.</p>
-                <br><p>Vrem să facem vaccinarea COVID-19 ușoară și accesibilă tuturor. Vaccinurile anti-COVID-19 sunt gratuite și disponibile pentru oricine dorește. Colaborăm cu parteneri precum departamente de sănătate pentru a furniza informații exacte și actualizate despre serviciile de vaccinare.</p>
+                <br><p>Dorim să facem vaccinarea COVID-19 ușoară și accesibilă tuturor. Vaccinurile anti-COVID-19 sunt gratuite și disponibile pentru oricine dorește. Colaborăm cu parteneri precum departamente de sănătate pentru a furniza informații exacte și actualizate despre serviciile de vaccinare.</p>
                 </div>
               </div>
             </v-card>
@@ -31,13 +31,13 @@
             sm="6"
           >
             <v-sheet
-              min-height="70vh"
+              min-height="73vh"
               rounded="lg"
               color="blue-grey darken-1"
               dark
             >
               <p align="center" style="font-size:20px;"><br>Număr Cumulativ de Cazuri în România</p>
-              <iframe scrolling="no" src="https://datelazi.ro/embed/doze-pe-zi" width="100%" height="600"></iframe>
+              <iframe scrolling="no" src="https://datelazi.ro/embed/doze-pe-zi" width="100%" height="650"></iframe>
             </v-sheet>
           </v-col>
 
@@ -51,9 +51,11 @@
               color="blue-grey darken-1"
               dark
             >
-            <iframe scrolling="no" src="https://datelazi.ro/embed/confirmed_cases" width="100%" height="220"></iframe>
-            <iframe scrolling="no" src="https://datelazi.ro/embed/dead_cases" width="100%" height="220"></iframe>
-            <iframe scrolling="no" src="https://datelazi.ro/embed/vaccine_immunization" width="100%" height="220"></iframe>
+            <div class="scroll">
+            <iframe scrolling="no" src="https://datelazi.ro/embed/confirmed_cases" width="100%" height="235"></iframe>
+            <iframe scrolling="no" src="https://datelazi.ro/embed/dead_cases" width="100%" height="235"></iframe>
+            <iframe scrolling="no" src="https://datelazi.ro/embed/vaccine_immunization" width="100%" height="240"></iframe>
+            </div>
             </v-sheet>
           </v-col>
         </v-row>

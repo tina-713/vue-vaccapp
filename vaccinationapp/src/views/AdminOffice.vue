@@ -98,7 +98,7 @@
           <v-btn
             color="deep-orange darken-1"
             text
-            @click="deleteOffice((item.id)); snackbar.show = false"
+            @click="deleteOffice((dialogItem)); snackbar.show = false"
           >
             Șterge
           </v-btn>
@@ -122,6 +122,7 @@ export default {
       office: [],
       search: '',
       county: "",
+      dialogItem:null,
       dialog:false,
       headers: [
         { text: "Nume", value: "name", align: "center", sortable: false, class: 'my-header-style'},
@@ -157,13 +158,14 @@ export default {
     editOffice(id) {
       this.$router.push({ name: "edit-office", params: { id: id } });
     },
-    Delete(){
+    Delete(id){
+      this.dialogItem=id,
       this.dialog = true
     },
-    deleteOffice(id) {
+    deleteOffice(dialogItem) {
       this.dialog=false;
 
-        DataService.deleteOffice(id)
+        DataService.deleteOffice(dialogItem)
           .then(() => {
             this.snackbar = {
                     message: 'Centru șters.',
