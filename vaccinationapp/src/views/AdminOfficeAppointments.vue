@@ -141,11 +141,11 @@ export default {
       headers: [
         { text: "Beneficiar", value: "person", align: "center", sortable: true, class: 'my-header-style'},
         { text: "Tip programare", value: "kind", align: "center", sortable: true, class: 'my-header-style'},
-        { text: "Status programare", value: "status", align: "center", sortable: true, class: 'my-header-style'},
+        { text: "Status", value: "status", align: "center", sortable: true, class: 'my-header-style'},
         { text: "Centru de vaccinare", value: "office", align: "center", sortable: false, class: 'my-header-style'},
         { text: "Locație centru de vaccinare", value: "location", align: "center",sortable: false, class: 'my-header-style'},
-        { text: "Data programării", value: "date", align: "center", sortable: false, class: 'my-header-style'},
-        { text: "Ora programării", value: "time", align: "center", sortable: false, class: 'my-header-style'},
+        { text: "Data", value: "date", align: "center", sortable: false, class: 'my-header-style'},
+        { text: "Ora", value: "time", align: "center", sortable: false, class: 'my-header-style'},
         { text: "Acțiuni", value: "actions", align: "center",sortable: false, class: 'my-header-style'},
       ],
     };

@@ -6,7 +6,6 @@
         fab
         dark
         small
-        color="deep-orange darken-1"
         @click="$router.go(-1)">
           <v-icon dark>
           mdi-arrow-left-bold
