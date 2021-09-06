@@ -50,25 +50,25 @@
             </template>
 
             <template v-slot:[`item.status`]="{ item }">
-              <v-chip v-if="!isAdmin" :color="getColorSpots(item.status)" dark>{{ item.status }}</v-chip>
+              <v-chip :color="getColorSpots(item.status)" dark>{{ item.status }}</v-chip>
             </template>
 
             <template v-slot:[`item.actions`]="{ item }">
              <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon v-if="item.status != 'anulata'" v-on="on" medium class="mr-2" color="blue darken-2" @click="download(item.id)">mdi-download</v-icon>
+                  <v-icon v-if="item.status != 'anulata'" v-on="on" color="blue darken-2" @click="download(item.id)">mdi-download</v-icon>
                 </template>
                     <span>Descarcă recipisa</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon v-if="isAdmin" v-on="on" medium class="mr-2" color="green darken-2" @click="editAppointment(item.id)">mdi-pencil</v-icon>
+                  <v-icon v-if="isAdmin" v-on="on" color="green darken-2" @click="editAppointment(item.id)">mdi-pencil</v-icon>
                 </template>
                   <span>Editează programarea</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-icon v-if="item.status == 'in curs' && !isAdmin" v-on="on" medium class="mr-2" color="red darken-2" @click="Cancel(item)">mdi-close</v-icon>
+                  <v-icon v-if="item.status == 'in curs' && !isAdmin" v-on="on" color="red darken-2" @click="Cancel(item)">mdi-close</v-icon>
                 </template>
                   <span>Anulează programarea</span>
               </v-tooltip>
@@ -258,7 +258,7 @@ export default {
 
 <style>
 .list {
-  max-width: 1300px;
+  max-width: 1400px;
 }
 .all {
   margin-top: 50px;

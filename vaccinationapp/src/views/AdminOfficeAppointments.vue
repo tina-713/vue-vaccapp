@@ -271,7 +271,7 @@ export default {
 
 <style>
 .list {
-  max-width: 1300px;
+  max-width: 1400px;
 }
 .all {
   margin-top: 50px;

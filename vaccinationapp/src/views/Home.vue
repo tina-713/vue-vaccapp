@@ -12,7 +12,7 @@
               rounded="lg"
               min-height="73vh"
             >
-            <v-card class="grey" dark min-height="73vh" height="733">
+            <v-card class="grey" dark min-height="78vh">
               <div>
                 &nbsp;
                 <h4 class="text-center">Despre COVID-19</h4>
@@ -93,6 +93,11 @@
             </v-sheet>
           </v-col>
         </v-row>
+      </v-container>
+      <v-container>
+        <div class="text-center" style="font-size:12px">
+          Toate statisticile și datele în format grafic de pe această pagină se găsesc <a href="https://datelazi.ro/">aici</a>.
+        </div>
       </v-container>
     </v-main>
   </v-app>

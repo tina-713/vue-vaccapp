@@ -65,7 +65,7 @@
                 <v-text-field
                   readonly
                   v-model="date"
-                  label="Dată Doza Initiala"
+                  label="Dată Doză Inițială"
                   required
                   :rules="[(v) => !!v || 'Câmp obligatoriu']"
                   dense>
@@ -76,7 +76,7 @@
                 <v-text-field
                   readonly
                   v-model="hour"
-                  label="Oră Doza Initiala"
+                  label="Oră Doză Inițială"
                   required
                   :rules="[(v) => !!v || 'Câmp obligatoriu']"
                   dense>
@@ -90,7 +90,7 @@
                 <v-text-field
                   readonly
                   v-model="dateRapel"
-                  label="Dată Doza Rapel"
+                  label="Dată Doză Rapel"
                   required
                   :rules="[(v) => !!v || 'Câmp obligatoriu']"
                   dense>
@@ -101,7 +101,7 @@
                 <v-text-field
                   readonly
                   v-model="hourRapel"
-                  label="Oră Doza Rapel"
+                  label="Oră Doză Rapel"
                   required
                   :rules="[(v) => !!v || 'Câmp obligatoriu']"
                   dense>
@@ -110,7 +110,7 @@
             </div>
          
         </v-form>
-        <div align="center" style="margin-top:220px" v-if="form1 || form2">
+        <div align="center" style="margin-top:230px" v-if="form1 || form2">
             <v-btn
               class="white--text"
               width="120" 
@@ -442,7 +442,7 @@ methods: {
 
 <style>
 .list {
-  max-width: 1200px;
+  max-width: 1400px;
 }
 .all {
   margin-top: 50px;

@@ -41,7 +41,7 @@
           @dblclick:date="dblClick"
           :allowedDates="getAllowedDates"
           scrollable 
-          color="black"
+          color="blue-grey darken-1"
           year-icon="mdi-calendar-blank"
           prev-icon="mdi-skip-previous"
           next-icon="mdi-skip-next"
@@ -59,13 +59,13 @@
             cols="12"
             sm=""
           >
-          <v-form ref="form" v-model="isFormValid" lazy-validation>
+          <v-form ref="form" v-model="isFormValid" lazy-validation v-if="form">
             <div class="row" style="margin-top:1px">
               <div class="col">
                 <v-text-field
                   readonly
                   v-model="date"
-                  label="Dată Doza Rapel"
+                  label="Dată Doză Rapel"
                   required
                   :rules="[(v) => !!v || 'Câmp obligatoriu']"
                   dense>
@@ -76,14 +76,14 @@
                 <v-text-field
                   readonly
                   v-model="hour"
-                  label="Oră Doza Rapel"
+                  label="Oră Doză Rapel"
                   required
                   :rules="[(v) => !!v || 'Câmp obligatoriu']"
                   dense>
                 </v-text-field>
               </div>
             </div>
-            <div align="right" style="margin-top:220px">
+            <div align="center" style="margin-top:295px" v-if="form">
               <v-btn
                 class="white--text"
                 width="120" 
@@ -169,6 +169,7 @@ import AppointmentService from '../services/AppointmentService';
    data(){
       return{
         isFormValid: false,
+        form:false,
         // date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         date: this.$route.params.rapelDate,
         done: [false, false, false],
@@ -220,6 +221,7 @@ methods: {
         console.log(e);
       });
       this.modal1 = true
+      this.form = true;
     },
 
     disModal(){
@@ -298,7 +300,7 @@ methods: {
 
 <style>
 .list {
-  max-width: 1300px;
+  max-width: 1400px;
 }
 .all {
   margin-top: 50px;
