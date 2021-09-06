@@ -222,7 +222,7 @@ export default {
         .catch((e) => {
           console.log(e);
         });
-        this.$router.go();
+        this.retrieveAppointment();
       },
 
       download(id){

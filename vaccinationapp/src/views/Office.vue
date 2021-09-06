@@ -332,7 +332,7 @@ export default {
                       show: true
                     }
           });
-          this.$router.go();
+          this.refreshList();
     },
 
      getDisplayOffice(office) {
